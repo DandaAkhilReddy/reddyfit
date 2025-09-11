@@ -24,7 +24,8 @@
       "Bash(start visual-demo.html)",
       "Bash(explorer visual-demo.html)",
       "Bash(git init:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(git tag:*)"
     ],
     "deny": []
   }
