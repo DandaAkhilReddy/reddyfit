@@ -23,7 +23,8 @@
       "Bash(npm config set:*)",
       "Bash(start visual-demo.html)",
       "Bash(explorer visual-demo.html)",
-      "Bash(git init:*)"
+      "Bash(git init:*)",
+      "Bash(tree:*)"
     ],
     "deny": []
   }
