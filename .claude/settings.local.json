@@ -4,7 +4,26 @@
       "Bash(mkdir:*)",
       "Bash(chmod:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(npx create-next-app:*)",
+      "Bash(npm run build:*)",
+      "Bash(npx next:*)",
+      "Bash(npm install)",
+      "Bash(rm:*)",
+      "Bash(npm install:*)",
+      "Bash(find:*)",
+      "Bash(touch:*)",
+      "Bash(mv:*)",
+      "Bash(ls:*)",
+      "Bash(npm cache clean:*)",
+      "Bash(npm config set:*)",
+      "Bash(start visual-demo.html)",
+      "Bash(explorer visual-demo.html)",
+      "Bash(git init:*)"
     ],
     "deny": []
   }
