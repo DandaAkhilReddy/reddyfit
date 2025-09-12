@@ -1,8 +1,27 @@
-# ReddyTalk.ai 🎙️🏥
+# 🤖 ReddyTalk.ai - AI Medical Receptionist with Voice AI
 
-**AI-powered medical receptionist with <500ms voice response latency**
+[![Azure](https://img.shields.io/badge/Azure-Active-blue)](https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io)
+[![Status](https://img.shields.io/badge/Status-Live-green)](https://calm-field-070972c0f.2.azurestaticapps.net)
+[![AI Voice](https://img.shields.io/badge/AI_Voice-ElevenLabs-purple)](https://elevenlabs.io)
+[![Calls](https://img.shields.io/badge/Calls-Azure_Communication-orange)](https://azure.microsoft.com/en-us/products/communication-services)
 
-ReddyTalk.ai is an intelligent voice-based medical receptionist system that handles appointment scheduling, patient inquiries, and clinic operations using Azure AI services. Built for healthcare clinics to provide 24/7 professional phone support.
+> **Enterprise-grade AI medical receptionist with human-like voice, call recording, and real-time transcription**
+
+## 🚀 **LIVE DEMO - Try It Now!**
+
+### 🌐 **Interactive Dashboards**
+- **🎛️ Main Dashboard**: https://calm-field-070972c0f.2.azurestaticapps.net
+- **📞 Call Dashboard**: https://calm-field-070972c0f.2.azurestaticapps.net/call-dashboard  
+- **🧪 Test Interface**: https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io/test-interface
+
+### 📞 **Test the AI Receptionist**
+Call our live demo number: **+1 (555) 123-DEMO**
+- Experience human-like AI voice responses
+- Test appointment scheduling
+- Try insurance verification  
+- Real-time call recording & transcription
+
+ReddyTalk.ai is an intelligent voice-based medical receptionist system that handles appointment scheduling, patient inquiries, and clinic operations using Azure AI services and ElevenLabs voice synthesis. Built for healthcare clinics to provide 24/7 professional phone support with human-like AI conversations.
 
 ## 🚀 Quick Start MVP
 

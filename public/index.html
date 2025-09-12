@@ -3,12 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReddyTalk.ai | Sumana AI - Your 24/7 Medical Front Desk</title>
-    <meta name="description" content="Replace your front desk with Sumana AI. Handle unlimited patient calls, schedule appointments, verify insurance - all with 99.9% accuracy. Backed by leading VCs and medical institutions.">
-    
-    <!-- Premium Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <title>ReddyTalk.ai - Working System</title>
     <style>
         * {
             margin: 0;
@@ -16,226 +11,63 @@
             box-sizing: border-box;
         }
 
-        :root {
-            /* Professional Medical + Modern AI Colors */
-            --primary-blue: #0066FF;
-            --medical-teal: #00B4A6;
-            --ai-purple: #7C3AED;
-            --success-green: #10B981;
-            --warm-gray: #F9FAFB;
-            --dark-gray: #111827;
-            --accent-orange: #FB923C;
-            --gradient-primary: linear-gradient(135deg, #0066FF 0%, #00B4A6 100%);
-            --gradient-ai: linear-gradient(135deg, #7C3AED 0%, #0066FF 100%);
-        }
-
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            color: #111827;
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
         }
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-container {
-            max-width: 1280px;
+        .container {
+            max-width: 800px;
             margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #4B5563;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-blue);
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 102, 255, 0.3);
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 120px 2rem 80px;
-            background: linear-gradient(180deg, #F0F9FF 0%, #FFFFFF 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0, 180, 166, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .hero-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-content h1 {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            color: var(--dark-gray);
-        }
-
-        .gradient-text {
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: #6B7280;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .btn-secondary {
-            background: white;
-            color: var(--primary-blue);
-            padding: 0.75rem 1.5rem;
-            border: 2px solid var(--primary-blue);
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary-blue);
-            color: white;
-        }
-
-        .trust-badges {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #6B7280;
-            font-size: 0.9rem;
-        }
-
-        .badge-icon {
-            width: 20px;
-            height: 20px;
-            background: var(--success-green);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-        }
-
-        /* Interactive Demo */
-        .demo-widget {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             padding: 2rem;
-            position: relative;
-            animation: float 6s ease-in-out infinite;
+            text-align: center;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .demo-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
         }
 
-        .demo-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--dark-gray);
+        .status-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .live-indicator {
-            display: flex;
+        .status-indicator {
+            display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--success-green);
-            font-size: 0.9rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--success-green);
+        .status-online {
+            color: #10b981;
+        }
+
+        .status-offline {
+            color: #ef4444;
+        }
+
+        .pulse {
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
+            background: currentColor;
             animation: pulse 2s infinite;
         }
 
@@ -244,836 +76,374 @@
             50% { opacity: 0.5; }
         }
 
-        .demo-screen {
-            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
-            border-radius: 12px;
-            padding: 1.5rem;
-            min-height: 300px;
-        }
-
-        .call-interface {
-            text-align: center;
-        }
-
-        .ai-avatar {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient-ai);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
+        .buttons {
             display: flex;
+            flex-direction: column;
+            gap: 1rem;
             align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-            animation: glow 3s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.8); }
-        }
-
-        .call-status {
-            font-size: 1.1rem;
-            color: var(--dark-gray);
-            margin-bottom: 1rem;
-        }
-
-        .waveform {
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
             margin: 2rem 0;
         }
 
-        .wave-bar {
-            width: 4px;
-            background: var(--medical-teal);
-            border-radius: 2px;
-            animation: wave 1s ease-in-out infinite;
-        }
-
-        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
-        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
-        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
-        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
-
-        @keyframes wave {
-            0%, 100% { height: 20px; }
-            50% { height: 40px; }
-        }
-
-        .demo-button {
-            background: var(--gradient-primary);
+        .btn {
+            background: rgba(255,255,255,0.2);
             color: white;
-            border: none;
+            border: 2px solid rgba(255,255,255,0.3);
             padding: 1rem 2rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.3s;
-            width: 100%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 250px;
         }
 
-        .demo-button:hover {
-            transform: scale(1.05);
+        .btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
-        /* Backed By Section */
-        .backed-by {
-            padding: 60px 2rem;
-            background: white;
+        .btn.primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-color: #10b981;
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
+        .btn.secondary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-color: #3b82f6;
         }
 
-        .section-label {
-            color: var(--medical-teal);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .info-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .info-item strong {
+            display: block;
+            margin-bottom: 0.5rem;
             font-size: 0.9rem;
         }
 
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--dark-gray);
-            margin-top: 0.5rem;
+        .info-item span {
+            opacity: 0.8;
+            font-size: 0.8rem;
         }
 
-        .investors-grid {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            align-items: center;
+        .test-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
         }
 
-        .investor-card {
-            background: #F9FAFB;
-            padding: 1.5rem;
-            border-radius: 12px;
+        .test-section h3 {
             text-align: center;
-            transition: all 0.3s;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid transparent;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
         }
 
-        .investor-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-color: var(--medical-teal);
+        .test-result {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border-left: 4px solid #10b981;
+            overflow-x: auto;
         }
 
-        .investor-name {
-            font-weight: 700;
-            color: var(--dark-gray);
-            font-size: 1.1rem;
+        .test-result.error {
+            border-left-color: #ef4444;
         }
 
-        /* Features Section */
-        .features {
-            padding: 80px 2rem;
-            background: linear-gradient(180deg, #FFFFFF 0%, #F0F9FF 100%);
-        }
-
-        .features-grid {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+        .footer {
             margin-top: 3rem;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid #E5E7EB;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border-color: var(--medical-teal);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #E0F2FE 0%, #DBEAFE 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark-gray);
-            margin-bottom: 0.75rem;
-        }
-
-        .feature-description {
-            color: #6B7280;
-            line-height: 1.6;
-        }
-
-        /* Cost Calculator */
-        .calculator {
-            padding: 80px 2rem;
-            background: white;
-        }
-
-        .calculator-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, #F0F9FF 0%, #FFFFFF 100%);
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-        }
-
-        .calculator-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-top: 2rem;
-        }
-
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .input-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark-gray);
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #E5E7EB;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: var(--medical-teal);
-        }
-
-        .slider-container {
-            margin: 1rem 0;
-        }
-
-        .slider {
-            width: 100%;
-            -webkit-appearance: none;
-            height: 6px;
-            border-radius: 3px;
-            background: #E5E7EB;
-            outline: none;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--medical-teal);
-            cursor: pointer;
-        }
-
-        .slider-value {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-top: 0.5rem;
-        }
-
-        .results-panel {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            border: 2px solid var(--medical-teal);
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #E5E7EB;
-        }
-
-        .result-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .result-label {
-            color: #6B7280;
-            font-weight: 500;
-        }
-
-        .result-value {
-            font-weight: 700;
-            color: var(--dark-gray);
-            font-size: 1.25rem;
-        }
-
-        .result-value.savings {
-            color: var(--success-green);
-            font-size: 2rem;
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 60px 2rem;
-            background: var(--gradient-primary);
-            color: white;
-        }
-
-        .stats-grid {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            text-align: center;
-        }
-
-        .stat-item {
-            padding: 1rem;
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            padding: 80px 2rem;
-            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
-            text-align: center;
-        }
-
-        .cta-title {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--dark-gray);
-            margin-bottom: 1rem;
-        }
-
-        .cta-subtitle {
-            font-size: 1.25rem;
-            color: #6B7280;
-            margin-bottom: 2rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark-gray);
-            color: white;
-            padding: 3rem 2rem 2rem;
-        }
-
-        .footer-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h4 {
-            margin-bottom: 1rem;
-            color: var(--medical-teal);
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section li {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-section a {
-            color: #9CA3AF;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid #374151;
-            color: #9CA3AF;
-        }
-
-        /* API Status */
-        .api-status {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-container {
-                grid-template-columns: 1fr;
-            }
-
-            .calculator-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-cta {
-                flex-direction: column;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
+            opacity: 0.8;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">ReddyTalk</div>
-            <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#calculator">Cost Calculator</a></li>
-                <li><a href="#backed-by">Our Backers</a></li>
-                <li><a href="https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io/health/ready" target="_blank" class="btn-primary">Test API</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1>
-                    Your AI Medical Receptionist<br>
-                    <span class="gradient-text">Never Calls in Sick</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Sumana AI handles unlimited patient calls 24/7. Schedule appointments, verify insurance, answer questions - all with a warm, professional voice that patients love.
-                </p>
-                
-                <div class="api-status" id="apiStatus">
-                    <span class="live-dot"></span>
-                    <span>API Status: Checking...</span>
-                </div>
-                
-                <div class="hero-cta">
-                    <a href="https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io/health/ready" target="_blank" class="btn-primary">Test Live API</a>
-                    <a href="#calculator" class="btn-secondary">Calculate Savings</a>
-                </div>
-                <div class="trust-badges">
-                    <div class="badge">
-                        <div class="badge-icon">✓</div>
-                        <span>HIPAA Compliant</span>
-                    </div>
-                    <div class="badge">
-                        <div class="badge-icon">✓</div>
-                        <span>99.9% Uptime</span>
-                    </div>
-                    <div class="badge">
-                        <div class="badge-icon">✓</div>
-                        <span>< 1 sec Response</span>
-                    </div>
-                    <div class="badge">
-                        <div class="badge-icon">✓</div>
-                        <span>50+ Languages</span>
-                    </div>
-                </div>
+    <div class="container">
+        <h1>🤖 ReddyTalk.ai</h1>
+        <div class="subtitle">AI Medical Receptionist - Live System Test</div>
+        
+        <div class="status-box">
+            <div class="status-indicator" id="systemStatus">
+                <div class="pulse"></div>
+                <span>System Status: Checking...</span>
             </div>
-            
-            <div class="demo-widget">
-                <div class="demo-header">
-                    <div class="demo-title">Sumana AI Live</div>
-                    <div class="live-indicator">
-                        <div class="live-dot"></div>
-                        <span>Active Now</span>
-                    </div>
-                </div>
-                <div class="demo-screen">
-                    <div class="call-interface">
-                        <div class="ai-avatar">🤖</div>
-                        <div class="call-status">Hi! I'm Sumana, your AI receptionist</div>
-                        <div class="waveform">
-                            <div class="wave-bar" style="height: 20px;"></div>
-                            <div class="wave-bar" style="height: 35px;"></div>
-                            <div class="wave-bar" style="height: 25px;"></div>
-                            <div class="wave-bar" style="height: 40px;"></div>
-                            <div class="wave-bar" style="height: 30px;"></div>
-                        </div>
-                        <button class="demo-button" onclick="testAPI()">Test Live API Connection</button>
-                    </div>
+            <div id="statusDetails">Loading system information...</div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn primary" onclick="testVoiceSystem()">🎤 Test Voice System</button>
+            <button class="btn secondary" onclick="testConversation()">💬 Test AI Conversation</button>
+            <button class="btn" onclick="openDashboard()">📊 Open Dashboard</button>
+            <button class="btn" onclick="checkSystemHealth()">🔍 Check System Health</button>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <strong>Frontend Status</strong>
+                <span id="frontendStatus">✅ Online</span>
+            </div>
+            <div class="info-item">
+                <strong>API Status</strong>
+                <span id="apiStatus">⏳ Checking...</span>
+            </div>
+            <div class="info-item">
+                <strong>Last Updated</strong>
+                <span id="lastUpdated">Just now</span>
+            </div>
+            <div class="info-item">
+                <strong>Version</strong>
+                <span>v1.0.0 Robust</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 Live System Tests</h3>
+            <div id="testResults">
+                <div class="test-result">
+                    System ready for testing. Click buttons above to test features.
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Backed By Section -->
-    <section class="backed-by" id="backed-by">
-        <div class="section-header">
-            <div class="section-label">Trusted & Backed By</div>
-            <h2 class="section-title">Industry Leaders & Medical Institutions</h2>
+        <div class="footer">
+            <p>&copy; 2025 ReddyTalk.ai - Enterprise AI Medical Receptionist</p>
+            <p>Built with Azure • Powered by GPT-4 • HIPAA Ready</p>
         </div>
-        <div class="investors-grid">
-            <div class="investor-card">
-                <div class="investor-name">HHA Medicine</div>
-            </div>
-            <div class="investor-card">
-                <div class="investor-name">Leading VCs</div>
-            </div>
-            <div class="investor-card">
-                <div class="investor-name">500+ Physicians</div>
-            </div>
-            <div class="investor-card">
-                <div class="investor-name">Azure Partnership</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="section-header">
-            <div class="section-label">Features</div>
-            <h2 class="section-title">Everything Your Front Desk Does, But Better</h2>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">📅</div>
-                <h3 class="feature-title">Smart Scheduling</h3>
-                <p class="feature-description">
-                    Automatically schedules, reschedules, and cancels appointments. Integrates with Epic, Cerner, Athena, and 50+ EMR systems.
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3 class="feature-title">Insurance Verification</h3>
-                <p class="feature-description">
-                    Instantly verifies insurance eligibility, copays, and deductibles. Updates patient records automatically.
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🌍</div>
-                <h3 class="feature-title">Multilingual Support</h3>
-                <p class="feature-description">
-                    Speaks 50+ languages fluently with natural accents. Automatically detects patient's preferred language.
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📞</div>
-                <h3 class="feature-title">24/7 Availability</h3>
-                <p class="feature-description">
-                    Never misses a call. Handles after-hours emergencies, routes urgent calls, and takes messages perfectly.
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💊</div>
-                <h3 class="feature-title">Prescription Refills</h3>
-                <p class="feature-description">
-                    Processes prescription refill requests, sends to pharmacy, and notifies patients when ready.
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3 class="feature-title">Analytics Dashboard</h3>
-                <p class="feature-description">
-                    Track call volumes, patient satisfaction, common questions, and identify opportunities to improve.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Cost Calculator -->
-    <section class="calculator" id="calculator">
-        <div class="section-header">
-            <div class="section-label">ROI Calculator</div>
-            <h2 class="section-title">Calculate Your Savings with Sumana AI</h2>
-        </div>
-        <div class="calculator-container">
-            <div class="calculator-grid">
-                <div class="calculator-inputs">
-                    <div class="input-group">
-                        <label class="input-label">Current Front Desk Staff</label>
-                        <input type="number" class="input-field" id="staffCount" value="2" min="1" max="10" onchange="calculateSavings()">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label class="input-label">Average Staff Salary (Annual)</label>
-                        <input type="number" class="input-field" id="staffSalary" value="35000" onchange="calculateSavings()">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label class="input-label">Average Calls Per Day</label>
-                        <div class="slider-container">
-                            <input type="range" class="slider" id="callsPerDay" min="20" max="500" value="100" onchange="calculateSavings()">
-                            <div class="slider-value" id="callsValue">100</div>
-                        </div>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label class="input-label">Missed Calls Per Day</label>
-                        <input type="number" class="input-field" id="missedCalls" value="10" onchange="calculateSavings()">
-                    </div>
-                </div>
-                
-                <div class="results-panel">
-                    <h3 style="margin-bottom: 1.5rem; color: var(--dark-gray);">Your Estimated Savings</h3>
-                    
-                    <div class="result-item">
-                        <span class="result-label">Current Annual Cost</span>
-                        <span class="result-value" id="currentCost">$70,000</span>
-                    </div>
-                    
-                    <div class="result-item">
-                        <span class="result-label">Sumana AI Annual Cost</span>
-                        <span class="result-value" id="aiCost">$7,188</span>
-                    </div>
-                    
-                    <div class="result-item">
-                        <span class="result-label">Revenue from Saved Missed Calls</span>
-                        <span class="result-value" id="missedRevenue">$36,500</span>
-                    </div>
-                    
-                    <div class="result-item">
-                        <span class="result-label">Total Annual Savings</span>
-                        <span class="result-value savings" id="totalSavings">$99,312</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">10M+</div>
-                <div class="stat-label">Calls Handled</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">500+</div>
-                <div class="stat-label">Clinics Served</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">99.9%</div>
-                <div class="stat-label">Accuracy Rate</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number"><1s</div>
-                <div class="stat-label">Response Time</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <h2 class="cta-title">Ready to Transform Your Front Desk?</h2>
-        <p class="cta-subtitle">Join 500+ clinics already using Sumana AI</p>
-        <div class="cta-buttons">
-            <a href="https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io/health/ready" target="_blank" class="btn-primary">Test Live API</a>
-            <a href="#calculator" class="btn-secondary">Calculate Savings</a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>ReddyTalk.ai</h4>
-                <p style="color: #9CA3AF; margin-top: 1rem;">
-                    Transforming medical communication with AI-powered voice assistants.
-                </p>
-            </div>
-            <div class="footer-section">
-                <h4>Live Endpoints</h4>
-                <ul>
-                    <li><a href="https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io/health/ready" target="_blank">Health Check</a></li>
-                    <li><a href="https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io/health/live" target="_blank">System Status</a></li>
-                    <li><a href="https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io/metrics" target="_blank">Metrics</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Our Investors</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="https://github.com/DandaAkhilReddy/ReddyTalk" target="_blank">GitHub</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="#">Documentation</a></li>
-                    <li><a href="#">API</a></li>
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">HIPAA Compliance</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 ReddyTalk.ai - All rights reserved | HIPAA Compliant | SOC 2 Type II Certified</p>
-            <p>🚀 Deployed on Azure Container Apps & Static Web Apps</p>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // Update slider value display
-        document.getElementById('callsPerDay').addEventListener('input', function() {
-            document.getElementById('callsValue').textContent = this.value;
+        // Configuration
+        const API_BASE = 'https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io';
+        const BACKUP_API = 'https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io';
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 ReddyTalk.ai Test Interface Loading...');
+            updateTimestamp();
+            checkSystemStatus();
+            
+            // Update timestamp every 30 seconds
+            setInterval(updateTimestamp, 30000);
+            // Check system status every 60 seconds
+            setInterval(checkSystemStatus, 60000);
         });
 
-        // Calculate Savings Function
-        function calculateSavings() {
-            // Get input values
-            const staffCount = parseInt(document.getElementById('staffCount').value) || 2;
-            const staffSalary = parseInt(document.getElementById('staffSalary').value) || 35000;
-            const callsPerDay = parseInt(document.getElementById('callsPerDay').value) || 100;
-            const missedCalls = parseInt(document.getElementById('missedCalls').value) || 10;
-            
-            // Update calls display
-            document.getElementById('callsValue').textContent = callsPerDay;
-            
-            // Calculate current costs
-            const currentAnnualCost = staffCount * staffSalary;
-            
-            // Calculate Sumana AI cost (tiered pricing based on calls)
-            let monthlyAICost;
-            if (callsPerDay <= 50) {
-                monthlyAICost = 299; // Starter
-            } else if (callsPerDay <= 200) {
-                monthlyAICost = 599; // Professional
-            } else {
-                monthlyAICost = 999; // Enterprise
-            }
-            const annualAICost = monthlyAICost * 12;
-            
-            // Calculate revenue from missed calls (assuming $100 value per appointment)
-            const missedCallRevenue = missedCalls * 365 * 100; // Daily missed calls * days * appointment value
-            
-            // Calculate total savings
-            const totalSavings = (currentAnnualCost - annualAICost) + missedCallRevenue;
-            
-            // Update display
-            document.getElementById('currentCost').textContent = '$' + currentAnnualCost.toLocaleString();
-            document.getElementById('aiCost').textContent = '$' + annualAICost.toLocaleString();
-            document.getElementById('missedRevenue').textContent = '$' + missedCallRevenue.toLocaleString();
-            document.getElementById('totalSavings').textContent = '$' + totalSavings.toLocaleString();
+        function updateTimestamp() {
+            document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
         }
 
-        // Initialize calculator on load
-        calculateSavings();
+        async function checkSystemStatus() {
+            logTest('🔍 Checking system status...');
+            
+            try {
+                // Test multiple endpoints
+                const endpoints = [
+                    { name: 'Health Check', url: `${API_BASE}/health/live` },
+                    { name: 'Ping Test', url: `${API_BASE}/ping` },
+                    { name: 'Status Check', url: `${API_BASE}/status` }
+                ];
 
-        // Test API function
-        function testAPI() {
-            window.open('https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io/health/ready', '_blank');
-        }
-
-        // Test API connectivity and update status
-        function checkAPIStatus() {
-            fetch('https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io/health/live')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('apiStatus').innerHTML = 
-                        '<span class="live-dot"></span><span>API Status: ✅ HEALTHY - All systems operational</span>';
-                    document.getElementById('apiStatus').style.background = 'rgba(16, 185, 129, 0.1)';
-                    document.getElementById('apiStatus').style.borderColor = 'rgba(16, 185, 129, 0.3)';
-                })
-                .catch(error => {
-                    document.getElementById('apiStatus').innerHTML = 
-                        '<span>API Status: ⚠️ Testing connectivity...</span>';
-                    document.getElementById('apiStatus').style.background = 'rgba(251, 146, 60, 0.1)';
-                    document.getElementById('apiStatus').style.borderColor = 'rgba(251, 146, 60, 0.3)';
-                });
-        }
-
-        // Check API status on load
-        checkAPIStatus();
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                let workingEndpoints = 0;
+                
+                for (const endpoint of endpoints) {
+                    try {
+                        const response = await fetch(endpoint.url, { 
+                            timeout: 5000,
+                            headers: { 'Accept': 'application/json' }
+                        });
+                        
+                        if (response.ok) {
+                            workingEndpoints++;
+                            logTest(`✅ ${endpoint.name}: OK (${response.status})`);
+                        } else {
+                            logTest(`⚠️ ${endpoint.name}: ${response.status} ${response.statusText}`, 'error');
+                        }
+                    } catch (error) {
+                        logTest(`❌ ${endpoint.name}: ${error.message}`, 'error');
+                    }
                 }
-            });
+
+                // Update status
+                const statusEl = document.getElementById('systemStatus');
+                const apiStatusEl = document.getElementById('apiStatus');
+                
+                if (workingEndpoints > 0) {
+                    statusEl.innerHTML = '<div class="pulse"></div><span>System Status: Partially Online</span>';
+                    statusEl.className = 'status-indicator status-online';
+                    apiStatusEl.textContent = `⚠️ ${workingEndpoints}/3 endpoints working`;
+                    
+                    document.getElementById('statusDetails').innerHTML = `
+                        System is running with ${workingEndpoints} out of 3 API endpoints responding.
+                        You can test available features below.
+                    `;
+                } else {
+                    statusEl.innerHTML = '<div class="pulse"></div><span>System Status: API Issues</span>';
+                    statusEl.className = 'status-indicator status-offline';
+                    apiStatusEl.textContent = '❌ API not responding';
+                    
+                    document.getElementById('statusDetails').innerHTML = `
+                        API endpoints are not responding. This might be temporary.
+                        Frontend is working. Testing basic features...
+                    `;
+                }
+
+            } catch (error) {
+                logTest(`❌ System status check failed: ${error.message}`, 'error');
+                document.getElementById('apiStatus').textContent = '❌ Check failed';
+            }
+        }
+
+        async function testVoiceSystem() {
+            logTest('🎤 Testing Voice System...');
+            
+            // Test microphone access
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                try {
+                    logTest('🔍 Checking microphone access...');
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    logTest('✅ Microphone access granted');
+                    
+                    // Stop the stream
+                    stream.getTracks().forEach(track => track.stop());
+                    
+                    // Test speech recognition if available
+                    if ('webkitSpeechRecognition' in window) {
+                        logTest('✅ Speech recognition available');
+                        logTest('🎤 Voice system is ready for use');
+                    } else {
+                        logTest('⚠️ Speech recognition not available in this browser');
+                    }
+                    
+                } catch (error) {
+                    logTest(`❌ Microphone test failed: ${error.message}`, 'error');
+                    logTest('💡 Please allow microphone access for voice features');
+                }
+            } else {
+                logTest('❌ Voice features not supported in this browser', 'error');
+            }
+
+            // Test API voice endpoints
+            await testAPIEndpoint('/api/voice/transcribe', 'POST', 'Voice Transcription API');
+            await testAPIEndpoint('/api/voice/synthesize', 'POST', 'Voice Synthesis API');
+        }
+
+        async function testConversation() {
+            logTest('💬 Testing AI Conversation...');
+            
+            const sessionId = 'test-' + Date.now();
+            logTest(`📝 Session ID: ${sessionId}`);
+            
+            // Test conversation start
+            try {
+                const startResponse = await fetch(`${API_BASE}/api/conversation/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sessionId: sessionId,
+                        callerInfo: { name: 'Test User', phone: '555-TEST' }
+                    })
+                });
+
+                if (startResponse.ok) {
+                    const result = await startResponse.json();
+                    logTest('✅ Conversation started successfully');
+                    logTest(`📞 Conversation ID: ${result.conversation?.id || 'Unknown'}`);
+                } else {
+                    logTest(`⚠️ Conversation start: ${startResponse.status} ${startResponse.statusText}`, 'error');
+                }
+            } catch (error) {
+                logTest(`❌ Conversation test failed: ${error.message}`, 'error');
+            }
+
+            // Test AI knowledge
+            await testAPIEndpoint('/api/test/simple/knowledge', 'GET', 'AI Knowledge Base');
+        }
+
+        async function openDashboard() {
+            logTest('📊 Opening dashboard...');
+            
+            const dashboardUrls = [
+                `${API_BASE}/dashboard`,
+                'https://calm-field-070972c0f.2.azurestaticapps.net/dashboard',
+                './dashboard.html'
+            ];
+
+            for (const url of dashboardUrls) {
+                try {
+                    window.open(url, '_blank');
+                    logTest(`✅ Opened dashboard: ${url}`);
+                    break;
+                } catch (error) {
+                    logTest(`⚠️ Dashboard URL failed: ${url}`);
+                }
+            }
+        }
+
+        async function testAPIEndpoint(endpoint, method = 'GET', name) {
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`, {
+                    method: method,
+                    timeout: 5000,
+                    headers: { 'Accept': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    logTest(`✅ ${name}: OK (${response.status})`);
+                } else {
+                    logTest(`⚠️ ${name}: ${response.status} ${response.statusText}`, 'error');
+                }
+            } catch (error) {
+                logTest(`❌ ${name}: ${error.message}`, 'error');
+            }
+        }
+
+        function logTest(message, type = 'success') {
+            const resultsDiv = document.getElementById('testResults');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = type === 'error' ? 'test-result error' : 'test-result';
+            resultDiv.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            
+            resultsDiv.appendChild(resultDiv);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+            
+            // Keep only last 20 results
+            while (resultsDiv.children.length > 20) {
+                resultsDiv.removeChild(resultsDiv.firstChild);
+            }
+        }
+
+        // Global error handler
+        window.addEventListener('error', function(event) {
+            logTest(`❌ JavaScript Error: ${event.error.message}`, 'error');
         });
 
-        // Add scroll effect to navigation
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-            } else {
-                nav.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
-            }
-        });
+        // Service worker registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').then(function() {
+                logTest('✅ Service worker registered for offline support');
+            }).catch(function(error) {
+                console.log('Service worker registration failed:', error);
+            });
+        }
     </script>
 </body>
 </html>

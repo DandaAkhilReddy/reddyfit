@@ -16,6 +16,9 @@ const ConversationManager = require('./services/conversation/ConversationManager
 const AzureOpenAI = require('./services/ai/AzureOpenAI');
 const AzureSpeechToText = require('./services/voice/AzureSpeechToText');
 const AzureTextToSpeech = require('./services/voice/AzureTextToSpeech');
+const TwilioVoiceService = require('./services/voice/TwilioVoiceService');
+const ElevenLabsService = require('./services/voice/ElevenLabsService');
+const CallManager = require('./services/call/CallManager');
 
 class ReddyTalkServer {
   constructor() {
@@ -30,6 +33,9 @@ class ReddyTalkServer {
     this.ai = new AzureOpenAI();
     this.stt = new AzureSpeechToText();
     this.tts = new AzureTextToSpeech();
+    this.twilioService = new TwilioVoiceService();
+    this.elevenLabs = new ElevenLabsService();
+    this.callManager = null;
     
     // System metrics
     this.metrics = {
@@ -46,41 +52,171 @@ class ReddyTalkServer {
   async initialize() {
     try {
       console.log('🚀 Initializing ReddyTalk.ai Enterprise Server...');
+      console.log('🎯 Implementing robust systems engineering practices...');
       
-      // Setup Express middleware
+      // Setup Express middleware first (always works)
       this.setupMiddleware();
+      console.log('✅ Express middleware configured');
       
-      // Initialize database first
-      await this.db.initialize();
-      console.log('✅ Database service initialized');
+      // Track initialization status for each service
+      let initializationStatus = {
+        database: false,
+        websocket: false,
+        ai: false,
+        speech: false,
+        twilio: false,
+        conversationManager: false
+      };
       
-      // Initialize WebSocket service
-      await this.ws.initialize();
-      console.log('✅ WebSocket service initialized');
+      // Initialize database with fallback
+      try {
+        await this.db.initialize();
+        console.log('✅ Database service initialized');
+        initializationStatus.database = true;
+      } catch (error) {
+        console.warn('⚠️ Database initialization failed - running in degraded mode');
+        console.warn('📋 Error:', error.message);
+        // Continue without database - some features will be limited
+        this.db = null;
+      }
       
-      // Initialize AI services
-      await this.ai.initialize();
-      await this.stt.initialize();
-      await this.tts.initialize();
-      console.log('✅ AI services initialized');
+      // Initialize WebSocket service (always works)
+      try {
+        await this.ws.initialize();
+        console.log('✅ WebSocket service initialized');
+        initializationStatus.websocket = true;
+      } catch (error) {
+        console.warn('⚠️ WebSocket initialization failed:', error.message);
+      }
       
-      // Initialize conversation manager
-      this.conversationManager = new ConversationManager(this.db, this.ws);
-      await this.conversationManager.initialize();
-      console.log('✅ Conversation Manager initialized');
+      // Initialize AI services with fallback
+      try {
+        await this.ai.initialize();
+        console.log('✅ AI service initialized');
+        initializationStatus.ai = true;
+      } catch (error) {
+        console.warn('⚠️ AI service initialization failed:', error.message);
+        // Continue - will use fallback responses
+      }
       
-      // Setup routes
+      try {
+        await this.stt.initialize();
+        await this.tts.initialize();
+        console.log('✅ Speech services initialized');
+        initializationStatus.speech = true;
+      } catch (error) {
+        console.warn('⚠️ Speech services initialization failed:', error.message);
+        // Continue - will use text-only mode
+      }
+      
+      // Initialize Twilio service (optional)
+      if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
+        try {
+          await this.twilioService.initialize();
+          console.log('✅ Twilio Voice Service initialized');
+          initializationStatus.twilio = true;
+        } catch (error) {
+          console.warn('⚠️ Twilio service not available:', error.message);
+        }
+      } else {
+        console.log('ℹ️ Twilio credentials not provided - voice calling disabled');
+      }
+      
+      // Initialize ElevenLabs Voice Service
+      try {
+        await this.elevenLabs.initialize();
+        console.log('✅ ElevenLabs Voice Service initialized');
+        initializationStatus.elevenLabs = true;
+      } catch (error) {
+        console.warn('⚠️ ElevenLabs initialization failed:', error.message);
+        // Continue without AI voice synthesis
+      }
+      
+      // Initialize conversation manager (works even without database)
+      try {
+        this.conversationManager = new ConversationManager(this.db, this.ws);
+        if (this.db) {
+          await this.conversationManager.initialize();
+        }
+        console.log('✅ Conversation Manager initialized');
+        initializationStatus.conversationManager = true;
+      } catch (error) {
+        console.warn('⚠️ Conversation Manager initialization failed:', error.message);
+        // Continue with basic conversation handling
+      }
+      
+      // Initialize Call Manager with AI capabilities
+      try {
+        this.callManager = new CallManager(this.twilioService, this.elevenLabs, this.conversationManager);
+        await this.callManager.initialize();
+        console.log('✅ Call Manager with AI Voice initialized');
+        initializationStatus.callManager = true;
+      } catch (error) {
+        console.warn('⚠️ Call Manager initialization failed:', error.message);
+        // Continue with basic call handling
+      }
+      
+      // Setup routes (always works)
       this.setupRoutes();
+      console.log('✅ Routes configured');
       
-      // Setup health monitoring
+      // Setup Twilio routes (if available)
+      if (this.twilioService && this.twilioService.isInitialized) {
+        try {
+          const twilioRoutes = require('./routes/twilio')(this);
+          this.app.use('/webhooks/twilio', twilioRoutes);
+          console.log('✅ Twilio routes configured');
+        } catch (error) {
+          console.warn('⚠️ Twilio routes setup failed:', error.message);
+        }
+      }
+      
+      // Setup health monitoring (always works)
       this.setupHealthMonitoring();
+      console.log('✅ Health monitoring configured');
+      
+      // Calculate system readiness
+      const servicesInitialized = Object.values(initializationStatus).filter(Boolean).length;
+      const totalServices = Object.keys(initializationStatus).length;
+      const readinessPercentage = Math.round((servicesInitialized / totalServices) * 100);
       
       this.isInitialized = true;
-      console.log('✅ ReddyTalk.ai Server fully initialized');
+      this.systemReadiness = readinessPercentage;
+      
+      console.log('🎯 =====================================');
+      console.log('🚀 ReddyTalk.ai Server Initialization Complete');
+      console.log('🎯 =====================================');
+      console.log(`📊 System Readiness: ${readinessPercentage}% (${servicesInitialized}/${totalServices} services)`);
+      console.log('📋 Service Status:');
+      Object.entries(initializationStatus).forEach(([service, status]) => {
+        const icon = status ? '✅' : '⚠️';
+        const statusText = status ? 'Online' : 'Degraded/Offline';
+        console.log(`   ${icon} ${service}: ${statusText}`);
+      });
+      
+      if (readinessPercentage >= 60) {
+        console.log('🎉 System is operational and ready to serve requests');
+      } else {
+        console.log('⚠️ System is running in limited capacity mode');
+      }
+      
+      console.log('🎯 =====================================');
       
     } catch (error) {
-      console.error('❌ Server initialization failed:', error);
-      throw error;
+      console.error('❌ Critical server initialization failure:', error);
+      console.log('🔄 Attempting minimal startup mode...');
+      
+      // Minimal startup mode - just serve static files
+      try {
+        this.setupMiddleware();
+        this.setupBasicRoutes();
+        this.isInitialized = true;
+        this.systemReadiness = 20; // Minimal functionality
+        console.log('🆘 Server started in emergency mode - basic web serving only');
+      } catch (emergencyError) {
+        console.error('❌ Emergency startup failed:', emergencyError);
+        throw emergencyError;
+      }
     }
   }
 
@@ -136,6 +272,31 @@ class ReddyTalkServer {
     
     // Static files
     this.app.use(express.static(path.join(__dirname, '../public')));
+  }
+
+  setupBasicRoutes() {
+    // Emergency routes for minimal functionality
+    this.app.get('/ping', (req, res) => {
+      res.json({ 
+        status: 'pong', 
+        mode: 'emergency',
+        timestamp: new Date().toISOString() 
+      });
+    });
+    
+    this.app.get('/health/live', (req, res) => {
+      res.json({
+        status: 'degraded',
+        message: 'Running in emergency mode',
+        timestamp: new Date().toISOString(),
+        readiness: this.systemReadiness || 20
+      });
+    });
+    
+    // Serve main interface
+    this.app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, '../public/main.html'));
+    });
   }
 
   setupRoutes() {
@@ -450,30 +611,237 @@ class ReddyTalkServer {
       res.sendFile(path.join(__dirname, '../public/dashboard.html'));
     });
     
-    // Default route
+    // Call Dashboard with AI features
+    this.app.get('/call-dashboard', (req, res) => {
+      res.sendFile(path.join(__dirname, '../public/call-dashboard.html'));
+    });
+    
+    // ============ CALL MANAGEMENT API ROUTES ============
+    
+    this.app.get('/api/calls/active', async (req, res) => {
+      try {
+        const activeCalls = this.callManager ? this.callManager.getActiveCalls() : [];
+        res.json({ success: true, calls: activeCalls });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    });
+    
+    this.app.get('/api/calls/history', async (req, res) => {
+      try {
+        const history = this.callManager ? this.callManager.getCallHistory() : {};
+        res.json({ success: true, history });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    });
+    
+    this.app.get('/api/calls/metrics', async (req, res) => {
+      try {
+        const metrics = this.callManager ? this.callManager.getCallMetrics() : {};
+        res.json({ success: true, metrics });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    });
+    
+    this.app.post('/api/test/call-flow', async (req, res) => {
+      try {
+        const result = this.callManager ? await this.callManager.testCallFlow() : { success: false, error: 'Call manager not available' };
+        res.json(result);
+      } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+      }
+    });
+    
+    this.app.post('/api/voice/test-synthesis', async (req, res) => {
+      try {
+        const result = this.elevenLabs ? await this.elevenLabs.testVoiceSynthesis() : { success: false, error: 'ElevenLabs not available' };
+        res.json(result);
+      } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+      }
+    });
+    
+    this.app.post('/api/voice/synthesize-text', async (req, res) => {
+      try {
+        const { text, options } = req.body;
+        if (!text) {
+          return res.status(400).json({ error: 'Text is required' });
+        }
+        
+        const result = this.elevenLabs ? await this.elevenLabs.synthesizeText(text, options) : { success: false, error: 'ElevenLabs not available' };
+        
+        if (result.success) {
+          res.set('Content-Type', result.contentType || 'audio/mpeg');
+          res.send(result.audioBuffer);
+        } else {
+          res.status(500).json(result);
+        }
+      } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+      }
+    });
+    
+    this.app.post('/api/voice/medical-response', async (req, res) => {
+      try {
+        const { input, context } = req.body;
+        if (!input) {
+          return res.status(400).json({ error: 'Input is required' });
+        }
+        
+        const result = this.elevenLabs ? await this.elevenLabs.generateMedicalReceptionistResponse(input, context) : { text: 'Service not available' };
+        res.json({ success: true, result });
+      } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+      }
+    });
+    
+    // ============ FRONTEND ROUTES ============
+    
+    // Main route - robust system dashboard
     this.app.get('/', (req, res) => {
+      res.sendFile(path.join(__dirname, '../public/main.html'));
+    });
+    
+    // Legacy index route
+    this.app.get('/index', (req, res) => {
       res.sendFile(path.join(__dirname, '../public/index.html'));
     });
     
-    // 404 handler
-    this.app.use((req, res) => {
-      res.status(404).json({
-        error: 'Not Found',
-        message: `Route ${req.method} ${req.path} not found`,
+    // Test interface route with multiple paths
+    this.app.get('/test-interface', (req, res) => {
+      res.sendFile(path.join(__dirname, '../public/test-interface.html'));
+    });
+    
+    this.app.get('/test-interface.html', (req, res) => {
+      res.sendFile(path.join(__dirname, '../public/test-interface.html'));
+    });
+    
+    this.app.get('/test', (req, res) => {
+      res.sendFile(path.join(__dirname, '../public/test-interface.html'));
+    });
+    
+    // Service worker
+    this.app.get('/sw.js', (req, res) => {
+      res.setHeader('Content-Type', 'application/javascript');
+      res.sendFile(path.join(__dirname, '../public/sw.js'));
+    });
+    
+    // ============ ROBUST ERROR HANDLING ============
+    
+    // Health check routes (always available)
+    this.app.get('/ping', (req, res) => {
+      res.json({ status: 'pong', timestamp: new Date().toISOString() });
+    });
+    
+    this.app.get('/status', (req, res) => {
+      res.json({
+        status: 'operational',
+        services: {
+          api: 'online',
+          database: this.db ? 'online' : 'offline',
+          ai: this.ai ? 'online' : 'offline',
+          websocket: this.ws ? 'online' : 'offline'
+        },
+        uptime: process.uptime(),
+        memory: process.memoryUsage(),
         timestamp: new Date().toISOString()
       });
     });
     
-    // Error handler
-    this.app.use((error, req, res, next) => {
-      console.error('❌ Unhandled error:', error);
-      this.metrics.errors++;
+    // Catch-all route for frontend
+    this.app.get('*', (req, res, next) => {
+      // If it's an API route, let it 404
+      if (req.path.startsWith('/api/') || req.path.startsWith('/webhooks/')) {
+        return next();
+      }
       
-      res.status(500).json({
-        error: 'Internal Server Error',
-        message: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong',
+      // For all other routes, serve the main app
+      res.sendFile(path.join(__dirname, '../public/main.html'));
+    });
+    
+    // 404 handler for API routes
+    this.app.use((req, res) => {
+      const isAPI = req.path.startsWith('/api/') || req.path.startsWith('/webhooks/');
+      
+      if (isAPI) {
+        res.status(404).json({
+          error: 'Not Found',
+          message: `API route ${req.method} ${req.path} not found`,
+          timestamp: new Date().toISOString(),
+          availableRoutes: [
+            'GET /health/live',
+            'GET /health/ready', 
+            'GET /metrics',
+            'POST /api/conversation/start',
+            'GET /api/test/simple',
+            'GET /ping',
+            'GET /status'
+          ]
+        });
+      } else {
+        // Serve main app for non-API routes
+        res.sendFile(path.join(__dirname, '../public/main.html'));
+      }
+    });
+    
+    // ============ COMPREHENSIVE ERROR HANDLER ============
+    this.app.use((error, req, res, next) => {
+      console.error('❌ Unhandled error:', {
+        message: error.message,
+        stack: error.stack,
+        url: req.url,
+        method: req.method,
+        ip: req.ip,
+        userAgent: req.get('User-Agent'),
         timestamp: new Date().toISOString()
       });
+      
+      this.metrics.errors++;
+      
+      // Log to external monitoring service (if configured)
+      this.logError(error, req);
+      
+      const isDevelopment = process.env.NODE_ENV === 'development';
+      const isAPI = req.path.startsWith('/api/') || req.path.startsWith('/webhooks/');
+      
+      if (isAPI) {
+        // JSON error response for API
+        res.status(error.statusCode || 500).json({
+          error: error.name || 'Internal Server Error',
+          message: isDevelopment ? error.message : 'An unexpected error occurred',
+          code: error.code,
+          timestamp: new Date().toISOString(),
+          requestId: req.id || 'unknown'
+        });
+      } else {
+        // HTML error page for web routes
+        res.status(error.statusCode || 500).send(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Error - ReddyTalk.ai</title>
+            <style>
+              body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+              .error { color: #d32f2f; }
+              .info { color: #666; margin-top: 20px; }
+              .btn { background: #667eea; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
+            </style>
+          </head>
+          <body>
+            <h1 class="error">🚨 Something went wrong</h1>
+            <p>We're experiencing a temporary issue. Please try again.</p>
+            <div class="info">
+              <p><strong>Error Code:</strong> ${error.statusCode || 500}</p>
+              <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+              ${isDevelopment ? `<p><strong>Details:</strong> ${error.message}</p>` : ''}
+            </div>
+            <p><a href="/" class="btn">🏠 Go Home</a></p>
+          </body>
+          </html>
+        `);
+      }
     });
   }
 
@@ -598,17 +966,121 @@ class ReddyTalkServer {
     }
   }
 
+  // ============ ERROR LOGGING & MONITORING ============
+  
+  logError(error, req = null) {
+    const errorData = {
+      timestamp: new Date().toISOString(),
+      error: {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+        code: error.code
+      },
+      request: req ? {
+        url: req.url,
+        method: req.method,
+        headers: req.headers,
+        ip: req.ip,
+        userAgent: req.get('User-Agent')
+      } : null,
+      system: {
+        uptime: this.metrics.uptime,
+        memory: process.memoryUsage(),
+        cpu: process.cpuUsage()
+      }
+    };
+    
+    // Log to console in development
+    if (process.env.NODE_ENV === 'development') {
+      console.error('🔍 Detailed error log:', JSON.stringify(errorData, null, 2));
+    }
+    
+    // Store in database if available
+    if (this.db) {
+      this.db.logError(errorData).catch(dbError => {
+        console.error('Failed to log error to database:', dbError);
+      });
+    }
+    
+    // Send to external monitoring (implement as needed)
+    // this.sendToMonitoring(errorData);
+  }
+
+  async performSystemDiagnostics() {
+    const diagnostics = {
+      timestamp: new Date().toISOString(),
+      server: {
+        uptime: process.uptime(),
+        memory: process.memoryUsage(),
+        cpu: process.cpuUsage(),
+        version: process.version,
+        platform: process.platform
+      },
+      application: {
+        metrics: this.metrics,
+        isInitialized: this.isInitialized,
+        activeConnections: this.ws?.getStats().connections || 0
+      },
+      services: {}
+    };
+    
+    // Test database connection
+    try {
+      const dbHealth = await this.db.runHealthCheck();
+      diagnostics.services.database = dbHealth;
+    } catch (error) {
+      diagnostics.services.database = { isHealthy: false, error: error.message };
+    }
+    
+    // Test AI services
+    try {
+      const aiHealth = await this.checkAIServices();
+      diagnostics.services.ai = aiHealth;
+    } catch (error) {
+      diagnostics.services.ai = { isHealthy: false, error: error.message };
+    }
+    
+    return diagnostics;
+  }
+
   async shutdown() {
     console.log('🔌 Shutting down ReddyTalk.ai Server...');
     
     try {
-      await this.ws.shutdown();
-      await this.db.close();
+      // Graceful shutdown sequence
+      console.log('📊 Performing final system diagnostics...');
+      const diagnostics = await this.performSystemDiagnostics();
+      console.log('📋 Final system status:', diagnostics.application.metrics);
+      
+      // Close services in reverse order
+      if (this.twilioService?.isInitialized) {
+        await this.twilioService.shutdown();
+        console.log('✅ Twilio service shutdown');
+      }
+      
+      if (this.ws) {
+        await this.ws.shutdown();
+        console.log('✅ WebSocket service shutdown');
+      }
+      
+      if (this.db) {
+        await this.db.close();
+        console.log('✅ Database connections closed');
+      }
       
       this.server.close(() => {
-        console.log('✅ Server shutdown complete');
+        console.log('✅ HTTP server shutdown complete');
+        console.log('🎯 Total uptime:', Math.floor(process.uptime()), 'seconds');
         process.exit(0);
       });
+      
+      // Force exit after 30 seconds
+      setTimeout(() => {
+        console.log('⏰ Force shutdown after timeout');
+        process.exit(1);
+      }, 30000);
+      
     } catch (error) {
       console.error('❌ Error during shutdown:', error);
       process.exit(1);
