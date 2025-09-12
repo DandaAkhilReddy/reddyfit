@@ -10,11 +10,14 @@
     "test:unit": "jest tests/unit",
     "test:integration": "jest tests/integration",
     "test:load": "k6 run tests/load/concurrent-calls.js",
+    "test:pipeline": "node testVoicePipeline.js",
     "build": "docker build -t reddytalk-ai .",
     "deploy:dev": "kubectl apply -k k8s/overlays/dev",
     "deploy:prod": "kubectl apply -k k8s/overlays/prod",
     "lint": "eslint src/ tests/",
-    "format": "prettier --write src/ tests/"
+    "format": "prettier --write src/ tests/",
+    "mcp:start": "node src/mcp/server.js",
+    "mcp:test": "echo '{\"method\":\"resources/list\"}' | node src/mcp/server.js"
   },
   "keywords": [
     "ai",
@@ -40,6 +43,7 @@
     "@fastify/helmet": "^11.1.1",
     "@fastify/rate-limit": "^8.1.1",
     "@fastify/websocket": "^8.3.1",
+    "@modelcontextprotocol/sdk": "^1.18.0",
     "@prisma/client": "^5.6.0",
     "axios": "^1.6.0",
     "cors": "^2.8.5",
