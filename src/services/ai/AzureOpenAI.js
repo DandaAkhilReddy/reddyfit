@@ -7,11 +7,14 @@ const MedicalKnowledgeBase = require('./MedicalKnowledgeBase');
 class AzureOpenAI extends EventEmitter {
   constructor(config = {}) {
     super();
-    this.apiKey = config.apiKey || process.env.AZURE_OPENAI_API_KEY;
+    // Support both OpenAI and Azure OpenAI
+    this.apiKey = config.apiKey || process.env.OPENAI_API_KEY || process.env.AZURE_OPENAI_API_KEY;
     this.endpoint = config.endpoint || process.env.AZURE_OPENAI_ENDPOINT;
     this.deployment = config.deployment || process.env.AZURE_OPENAI_DEPLOYMENT;
     this.apiVersion = config.apiVersion || process.env.AZURE_OPENAI_API_VERSION || '2024-02-01';
+    this.model = config.model || process.env.OPENAI_MODEL || 'gpt-4-turbo-preview';
     this.temperature = parseFloat(process.env.OPENAI_TEMPERATURE) || 0.7;
+    this.useAzure = !!this.endpoint; // Use Azure if endpoint is provided
     this.openai = null;
     this.conversationHistory = new Map();
     this.knowledgeBase = new MedicalKnowledgeBase();
@@ -19,17 +22,24 @@ class AzureOpenAI extends EventEmitter {
 
   async initialize() {
     try {
-      if (!this.apiKey || !this.endpoint) {
-        throw new Error('Azure OpenAI credentials not provided');
+      if (!this.apiKey) {
+        throw new Error('OpenAI API key not provided');
       }
 
-      // Initialize Azure OpenAI client
-      this.openai = new OpenAI({
-        apiKey: this.apiKey,
-        baseURL: `${this.endpoint}/openai/deployments/${this.deployment}`,
-        defaultQuery: { 'api-version': this.apiVersion },
-        defaultHeaders: { 'api-key': this.apiKey }
-      });
+      if (this.useAzure) {
+        // Initialize Azure OpenAI client
+        this.openai = new OpenAI({
+          apiKey: this.apiKey,
+          baseURL: `${this.endpoint}/openai/deployments/${this.deployment}`,
+          defaultQuery: { 'api-version': this.apiVersion },
+          defaultHeaders: { 'api-key': this.apiKey }
+        });
+      } else {
+        // Initialize regular OpenAI client
+        this.openai = new OpenAI({
+          apiKey: this.apiKey
+        });
+      }
 
       this.emit('initialized');
       return true;
@@ -113,14 +123,21 @@ Remember: You're speaking on the phone, so responses should sound natural when s
         });
       }
 
-      // Get completion from Azure OpenAI
-      const completion = await this.openai.chat.completions.create({
+      // Get completion from OpenAI (Azure or regular)
+      const completionParams = {
         messages: history,
         temperature: this.temperature,
         max_tokens: 150, // Keep responses concise for voice
         presence_penalty: 0.6,
         frequency_penalty: 0.3
-      });
+      };
+
+      // Add model for regular OpenAI
+      if (!this.useAzure) {
+        completionParams.model = this.model;
+      }
+
+      const completion = await this.openai.chat.completions.create(completionParams);
 
       const assistantMessage = completion.choices[0].message.content;
 
@@ -217,11 +234,17 @@ Remember: You're speaking on the phone, so responses should sound natural when s
         content: 'Summarize this conversation in 2-3 sentences, focusing on the patient\'s needs and any appointments or actions taken.'
       };
 
-      const completion = await this.openai.chat.completions.create({
+      const summaryParams = {
         messages: [...history, summaryPrompt],
         temperature: 0.3,
         max_tokens: 100
-      });
+      };
+
+      if (!this.useAzure) {
+        summaryParams.model = this.model;
+      }
+
+      const completion = await this.openai.chat.completions.create(summaryParams);
 
       return completion.choices[0].message.content;
     } catch (error) {
