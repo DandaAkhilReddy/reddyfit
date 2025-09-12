@@ -1,5 +1,5 @@
 # ReddyTalk.ai Production Dockerfile
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 # Install system dependencies for audio processing
 RUN apk add --no-cache \
@@ -24,10 +24,9 @@ RUN npm ci --only=production && npm cache clean --force
 
 # Copy source code
 COPY src/ ./src/
-COPY prisma/ ./prisma/
 
-# Generate Prisma client
-RUN npx prisma generate
+# Copy package files
+COPY package*.json ./
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
@@ -39,7 +38,7 @@ USER reddytalk
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD node src/healthcheck.js
+    CMD curl -f http://localhost:8080/health/live || exit 1
 
 # Expose ports
 EXPOSE 8080 8081 9090
