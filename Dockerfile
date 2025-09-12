@@ -44,4 +44,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 EXPOSE 8080 8081 9090
 
 # Start the application
-CMD ["node", "src/app.js"]
+CMD ["node", "src/app-comprehensive.js"]
