@@ -2,7 +2,14 @@
 
 const { Server } = require('@modelcontextprotocol/sdk/server/index.js');
 const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio.js');
-const { ListResourcesRequestSchema, ReadResourceRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
+const { 
+  ListResourcesRequestSchema, 
+  ReadResourceRequestSchema, 
+  ListPromptsRequestSchema, 
+  GetPromptRequestSchema,
+  ListToolsRequestSchema,
+  CallToolRequestSchema
+} = require('@modelcontextprotocol/sdk/types.js');
 const MedicalKnowledgeBase = require('../services/ai/MedicalKnowledgeBase');
 const path = require('path');
 const fs = require('fs').promises;
@@ -220,13 +227,13 @@ const prompts = [
   }
 ];
 
-// Handle list prompts
-server.setRequestHandler('prompts/list', async () => {
+// Handle list prompts  
+server.setRequestHandler(ListPromptsRequestSchema, async () => {
   return { prompts };
 });
 
 // Handle get prompt
-server.setRequestHandler('prompts/read', async (request) => {
+server.setRequestHandler(GetPromptRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
   
   switch (name) {
@@ -337,12 +344,12 @@ const tools = [
 ];
 
 // Handle list tools
-server.setRequestHandler('tools/list', async () => {
+server.setRequestHandler(ListToolsRequestSchema, async () => {
   return { tools };
 });
 
 // Handle tool calls
-server.setRequestHandler('tools/call', async (request) => {
+server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
   
   switch (name) {

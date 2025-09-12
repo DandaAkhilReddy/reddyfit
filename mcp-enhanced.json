@@ -1,0 +1,40 @@
+{
+  "mcpServers": {
+    "reddytalk": {
+      "command": "node",
+      "args": ["src/mcp/server.js"],
+      "env": {
+        "NODE_ENV": "production",
+        "LOG_LEVEL": "info"
+      }
+    },
+    "reddytalk-enhanced": {
+      "command": "node", 
+      "args": ["src/mcp/enhanced-server.js"],
+      "env": {
+        "NODE_ENV": "production",
+        "LOG_LEVEL": "info",
+        "MCP_SERVER_PORT": "9001",
+        "ENABLE_REAL_TIME": "true",
+        "ENABLE_VOICE_INTEGRATION": "true"
+      }
+    }
+  },
+  "configuration": {
+    "version": "2.0.0",
+    "description": "ReddyTalk.ai Medical Context Protocol Servers",
+    "features": [
+      "Real-time appointment scheduling",
+      "Insurance verification",
+      "Voice call management", 
+      "Patient triage",
+      "Medical knowledge base",
+      "Call analytics"
+    ],
+    "security": {
+      "hipaaCompliant": true,
+      "encryptionAtRest": true,
+      "auditLogging": true
+    }
+  }
+}
