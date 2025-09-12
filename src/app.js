@@ -203,6 +203,12 @@ async function start() {
   try {
     await registerPlugins();
     
+    // Register test routes in development
+    if (process.env.NODE_ENV !== 'production') {
+      await fastify.register(require('./routes/test'), { prefix: '/api' });
+      await fastify.register(require('./routes/simpleTest'), { prefix: '/api' });
+    }
+    
     const port = process.env.PORT || 8080;
     const host = process.env.HOST || '0.0.0.0';
     
@@ -212,8 +218,13 @@ async function start() {
     fastify.log.info(`📊 Metrics available at http://${host}:${port}/metrics`);
     fastify.log.info(`🔍 Health checks at http://${host}:${port}/health/ready`);
     
+    if (process.env.NODE_ENV !== 'production') {
+      fastify.log.info(`🧪 Test endpoints available at http://${host}:${port}/api/test/*`);
+    }
+    
   } catch (err) {
     fastify.log.error('Error starting server:', err);
+    console.error('Detailed error:', err);
     process.exit(1);
   }
 }

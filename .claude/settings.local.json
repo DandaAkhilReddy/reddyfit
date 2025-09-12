@@ -25,7 +25,11 @@
       "Bash(explorer visual-demo.html)",
       "Bash(git init:*)",
       "Bash(tree:*)",
-      "Bash(git tag:*)"
+      "Bash(git tag:*)",
+      "Bash(grep:*)",
+      "Bash(npm run website:*)",
+      "Bash(node:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": []
   }
