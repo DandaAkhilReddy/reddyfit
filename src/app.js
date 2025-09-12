@@ -616,6 +616,11 @@ class ReddyTalkServer {
       res.sendFile(path.join(__dirname, '../public/call-dashboard.html'));
     });
     
+    // Medical Dashboard with patient management
+    this.app.get('/medical-dashboard', (req, res) => {
+      res.sendFile(path.join(__dirname, '../public/medical-dashboard.html'));
+    });
+    
     // ============ CALL MANAGEMENT API ROUTES ============
     
     this.app.get('/api/calls/active', async (req, res) => {
