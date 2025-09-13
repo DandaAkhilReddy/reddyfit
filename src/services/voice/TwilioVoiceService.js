@@ -436,6 +436,103 @@ class TwilioVoiceService extends EventEmitter {
     }
   }
 
+  // ============ WEBHOOK HANDLERS ============
+
+  handleIncomingCall(req, res) {
+    try {
+      const { CallSid, From, To, CallStatus } = req.body;
+      const sessionId = 'twilio-' + CallSid + '-' + Date.now();
+      
+      console.log(`📞 Incoming call webhook: ${From} -> ${To} (${CallSid})`);
+      
+      // Store call information
+      this.activeCalls.set(CallSid, {
+        callSid: CallSid,
+        sessionId: sessionId,
+        from: From,
+        to: To,
+        startTime: new Date(),
+        status: 'incoming',
+        direction: 'inbound'
+      });
+      
+      this.callSessions.set(CallSid, sessionId);
+      
+      // Generate welcome TwiML
+      const twiml = this.generateIncomingCallTwiML(sessionId);
+      
+      res.type('text/xml').send(twiml);
+      
+      this.emit('callReceived', { callSid: CallSid, sessionId, from: From, to: To });
+      
+    } catch (error) {
+      console.error('❌ Error handling incoming call webhook:', error);
+      this.handleTwilioError(error, 'handleIncomingCall');
+      res.status(500).type('text/xml').send('<Response><Say>Service temporarily unavailable</Say><Hangup/></Response>');
+    }
+  }
+
+  handleVoiceWebhook(req, res) {
+    try {
+      const { CallSid, SpeechResult, Confidence } = req.body;
+      const sessionId = req.query.sessionId;
+      
+      console.log(`🎤 Voice webhook - Speech: "${SpeechResult}" (${Confidence}% confidence)`);
+      
+      if (SpeechResult && sessionId) {
+        // Emit speech event for processing
+        this.emit('speechReceived', {
+          callSid: CallSid,
+          sessionId: sessionId,
+          speechText: SpeechResult,
+          confidence: parseFloat(Confidence) / 100
+        });
+        
+        // Generate response TwiML (conversation manager will handle the logic)
+        const twiml = this.generateConversationTwiML(sessionId, "Please hold while I process your request...");
+        res.type('text/xml').send(twiml);
+        
+      } else {
+        // No speech detected
+        const twiml = this.generateConversationTwiML(sessionId, "I didn't catch that. Could you please repeat?");
+        res.type('text/xml').send(twiml);
+      }
+      
+    } catch (error) {
+      console.error('❌ Error handling voice webhook:', error);
+      this.handleTwilioError(error, 'handleVoiceWebhook');
+      res.status(500).type('text/xml').send('<Response><Say>Service error</Say><Hangup/></Response>');
+    }
+  }
+
+  handleStatusWebhook(req, res) {
+    try {
+      const { CallSid, CallStatus, From, To, Direction, Duration } = req.body;
+      
+      console.log(`📊 Status webhook: ${CallSid} -> ${CallStatus}`);
+      
+      // Update call status
+      this.handleCallStatusUpdate(CallSid, CallStatus, From, To);
+      
+      // Emit status event
+      this.emit('callStatusChanged', {
+        callSid: CallSid,
+        status: CallStatus,
+        from: From,
+        to: To,
+        direction: Direction,
+        duration: Duration ? parseInt(Duration) : null
+      });
+      
+      res.sendStatus(200);
+      
+    } catch (error) {
+      console.error('❌ Error handling status webhook:', error);
+      this.handleTwilioError(error, 'handleStatusWebhook');
+      res.sendStatus(500);
+    }
+  }
+
   // ============ UTILITY METHODS ============
 
   formatPhoneNumber(phoneNumber) {

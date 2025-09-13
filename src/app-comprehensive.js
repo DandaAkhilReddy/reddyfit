@@ -306,6 +306,9 @@ class ReddyTalkApp {
 
     // Voice integration routes (existing functionality)
     this.setupVoiceRoutes();
+    
+    // Twilio webhook routes
+    this.setupTwilioWebhookRoutes();
 
     // Admin routes
     this.setupAdminRoutes();
@@ -963,6 +966,12 @@ class ReddyTalkApp {
     });
 
     this.app.use('/api/voice', router);
+  }
+
+  setupTwilioWebhookRoutes() {
+    const twilioWebhooks = require('./routes/twilio');
+    this.app.use('/webhooks/twilio', twilioWebhooks(this));
+    console.log('✅ Twilio webhook routes configured');
   }
 
   setupAdminRoutes() {
