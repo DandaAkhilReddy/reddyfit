@@ -1,0 +1,71 @@
+# System files
+NTUSER.DAT*
+ntuser.*
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# Personal directories
+AppData/
+Application Data/
+Contacts/
+Cookies/
+Documents/
+Downloads/
+Favorites/
+Links/
+Local Settings/
+Music/
+My Documents/
+OneDrive/
+OneDrive - hhamedicine.com/
+Recent/
+Saved Games/
+Searches/
+SendTo/
+Start Menu/
+Videos/
+Microsoft/
+
+# Development tools and caches
+.cache/
+.cargo/
+.rustup/
+.local/
+.docker/
+.swa/
+.azure/
+node_modules/
+pipx/
+.npm/
+.npmrc
+
+# IDE and editor files
+.vscode/
+*.swp
+*.swo
+*~
+
+# Sensitive files
+.ssh/
+.gitconfig
+.bash_history
+.claude.json
+.claude.json.backup
+.claude/
+.config/
+
+# Project specific
+ARCHIVE/
+DEV_TOOLS/
+IT_WORKSPACE/
+PROFESSIONAL/
+Work/
+AzureCLI.msi
+nul
+
+# Temporary files
+*.log
+*.tmp
+temp_*
+test.txt
