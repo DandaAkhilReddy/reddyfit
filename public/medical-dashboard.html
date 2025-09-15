@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReddyTalk Medical Dashboard - Live Patient Call Management</title>
+    <style>
+        :root {
+            --primary-blue: #1e40af;
+            --primary-light: #3b82f6;
+            --success-green: #059669;
+            --success-light: #10b981;
+            --warning-orange: #d97706;
+            --warning-light: #f59e0b;
+            --error-red: #dc2626;
+            --error-light: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --medical-blue: #0369a1;
+            --medical-teal: #0d9488;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            padding: 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+
+        .logo-section {
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--medical-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .clinic-name {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+
+        .nav-section {
+            padding: 1rem 0;
+        }
+
+        .nav-title {
+            padding: 0 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-600);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--gray-50);
+            color: var(--primary-blue);
+        }
+
+        .nav-item.active {
+            background: #dbeafe;
+            color: var(--primary-blue);
+            border-left-color: var(--primary-blue);
+            font-weight: 500;
+        }
+
+        .nav-icon {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .badge {
+            background: var(--success-green);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            margin-left: auto;
+            font-weight: 600;
+        }
+
+        .badge.warning {
+            background: var(--warning-orange);
+        }
+
+        .badge.error {
+            background: var(--error-red);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 0;
+            overflow-y: auto;
+            background: var(--gray-50);
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--success-light);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        /* Content Area */
+        .content {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            height: calc(100vh - 80px);
+            overflow: hidden;
+        }
+
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            overflow: hidden;
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            overflow: hidden;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem 1.5rem 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Active Call Card */
+        .active-call-card {
+            flex: 1;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .call-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .patient-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .patient-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .patient-details h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .patient-meta {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .patient-phone {
+            color: var(--medical-blue);
+            font-weight: 500;
+            font-family: 'Monaco', monospace;
+        }
+
+        .call-status {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: var(--gray-50);
+            border-radius: 8px;
+        }
+
+        .status-label {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .status-value {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .status-value.success {
+            color: var(--success-green);
+        }
+
+        .status-value.warning {
+            color: var(--warning-orange);
+        }
+
+        /* Live Transcript */
+        .transcript-area {
+            flex: 1;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .transcript-header {
+            background: var(--gray-100);
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .transcript-body {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: white;
+            max-height: 300px;
+        }
+
+        .transcript-message {
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+
+        .transcript-message.patient {
+            background: #dbeafe;
+            margin-left: 0;
+            border-left: 3px solid var(--primary-blue);
+        }
+
+        .transcript-message.ai {
+            background: #dcfce7;
+            margin-left: auto;
+            margin-right: 0;
+            border-left: 3px solid var(--success-green);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .speaker {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .timestamp {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        .message-text {
+            line-height: 1.5;
+        }
+
+        /* Call Controls */
+        .call-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--success-green);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: var(--success-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-warning {
+            background: var(--warning-orange);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--error-red);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: var(--error-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        /* Statistics Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+
+        .stat-change {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        .stat-change.positive {
+            color: var(--success-green);
+        }
+
+        .stat-change.negative {
+            color: var(--error-red);
+        }
+
+        /* Queue List */
+        .queue-list {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .queue-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-100);
+            transition: all 0.2s ease;
+        }
+
+        .queue-item:hover {
+            background: var(--gray-50);
+        }
+
+        .queue-item:last-child {
+            border-bottom: none;
+        }
+
+        .queue-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .queue-info {
+            flex: 1;
+        }
+
+        .queue-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .queue-meta {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+
+        .queue-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .queue-status.waiting {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .queue-status.priority {
+            background: #fecaca;
+            color: #991b1b;
+        }
+
+        /* Recent Calls */
+        .recent-calls {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .recent-call-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .recent-call-item:last-child {
+            border-bottom: none;
+        }
+
+        .call-summary {
+            flex: 1;
+        }
+
+        .call-summary h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .call-summary p {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+
+        .call-duration {
+            color: var(--gray-600);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--gray-500);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray-700);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .call-info {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <div class="logo">🏥 ReddyTalk</div>
+                <div class="clinic-name">Medical AI Assistant</div>
+            </div>
+
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-title">Call Management</div>
+                    <a href="#" class="nav-item active" data-tab="dashboard">
+                        <span class="nav-icon">📞</span>
+                        Live Calls
+                        <span class="badge" id="activeCallsBadge">1</span>
+                    </a>
+                    <a href="#" class="nav-item" data-tab="queue">
+                        <span class="nav-icon">⏳</span>
+                        Call Queue
+                        <span class="badge warning" id="queueBadge">3</span>
+                    </a>
+                    <a href="#" class="nav-item" data-tab="patients">
+                        <span class="nav-icon">👥</span>
+                        Patient Records
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">Analytics</div>
+                    <a href="#" class="nav-item" data-tab="analytics">
+                        <span class="nav-icon">📊</span>
+                        Call Analytics
+                    </a>
+                    <a href="#" class="nav-item" data-tab="reports">
+                        <span class="nav-icon">📈</span>
+                        Reports
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">Settings</div>
+                    <a href="#" class="nav-item" data-tab="ai-config">
+                        <span class="nav-icon">🤖</span>
+                        AI Configuration
+                    </a>
+                    <a href="#" class="nav-item" data-tab="system">
+                        <span class="nav-icon">⚙️</span>
+                        System Health
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h1 class="header-title">Live Call Dashboard</h1>
+                <div class="header-actions">
+                    <div class="status-indicator">
+                        <div class="pulse-dot"></div>
+                        System Online
+                    </div>
+                    <div style="color: var(--gray-500); font-size: 0.9rem;" id="currentTime">
+                        Loading...
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <!-- Main Panel -->
+                <div class="main-panel">
+                    <!-- Statistics -->
+                    <div class="stats-grid">
+                        <div class="card stat-card">
+                            <div class="stat-value" style="color: var(--success-green);" id="activeCallsCount">1</div>
+                            <div class="stat-label">Active Calls</div>
+                            <div class="stat-change positive">+2 from yesterday</div>
+                        </div>
+                        <div class="card stat-card">
+                            <div class="stat-value" style="color: var(--primary-blue);" id="totalCallsToday">24</div>
+                            <div class="stat-label">Calls Today</div>
+                            <div class="stat-change positive">+15% from avg</div>
+                        </div>
+                    </div>
+
+                    <!-- Active Call -->
+                    <div class="card active-call-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span style="color: var(--success-green);">🔴</span>
+                                Active Call - Line 1
+                            </div>
+                            <div style="color: var(--gray-500); font-size: 0.85rem;" id="callDuration">
+                                Duration: 02:45
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="call-info">
+                                <div class="patient-info">
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <div class="patient-avatar">MJ</div>
+                                        <div class="patient-details">
+                                            <h3 id="patientName">Maria Johnson</h3>
+                                            <div class="patient-meta">
+                                                <div><strong>Age:</strong> <span id="patientAge">34 years</span></div>
+                                                <div><strong>DOB:</strong> <span id="patientDOB">March 15, 1989</span></div>
+                                                <div><strong>MRN:</strong> <span id="patientMRN">#MRN-2024-1001</span></div>
+                                            </div>
+                                            <div class="patient-phone" id="patientPhone">+1 (555) 123-4567</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="call-status">
+                                    <div class="status-item">
+                                        <span class="status-label">Call Type</span>
+                                        <span class="status-value" id="callType">Appointment Request</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status-label">Priority</span>
+                                        <span class="status-value success" id="callPriority">Standard</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status-label">AI Confidence</span>
+                                        <span class="status-value success" id="aiConfidence">94%</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status-label">Recording</span>
+                                        <span class="status-value success" id="recordingStatus">🔴 Active</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Transcript -->
+                            <div class="transcript-area">
+                                <div class="transcript-header">
+                                    <div style="font-weight: 600;">Live Transcript</div>
+                                    <div style="color: var(--gray-500); font-size: 0.85rem;">
+                                        <span style="color: var(--success-green);">●</span> Recording
+                                    </div>
+                                </div>
+                                <div class="transcript-body" id="transcriptContainer">
+                                    <div class="transcript-message ai">
+                                        <div class="message-header">
+                                            <span class="speaker" style="color: var(--success-green);">🤖 AI Assistant</span>
+                                            <span class="timestamp">14:32:15</span>
+                                        </div>
+                                        <div class="message-text">Hello! Thank you for calling Sunrise Medical Center. My name is Sarah, your AI assistant. How may I help you today?</div>
+                                    </div>
+                                    <div class="transcript-message patient">
+                                        <div class="message-header">
+                                            <span class="speaker" style="color: var(--primary-blue);">👤 Maria Johnson</span>
+                                            <span class="timestamp">14:32:28</span>
+                                        </div>
+                                        <div class="message-text">Hi Sarah, I'd like to schedule an appointment with Dr. Peterson for next week if possible. I've been having some persistent headaches.</div>
+                                    </div>
+                                    <div class="transcript-message ai">
+                                        <div class="message-header">
+                                            <span class="speaker" style="color: var(--success-green);">🤖 AI Assistant</span>
+                                            <span class="timestamp">14:32:45</span>
+                                        </div>
+                                        <div class="message-text">I'd be happy to help you schedule an appointment with Dr. Peterson. I see you're an existing patient - Maria Johnson, correct? Let me check his availability for next week...</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Call Controls -->
+                            <div class="call-controls">
+                                <button class="btn btn-primary" onclick="transferCall()">
+                                    📞 Transfer to Human
+                                </button>
+                                <button class="btn btn-secondary" onclick="holdCall()">
+                                    ⏸️ Hold Call
+                                </button>
+                                <button class="btn btn-success" onclick="bookAppointment()">
+                                    📅 Book Appointment
+                                </button>
+                                <button class="btn btn-danger" onclick="endCall()">
+                                    📞 End Call
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side Panel -->
+                <div class="side-panel">
+                    <!-- Call Queue -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                ⏳ Call Queue
+                            </div>
+                            <span class="badge warning">3 waiting</span>
+                        </div>
+                        <div class="card-body" style="padding: 0;">
+                            <div class="queue-list">
+                                <div class="queue-item">
+                                    <div class="queue-avatar">JD</div>
+                                    <div class="queue-info">
+                                        <div class="queue-name">John Davis</div>
+                                        <div class="queue-meta">Insurance question • Waiting 1:23</div>
+                                    </div>
+                                    <div class="queue-status waiting">Waiting</div>
+                                </div>
+                                <div class="queue-item">
+                                    <div class="queue-avatar">LW</div>
+                                    <div class="queue-info">
+                                        <div class="queue-name">Lisa Wilson</div>
+                                        <div class="queue-meta">Prescription refill • Waiting 0:45</div>
+                                    </div>
+                                    <div class="queue-status priority">Priority</div>
+                                </div>
+                                <div class="queue-item">
+                                    <div class="queue-avatar">RM</div>
+                                    <div class="queue-info">
+                                        <div class="queue-name">Robert Miller</div>
+                                        <div class="queue-meta">Appointment scheduling • Just joined</div>
+                                    </div>
+                                    <div class="queue-status waiting">Waiting</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Calls -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                📋 Recent Calls
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding: 1rem 1.5rem;">
+                            <div class="recent-calls">
+                                <div class="recent-call-item">
+                                    <div class="call-summary">
+                                        <h4>Emma Thompson</h4>
+                                        <p>Lab results inquiry - Completed</p>
+                                    </div>
+                                    <div class="call-duration">3:45</div>
+                                </div>
+                                <div class="recent-call-item">
+                                    <div class="call-summary">
+                                        <h4>Michael Chen</h4>
+                                        <p>Appointment rescheduling - Completed</p>
+                                    </div>
+                                    <div class="call-duration">2:15</div>
+                                </div>
+                                <div class="recent-call-item">
+                                    <div class="call-summary">
+                                        <h4>Sarah Davis</h4>
+                                        <p>Billing question - Transferred</p>
+                                    </div>
+                                    <div class="call-duration">1:30</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                ⚡ Quick Actions
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <button class="btn btn-primary" onclick="testAIVoice()">
+                                    🎤 Test AI Voice
+                                </button>
+                                <button class="btn btn-secondary" onclick="viewAnalytics()">
+                                    📊 View Analytics
+                                </button>
+                                <button class="btn btn-secondary" onclick="systemHealth()">
+                                    🔍 System Health
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE = 'https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io';
+        
+        // Sample patient data for demonstration
+        const samplePatients = [
+            {
+                name: "Maria Johnson",
+                age: "34 years",
+                dob: "March 15, 1989",
+                mrn: "#MRN-2024-1001",
+                phone: "+1 (555) 123-4567",
+                avatar: "MJ"
+            },
+            {
+                name: "John Davis",
+                age: "42 years", 
+                dob: "September 8, 1981",
+                mrn: "#MRN-2024-1002",
+                phone: "+1 (555) 234-5678",
+                avatar: "JD"
+            },
+            {
+                name: "Lisa Wilson",
+                age: "28 years",
+                dob: "June 22, 1995",
+                mrn: "#MRN-2024-1003", 
+                phone: "+1 (555) 345-6789",
+                avatar: "LW"
+            }
+        ];
+
+        let callDurationTimer;
+        let callStartTime = new Date();
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏥 Medical Dashboard Loading...');
+            initializeDashboard();
+            startRealTimeUpdates();
+            loadSampleData();
+        });
+
+        function initializeDashboard() {
+            // Start call duration timer
+            startCallTimer();
+            
+            // Update time every second
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 1000);
+            
+            // Tab switching
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tab = item.dataset.tab;
+                    if (tab) switchTab(tab);
+                });
+            });
+        }
+
+        function startCallTimer() {
+            callDurationTimer = setInterval(() => {
+                const now = new Date();
+                const duration = now - callStartTime;
+                const minutes = Math.floor(duration / 60000);
+                const seconds = Math.floor((duration % 60000) / 1000);
+                document.getElementById('callDuration').textContent = 
+                    `Duration: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function updateCurrentTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+        }
+
+        function loadSampleData() {
+            // Simulate loading current patient data
+            const currentPatient = samplePatients[0];
+            updatePatientInfo(currentPatient);
+            
+            // Simulate real-time transcript updates
+            setTimeout(() => {
+                addTranscriptMessage("patient", "Actually, could you also check if Dr. Peterson has any availability this Friday? That would work better for my schedule.", "14:33:02");
+            }, 3000);
+            
+            setTimeout(() => {
+                addTranscriptMessage("ai", "Let me check Friday's availability for you... I see Dr. Peterson has an opening on Friday at 2:30 PM. Would that work for your schedule?", "14:33:15");
+            }, 6000);
+        }
+
+        function updatePatientInfo(patient) {
+            document.getElementById('patientName').textContent = patient.name;
+            document.getElementById('patientAge').textContent = patient.age;
+            document.getElementById('patientDOB').textContent = patient.dob;
+            document.getElementById('patientMRN').textContent = patient.mrn;
+            document.getElementById('patientPhone').textContent = patient.phone;
+            document.querySelector('.patient-avatar').textContent = patient.avatar;
+        }
+
+        function addTranscriptMessage(speaker, message, timestamp) {
+            const container = document.getElementById('transcriptContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `transcript-message ${speaker}`;
+            
+            const speakerName = speaker === 'ai' ? '🤖 AI Assistant' : `👤 ${document.getElementById('patientName').textContent}`;
+            const speakerColor = speaker === 'ai' ? 'var(--success-green)' : 'var(--primary-blue)';
+            
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <span class="speaker" style="color: ${speakerColor};">${speakerName}</span>
+                    <span class="timestamp">${timestamp}</span>
+                </div>
+                <div class="message-text">${message}</div>
+            `;
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function startRealTimeUpdates() {
+            // Update metrics every 30 seconds
+            setInterval(() => {
+                updateMetrics();
+            }, 30000);
+        }
+
+        function updateMetrics() {
+            // Simulate updating call metrics
+            const totalCalls = parseInt(document.getElementById('totalCallsToday').textContent) + Math.floor(Math.random() * 3);
+            document.getElementById('totalCallsToday').textContent = totalCalls;
+        }
+
+        function switchTab(tabName) {
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked item
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            
+            // Here you would show/hide different content sections
+            console.log(`Switching to ${tabName} tab`);
+        }
+
+        // Call Control Functions
+        function transferCall() {
+            if (confirm('Transfer this call to a human representative?')) {
+                addTranscriptMessage("ai", "I'm transferring you to one of our medical staff who can better assist you. Please hold for just a moment.", getCurrentTime());
+                setTimeout(() => {
+                    alert('Call transferred to Dr. Peterson\'s office extension.');
+                }, 2000);
+            }
+        }
+
+        function holdCall() {
+            addTranscriptMessage("ai", "I'm placing you on a brief hold. I'll be right back with you.", getCurrentTime());
+            alert('Call placed on hold. Music playing for patient.');
+        }
+
+        function bookAppointment() {
+            addTranscriptMessage("ai", "Perfect! I'm booking your appointment with Dr. Peterson for Friday at 2:30 PM. You'll receive a confirmation text shortly.", getCurrentTime());
+            setTimeout(() => {
+                alert('Appointment booked successfully!\n\nPatient: Maria Johnson\nDoctor: Dr. Peterson\nDate: This Friday\nTime: 2:30 PM');
+            }, 1500);
+        }
+
+        function endCall() {
+            if (confirm('End this call?')) {
+                addTranscriptMessage("ai", "Thank you for calling Sunrise Medical Center, Maria. Your appointment is confirmed for Friday at 2:30 PM. Have a great day!", getCurrentTime());
+                clearInterval(callDurationTimer);
+                
+                setTimeout(() => {
+                    alert('Call ended. Call summary and recording saved to patient record.');
+                    // In a real app, this would update the UI to show "No active calls"
+                }, 2000);
+            }
+        }
+
+        function testAIVoice() {
+            alert('AI Voice Test:\n\n"Hello, this is a test of the ElevenLabs voice synthesis. The AI voice sounds natural and professional for medical conversations."');
+        }
+
+        function viewAnalytics() {
+            alert('Analytics Dashboard:\n\n• Total Calls Today: 24\n• Average Call Duration: 3:45\n• AI Resolution Rate: 78%\n• Patient Satisfaction: 4.6/5\n• Appointment Bookings: 18');
+        }
+
+        function systemHealth() {
+            alert('System Health Status:\n\n✅ AI Voice Service: Online\n✅ Call Recording: Active\n✅ Transcription: Working\n✅ Database: Connected\n✅ API Services: All Operational\n\nUptime: 99.7%');
+        }
+
+        function getCurrentTime() {
+            return new Date().toLocaleTimeString();
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            // Adjust layout for mobile if needed
+        });
+        
+        console.log('✅ ReddyTalk Medical Dashboard Loaded Successfully');
+    </script>
+</body>
+</html>
