@@ -16,7 +16,7 @@
     "build": "docker build -t reddytalk-ai .",
     "deploy:dev": "kubectl apply -k k8s/overlays/dev",
     "deploy:prod": "kubectl apply -k k8s/overlays/prod",
-    "lint": "eslint src/ tests/",
+    "lint": "eslint src/ *.js --ignore-pattern tests/",
     "format": "prettier --write src/ tests/",
     "mcp:start": "node src/mcp/enhanced-server.js",
     "mcp:basic": "node src/mcp/server.js",

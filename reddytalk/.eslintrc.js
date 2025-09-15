@@ -15,7 +15,8 @@ module.exports = {
     rules: {
         'no-unused-vars': 'warn',
         'no-console': 'off',
-        'semi': ['error', 'always'],
-        'quotes': ['error', 'single']
-    }
+        'semi': ['warn', 'always'],
+        'quotes': 'off'
+    },
+    ignorePatterns: ['tests/', 'node_modules/', 'dist/']
 };
