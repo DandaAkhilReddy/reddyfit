@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReddyTalk.ai - Working System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .status-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .status-online {
+            color: #10b981;
+        }
+
+        .status-offline {
+            color: #ef4444;
+        }
+
+        .pulse {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 250px;
+        }
+
+        .btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-color: #10b981;
+        }
+
+        .btn.secondary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-color: #3b82f6;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .info-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .info-item strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .info-item span {
+            opacity: 0.8;
+            font-size: 0.8rem;
+        }
+
+        .test-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .test-section h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .test-result {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border-left: 4px solid #10b981;
+            overflow-x: auto;
+        }
+
+        .test-result.error {
+            border-left-color: #ef4444;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 ReddyTalk.ai</h1>
+        <div class="subtitle">AI Medical Receptionist - Live System Test</div>
+        
+        <div class="status-box">
+            <div class="status-indicator" id="systemStatus">
+                <div class="pulse"></div>
+                <span>System Status: Checking...</span>
+            </div>
+            <div id="statusDetails">Loading system information...</div>
+        </div>
+
+        <div class="buttons">
+            <a href="/medical-dashboard" class="btn primary">🏥 Medical Dashboard</a>
+            <a href="/call-dashboard" class="btn secondary">📞 Call Management</a>
+            <button class="btn" onclick="testVoiceSystem()">🎤 Test Voice System</button>
+            <button class="btn" onclick="testConversation()">💬 Test AI Conversation</button>
+            <button class="btn" onclick="checkSystemHealth()">🔍 Check System Health</button>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <strong>Frontend Status</strong>
+                <span id="frontendStatus">✅ Online</span>
+            </div>
+            <div class="info-item">
+                <strong>API Status</strong>
+                <span id="apiStatus">⏳ Checking...</span>
+            </div>
+            <div class="info-item">
+                <strong>Last Updated</strong>
+                <span id="lastUpdated">Just now</span>
+            </div>
+            <div class="info-item">
+                <strong>Version</strong>
+                <span>v1.0.0 Robust</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 Live System Tests</h3>
+            <div id="testResults">
+                <div class="test-result">
+                    System ready for testing. Click buttons above to test features.
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 ReddyTalk.ai - Enterprise AI Medical Receptionist</p>
+            <p>Built with Azure • Powered by GPT-4 • HIPAA Ready</p>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE = 'https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io';
+        const BACKUP_API = 'https://reddytalk-api.politemushroom-457701ff.eastus.azurecontainerapps.io';
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 ReddyTalk.ai Test Interface Loading...');
+            updateTimestamp();
+            checkSystemStatus();
+            
+            // Update timestamp every 30 seconds
+            setInterval(updateTimestamp, 30000);
+            // Check system status every 60 seconds
+            setInterval(checkSystemStatus, 60000);
+        });
+
+        function updateTimestamp() {
+            document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
+        }
+
+        async function checkSystemStatus() {
+            logTest('🔍 Checking system status...');
+            
+            try {
+                // Test multiple endpoints
+                const endpoints = [
+                    { name: 'Health Check', url: `${API_BASE}/health/live` },
+                    { name: 'Ping Test', url: `${API_BASE}/ping` },
+                    { name: 'Status Check', url: `${API_BASE}/status` }
+                ];
+
+                let workingEndpoints = 0;
+                
+                for (const endpoint of endpoints) {
+                    try {
+                        const response = await fetch(endpoint.url, { 
+                            timeout: 5000,
+                            headers: { 'Accept': 'application/json' }
+                        });
+                        
+                        if (response.ok) {
+                            workingEndpoints++;
+                            logTest(`✅ ${endpoint.name}: OK (${response.status})`);
+                        } else {
+                            logTest(`⚠️ ${endpoint.name}: ${response.status} ${response.statusText}`, 'error');
+                        }
+                    } catch (error) {
+                        logTest(`❌ ${endpoint.name}: ${error.message}`, 'error');
+                    }
+                }
+
+                // Update status
+                const statusEl = document.getElementById('systemStatus');
+                const apiStatusEl = document.getElementById('apiStatus');
+                
+                if (workingEndpoints > 0) {
+                    statusEl.innerHTML = '<div class="pulse"></div><span>System Status: Partially Online</span>';
+                    statusEl.className = 'status-indicator status-online';
+                    apiStatusEl.textContent = `⚠️ ${workingEndpoints}/3 endpoints working`;
+                    
+                    document.getElementById('statusDetails').innerHTML = `
+                        System is running with ${workingEndpoints} out of 3 API endpoints responding.
+                        You can test available features below.
+                    `;
+                } else {
+                    statusEl.innerHTML = '<div class="pulse"></div><span>System Status: API Issues</span>';
+                    statusEl.className = 'status-indicator status-offline';
+                    apiStatusEl.textContent = '❌ API not responding';
+                    
+                    document.getElementById('statusDetails').innerHTML = `
+                        API endpoints are not responding. This might be temporary.
+                        Frontend is working. Testing basic features...
+                    `;
+                }
+
+            } catch (error) {
+                logTest(`❌ System status check failed: ${error.message}`, 'error');
+                document.getElementById('apiStatus').textContent = '❌ Check failed';
+            }
+        }
+
+        async function testVoiceSystem() {
+            logTest('🎤 Testing Voice System...');
+            
+            // Test microphone access
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                try {
+                    logTest('🔍 Checking microphone access...');
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    logTest('✅ Microphone access granted');
+                    
+                    // Stop the stream
+                    stream.getTracks().forEach(track => track.stop());
+                    
+                    // Test speech recognition if available
+                    if ('webkitSpeechRecognition' in window) {
+                        logTest('✅ Speech recognition available');
+                        logTest('🎤 Voice system is ready for use');
+                    } else {
+                        logTest('⚠️ Speech recognition not available in this browser');
+                    }
+                    
+                } catch (error) {
+                    logTest(`❌ Microphone test failed: ${error.message}`, 'error');
+                    logTest('💡 Please allow microphone access for voice features');
+                }
+            } else {
+                logTest('❌ Voice features not supported in this browser', 'error');
+            }
+
+            // Test API voice endpoints
+            await testAPIEndpoint('/api/voice/transcribe', 'POST', 'Voice Transcription API');
+            await testAPIEndpoint('/api/voice/synthesize', 'POST', 'Voice Synthesis API');
+        }
+
+        async function testConversation() {
+            logTest('💬 Testing AI Conversation...');
+            
+            const sessionId = 'test-' + Date.now();
+            logTest(`📝 Session ID: ${sessionId}`);
+            
+            // Test conversation start
+            try {
+                const startResponse = await fetch(`${API_BASE}/api/conversation/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sessionId: sessionId,
+                        callerInfo: { name: 'Test User', phone: '555-TEST' }
+                    })
+                });
+
+                if (startResponse.ok) {
+                    const result = await startResponse.json();
+                    logTest('✅ Conversation started successfully');
+                    logTest(`📞 Conversation ID: ${result.conversation?.id || 'Unknown'}`);
+                } else {
+                    logTest(`⚠️ Conversation start: ${startResponse.status} ${startResponse.statusText}`, 'error');
+                }
+            } catch (error) {
+                logTest(`❌ Conversation test failed: ${error.message}`, 'error');
+            }
+
+            // Test AI knowledge
+            await testAPIEndpoint('/api/test/simple/knowledge', 'GET', 'AI Knowledge Base');
+        }
+
+        async function openDashboard() {
+            logTest('📊 Opening dashboard...');
+            
+            const dashboardUrls = [
+                `${API_BASE}/dashboard`,
+                'https://calm-field-070972c0f.2.azurestaticapps.net/dashboard',
+                './dashboard.html'
+            ];
+
+            for (const url of dashboardUrls) {
+                try {
+                    window.open(url, '_blank');
+                    logTest(`✅ Opened dashboard: ${url}`);
+                    break;
+                } catch (error) {
+                    logTest(`⚠️ Dashboard URL failed: ${url}`);
+                }
+            }
+        }
+
+        async function testAPIEndpoint(endpoint, method = 'GET', name) {
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`, {
+                    method: method,
+                    timeout: 5000,
+                    headers: { 'Accept': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    logTest(`✅ ${name}: OK (${response.status})`);
+                } else {
+                    logTest(`⚠️ ${name}: ${response.status} ${response.statusText}`, 'error');
+                }
+            } catch (error) {
+                logTest(`❌ ${name}: ${error.message}`, 'error');
+            }
+        }
+
+        function logTest(message, type = 'success') {
+            const resultsDiv = document.getElementById('testResults');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = type === 'error' ? 'test-result error' : 'test-result';
+            resultDiv.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            
+            resultsDiv.appendChild(resultDiv);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+            
+            // Keep only last 20 results
+            while (resultsDiv.children.length > 20) {
+                resultsDiv.removeChild(resultsDiv.firstChild);
+            }
+        }
+
+        // Global error handler
+        window.addEventListener('error', function(event) {
+            logTest(`❌ JavaScript Error: ${event.error.message}`, 'error');
+        });
+
+        // Service worker registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').then(function() {
+                logTest('✅ Service worker registered for offline support');
+            }).catch(function(error) {
+                console.log('Service worker registration failed:', error);
+            });
+        }
+    </script>
+</body>
+</html>

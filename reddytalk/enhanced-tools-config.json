@@ -1,0 +1,39 @@
+{
+  "reddytalk_enhanced_tools": {
+    "version": "1.0.0",
+    "tools": {
+      "claude_code": {
+        "enabled": true,
+        "system_prompt": "claude-code-system-prompt.txt",
+        "tools_config": "claude-code-tools.json"
+      },
+      "sst_opencode": {
+        "enabled": true,
+        "path": "tools/opencode/opencode.js",
+        "integration": "local"
+      },
+      "crawl4ai": {
+        "enabled": true,
+        "service_path": "src/services/crawl/Crawl4AIService.js",
+        "medical_focus": true,
+        "default_sources": [
+          "https://pubmed.ncbi.nlm.nih.gov",
+          "https://www.ncbi.nlm.nih.gov",
+          "https://www.nejm.org"
+        ]
+      }
+    },
+    "medical_ai_features": {
+      "conversation_engine": true,
+      "patient_management": true,
+      "voice_services": true,
+      "social_media_automation": true,
+      "medical_research_crawler": true
+    },
+    "deployment": {
+      "azure_ready": true,
+      "docker_enabled": true,
+      "ci_cd_configured": false
+    }
+  }
+}

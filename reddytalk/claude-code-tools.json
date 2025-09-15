@@ -1,0 +1,309 @@
+{
+  "tools": [
+    {
+      "name": "Task",
+      "description": "Launch a new agent that has access to the following tools: Bash, Glob, Grep, LS, ExitPlanMode, Read, Edit, MultiEdit, Write, NotebookRead, NotebookEdit, WebFetch, TodoWrite, WebSearch. When you are searching for a keyword or file and are not confident that you will find the right match in the first few tries, use the Agent tool to perform the search for you.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "A short (3-5 word) description of the task"
+          },
+          "prompt": {
+            "type": "string", 
+            "description": "The task for the agent to perform"
+          }
+        },
+        "required": ["description", "prompt"]
+      }
+    },
+    {
+      "name": "Bash",
+      "description": "Executes a given bash command in a persistent shell session with optional timeout, ensuring proper handling and security measures.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "The command to execute"
+          },
+          "description": {
+            "type": "string",
+            "description": "Clear, concise description of what this command does in 5-10 words"
+          },
+          "timeout": {
+            "type": "number",
+            "description": "Optional timeout in milliseconds (max 600000)"
+          }
+        },
+        "required": ["command"]
+      }
+    },
+    {
+      "name": "Glob",
+      "description": "Fast file pattern matching tool that works with any codebase size. Supports glob patterns like \"**/*.js\" or \"src/**/*.ts\". Returns matching file paths sorted by modification time.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "description": "The glob pattern to match files against"
+          },
+          "path": {
+            "type": "string",
+            "description": "The directory to search in. If not specified, the current working directory will be used."
+          }
+        },
+        "required": ["pattern"]
+      }
+    },
+    {
+      "name": "Grep",
+      "description": "A powerful search tool built on ripgrep. Supports full regex syntax and various filtering options.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "description": "The regular expression pattern to search for in file contents"
+          },
+          "path": {
+            "type": "string", 
+            "description": "File or directory to search in (rg PATH). Defaults to current working directory."
+          },
+          "glob": {
+            "type": "string",
+            "description": "Glob pattern to filter files (e.g. \"*.js\", \"*.{ts,tsx}\") - maps to rg --glob"
+          },
+          "type": {
+            "type": "string",
+            "description": "File type to search (rg --type). Common types: js, py, rust, go, java, etc."
+          },
+          "output_mode": {
+            "type": "string",
+            "enum": ["content", "files_with_matches", "count"],
+            "description": "Output mode: \"content\" shows matching lines, \"files_with_matches\" shows file paths, \"count\" shows match counts"
+          },
+          "-n": {
+            "type": "boolean",
+            "description": "Show line numbers in output (rg -n). Requires output_mode: \"content\""
+          },
+          "-A": {
+            "type": "number",
+            "description": "Number of lines to show after each match (rg -A)"
+          },
+          "-B": {
+            "type": "number", 
+            "description": "Number of lines to show before each match (rg -B)"
+          },
+          "-C": {
+            "type": "number",
+            "description": "Number of lines to show before and after each match (rg -C)"
+          },
+          "-i": {
+            "type": "boolean",
+            "description": "Case insensitive search (rg -i)"
+          },
+          "multiline": {
+            "type": "boolean",
+            "description": "Enable multiline mode where . matches newlines and patterns can span lines"
+          },
+          "head_limit": {
+            "type": "number",
+            "description": "Limit output to first N lines/entries"
+          }
+        },
+        "required": ["pattern"]
+      }
+    },
+    {
+      "name": "LS",
+      "description": "Lists files and directories in a given path. The path parameter must be an absolute path, not a relative path.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "The absolute path to the directory to list (must be absolute, not relative)"
+          },
+          "ignore": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of glob patterns to ignore"
+          }
+        },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "Read",
+      "description": "Reads a file from the local filesystem. You can access any file directly by using this tool.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "The absolute path to the file to read"
+          },
+          "offset": {
+            "type": "number",
+            "description": "The line number to start reading from. Only provide if the file is too large to read at once"
+          },
+          "limit": {
+            "type": "number", 
+            "description": "The number of lines to read. Only provide if the file is too large to read at once."
+          }
+        },
+        "required": ["file_path"]
+      }
+    },
+    {
+      "name": "Edit",
+      "description": "Performs exact string replacements in files. You must use your Read tool at least once in the conversation before editing.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "The absolute path to the file to modify"
+          },
+          "old_string": {
+            "type": "string",
+            "description": "The text to replace"
+          },
+          "new_string": {
+            "type": "string",
+            "description": "The text to replace it with (must be different from old_string)"
+          },
+          "replace_all": {
+            "type": "boolean",
+            "default": false,
+            "description": "Replace all occurences of old_string (default false)"
+          }
+        },
+        "required": ["file_path", "old_string", "new_string"]
+      }
+    },
+    {
+      "name": "Write",
+      "description": "Writes a file to the local filesystem. This tool will overwrite the existing file if there is one at the provided path.",
+      "input_schema": {
+        "type": "object", 
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "The absolute path to the file to write (must be absolute, not relative)"
+          },
+          "content": {
+            "type": "string",
+            "description": "The content to write to the file"
+          }
+        },
+        "required": ["file_path", "content"]
+      }
+    },
+    {
+      "name": "WebFetch",
+      "description": "Fetches content from a specified URL and processes it using an AI model. Takes a URL and a prompt as input.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL to fetch content from"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "The prompt to run on the fetched content"
+          }
+        },
+        "required": ["url", "prompt"]
+      }
+    },
+    {
+      "name": "TodoWrite", 
+      "description": "Use this tool to create and manage a structured task list for your current coding session. This helps you track progress, organize complex tasks, and demonstrate thoroughness to the user.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "todos": {
+            "type": "array",
+            "description": "The updated todo list",
+            "items": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "type": "string",
+                  "enum": ["pending", "in_progress", "completed"]
+                },
+                "priority": {
+                  "type": "string", 
+                  "enum": ["high", "medium", "low"]
+                },
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": ["content", "status", "priority", "id"]
+            }
+          }
+        },
+        "required": ["todos"]
+      }
+    },
+    {
+      "name": "WebSearch",
+      "description": "Allows Claude to search the web and use the results to inform responses. Provides up-to-date information for current events and recent data.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 2,
+            "description": "The search query to use"
+          },
+          "allowed_domains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Only include search results from these domains"
+          },
+          "blocked_domains": {
+            "type": "array", 
+            "items": {
+              "type": "string"
+            },
+            "description": "Never include search results from these domains"
+          }
+        },
+        "required": ["query"]
+      }
+    }
+  ],
+  "reddytalk_context": {
+    "project": "ReddyTalk AI Medical Receptionist",
+    "components": [
+      "Backend API with medical conversation capabilities",
+      "Patient management system", 
+      "Voice services integration (TTS/STT)",
+      "Xiaohongshu MCP for social media automation",
+      "Interactive testing dashboard",
+      "Azure cloud integration"
+    ],
+    "key_files": {
+      "backend": "test-backend-api.js",
+      "ui": "interactive-ui.html",
+      "mcp": "src/services/mcp/XiaohongshuMCPService.js",
+      "config": ".env"
+    }
+  }
+}
