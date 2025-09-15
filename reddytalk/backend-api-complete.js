@@ -3,8 +3,22 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
+const path = require('path');
+
+// Import services
+let TwilioService, ElevenLabsService;
+try {
+    TwilioService = require('./src/services/voice/TwilioService.js');
+} catch (error) {
+    console.log('⚠️ TwilioService not found, using fallback');
+}
+try {
+    ElevenLabsService = require('./elevenlabs-service.js');
+} catch (error) {
+    console.log('⚠️ ElevenLabsService not found, using fallback');
+}
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8081;
 
 // Middleware
 app.use(cors());
@@ -737,6 +751,270 @@ app.post('/api/voice/speech-to-text', authenticateToken, (req, res) => {
     });
 });
 
+// ==================== TWILIO INTEGRATION ENDPOINTS ====================
+app.post('/api/twilio/make-call', authenticateToken, async (req, res) => {
+    try {
+        const { phoneNumber, message } = req.body;
+
+        if (!phoneNumber || !message) {
+            return res.status(400).json({
+                success: false,
+                message: 'Phone number and message are required'
+            });
+        }
+
+        if (TwilioService) {
+            const result = await TwilioService.makeCall(phoneNumber, message);
+            res.json(result);
+        } else {
+            // Fallback response when Twilio service is not available
+            res.json({
+                success: true,
+                callSid: 'CA_SIMULATED_' + Date.now(),
+                status: 'initiated',
+                to: phoneNumber,
+                message: message,
+                note: 'Simulated response - Twilio service not configured'
+            });
+        }
+    } catch (error) {
+        console.error('Twilio call error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to make call',
+            error: error.message
+        });
+    }
+});
+
+app.post('/api/twilio/send-sms', authenticateToken, async (req, res) => {
+    try {
+        const { phoneNumber, message } = req.body;
+
+        if (!phoneNumber || !message) {
+            return res.status(400).json({
+                success: false,
+                message: 'Phone number and message are required'
+            });
+        }
+
+        if (TwilioService) {
+            const result = await TwilioService.sendSMS(phoneNumber, message);
+            res.json(result);
+        } else {
+            res.json({
+                success: true,
+                messageSid: 'SM_SIMULATED_' + Date.now(),
+                status: 'sent',
+                to: phoneNumber,
+                message: message,
+                note: 'Simulated response - Twilio service not configured'
+            });
+        }
+    } catch (error) {
+        console.error('Twilio SMS error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to send SMS',
+            error: error.message
+        });
+    }
+});
+
+app.post('/api/twilio/incoming-call', (req, res) => {
+    if (TwilioService) {
+        TwilioService.handleIncomingCall(req, res);
+    } else {
+        res.type('text/xml');
+        res.send(`<?xml version="1.0" encoding="UTF-8"?>
+            <Response>
+                <Say voice="alice">Hello! You have reached ReddyTalk AI. This is a test response.</Say>
+            </Response>`);
+    }
+});
+
+app.post('/api/twilio/process-speech', (req, res) => {
+    if (TwilioService) {
+        TwilioService.processSpeechInput(req, res);
+    } else {
+        res.type('text/xml');
+        res.send(`<?xml version="1.0" encoding="UTF-8"?>
+            <Response>
+                <Say voice="alice">Thank you for your message. This is a test response.</Say>
+                <Hangup/>
+            </Response>`);
+    }
+});
+
+app.get('/api/twilio/webhooks', (req, res) => {
+    if (TwilioService) {
+        res.json(TwilioService.getWebhookUrl());
+    } else {
+        res.json({
+            voice_url: `${req.protocol}://${req.get('host')}/api/twilio/incoming-call`,
+            sms_url: `${req.protocol}://${req.get('host')}/api/twilio/incoming-sms`,
+            status_callback: `${req.protocol}://${req.get('host')}/api/twilio/status-callback`,
+            note: 'Twilio service not configured - showing fallback URLs'
+        });
+    }
+});
+
+// ==================== ELEVENLABS INTEGRATION ENDPOINTS ====================
+app.post('/api/elevenlabs/generate-speech', authenticateToken, async (req, res) => {
+    try {
+        const { text, voiceId, options = {} } = req.body;
+
+        if (!text) {
+            return res.status(400).json({
+                success: false,
+                message: 'Text is required for speech generation'
+            });
+        }
+
+        if (ElevenLabsService) {
+            const result = await ElevenLabsService.generateSpeech(text, voiceId, options);
+            
+            if (result.success) {
+                res.set({
+                    'Content-Type': result.contentType,
+                    'Content-Disposition': 'attachment; filename="speech.mp3"'
+                });
+                res.send(result.audioBuffer);
+            } else {
+                res.status(400).json(result);
+            }
+        } else {
+            res.json({
+                success: true,
+                audio_url: `https://api.elevenlabs.io/v1/simulated/${encodeURIComponent(text)}.mp3`,
+                voice_id: voiceId || 'default',
+                text: text,
+                note: 'Simulated response - ElevenLabs service not configured'
+            });
+        }
+    } catch (error) {
+        console.error('ElevenLabs speech generation error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to generate speech',
+            error: error.message
+        });
+    }
+});
+
+app.get('/api/elevenlabs/voices', authenticateToken, async (req, res) => {
+    try {
+        if (ElevenLabsService) {
+            const result = await ElevenLabsService.getVoices();
+            res.json(result);
+        } else {
+            res.json({
+                success: true,
+                voices: [
+                    { voice_id: 'default', name: 'Default Voice', category: 'premade' },
+                    { voice_id: 'medical', name: 'Medical Assistant', category: 'custom' }
+                ],
+                note: 'Simulated response - ElevenLabs service not configured'
+            });
+        }
+    } catch (error) {
+        console.error('ElevenLabs voices error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to get voices',
+            error: error.message
+        });
+    }
+});
+
+app.post('/api/elevenlabs/create-agent', authenticateToken, async (req, res) => {
+    try {
+        const config = req.body;
+
+        if (ElevenLabsService) {
+            const result = await ElevenLabsService.createVoiceAgent(config);
+            res.json(result);
+        } else {
+            res.json({
+                success: true,
+                agent_id: 'agent_simulated_' + Date.now(),
+                name: config.name || 'ReddyTalk Medical Assistant',
+                voice_id: config.voice_id || 'default',
+                status: 'configured',
+                note: 'Simulated response - ElevenLabs service not configured'
+            });
+        }
+    } catch (error) {
+        console.error('ElevenLabs agent creation error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to create voice agent',
+            error: error.message
+        });
+    }
+});
+
+app.get('/api/elevenlabs/usage', (req, res) => {
+    if (ElevenLabsService) {
+        res.json(ElevenLabsService.getUsage());
+    } else {
+        res.json({
+            service: 'ElevenLabs',
+            api_key_configured: false,
+            status: 'not_configured',
+            note: 'ElevenLabs service not available'
+        });
+    }
+});
+
+// ==================== COMPLETE VOICE CALL FLOW ====================
+app.post('/api/voice-call/complete-flow', authenticateToken, async (req, res) => {
+    try {
+        const { phoneNumber, message, voiceOptions = {} } = req.body;
+
+        if (!phoneNumber || !message) {
+            return res.status(400).json({
+                success: false,
+                message: 'Phone number and message are required'
+            });
+        }
+
+        console.log(`🚀 Starting complete voice call flow to ${phoneNumber}`);
+
+        // Step 1: Generate speech with ElevenLabs
+        let speechResult = null;
+        if (ElevenLabsService) {
+            speechResult = await ElevenLabsService.generateSpeech(message, voiceOptions.voiceId, voiceOptions);
+        }
+
+        // Step 2: Make call with Twilio
+        let callResult = null;
+        if (TwilioService) {
+            callResult = await TwilioService.makeCall(phoneNumber, message);
+        }
+
+        res.json({
+            success: true,
+            flow_id: 'flow_' + Date.now(),
+            steps: {
+                speech_generation: speechResult || { success: false, note: 'ElevenLabs not configured' },
+                phone_call: callResult || { success: false, note: 'Twilio not configured' }
+            },
+            phone_number: phoneNumber,
+            message: message,
+            timestamp: new Date().toISOString()
+        });
+
+    } catch (error) {
+        console.error('Complete voice flow error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Complete voice flow failed',
+            error: error.message
+        });
+    }
+});
+
 // ==================== ERROR HANDLING ====================
 app.use((req, res) => {
     res.status(404).json({
@@ -751,7 +1029,14 @@ app.use((req, res) => {
             'POST /api/conversation/start',
             'POST /api/conversation/message',
             'POST /api/voice/text-to-speech',
-            'POST /api/voice/speech-to-text'
+            'POST /api/voice/speech-to-text',
+            'POST /api/twilio/make-call',
+            'POST /api/twilio/send-sms',
+            'GET /api/twilio/webhooks',
+            'POST /api/elevenlabs/generate-speech',
+            'GET /api/elevenlabs/voices',
+            'POST /api/elevenlabs/create-agent',
+            'POST /api/voice-call/complete-flow'
         ]
     });
 });
