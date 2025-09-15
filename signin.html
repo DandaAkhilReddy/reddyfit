@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - ReddyTalk AI Medical Receptionist</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        .bg-decoration {
+            position: absolute;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .bg-decoration:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            font-size: 8rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .bg-decoration:nth-child(2) {
+            top: 70%;
+            right: 10%;
+            font-size: 6rem;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        .bg-decoration:nth-child(3) {
+            top: 30%;
+            right: 20%;
+            font-size: 4rem;
+            animation: float 7s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .signin-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 32px 64px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .logo-text h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .logo-text p {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .signin-form {
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 0.875rem;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-container i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+            font-size: 1.1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: #F9FAFB;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-input:focus + .input-icon {
+            color: #667eea;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #9CA3AF;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: #667eea;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: 8px;
+        }
+
+        .forgot-password a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #5a67d8;
+            text-decoration: underline;
+        }
+
+        .signin-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signin-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(102, 126, 234, 0.3);
+        }
+
+        .signin-button:active {
+            transform: translateY(0);
+        }
+
+        .signin-button.loading {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 32px 0;
+            font-size: 0.875rem;
+            color: #9CA3AF;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #E5E7EB;
+        }
+
+        .divider span {
+            padding: 0 16px;
+            background: white;
+        }
+
+        .social-signin {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            background: white;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .social-button:hover {
+            border-color: #667eea;
+            background: #F3F4F6;
+            transform: translateY(-1px);
+        }
+
+        .signup-link {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #6B7280;
+        }
+
+        .signup-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #FEE2E2;
+            color: #DC2626;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            margin-bottom: 16px;
+            border: 1px solid #FECACA;
+            display: none;
+        }
+
+        .success-message {
+            background: #D1FAE5;
+            color: #059669;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            margin-bottom: 16px;
+            border: 1px solid #A7F3D0;
+            display: none;
+        }
+
+        /* Role selector */
+        .role-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .role-option {
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .role-option:hover {
+            border-color: #667eea;
+            background: #F3F4F6;
+        }
+
+        .role-option.selected {
+            border-color: #667eea;
+            background: #F0F4FF;
+            color: #667eea;
+        }
+
+        .role-option i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .role-option span {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Responsive design */
+        @media (max-width: 640px) {
+            .signin-container {
+                margin: 16px;
+                padding: 32px 24px;
+            }
+            
+            .social-signin {
+                grid-template-columns: 1fr;
+            }
+            
+            .role-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation for form appearance */
+        .signin-container {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background decorations -->
+    <div class="bg-decoration"><i class="fas fa-stethoscope"></i></div>
+    <div class="bg-decoration"><i class="fas fa-user-md"></i></div>
+    <div class="bg-decoration"><i class="fas fa-heartbeat"></i></div>
+
+    <div class="signin-container">
+        <!-- Logo Section -->
+        <div class="logo-section">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="logo-text">
+                <h1>ReddyTalk AI</h1>
+                <p>Medical Receptionist Platform</p>
+            </div>
+        </div>
+
+        <!-- Error/Success Messages -->
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <!-- Sign In Form -->
+        <form class="signin-form" id="signinForm">
+            <!-- Role Selection -->
+            <div class="form-group">
+                <label>Select Your Role</label>
+                <div class="role-selector">
+                    <div class="role-option" data-role="admin">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin</span>
+                    </div>
+                    <div class="role-option selected" data-role="doctor">
+                        <i class="fas fa-user-md"></i>
+                        <span>Doctor</span>
+                    </div>
+                    <div class="role-option" data-role="staff">
+                        <i class="fas fa-user-nurse"></i>
+                        <span>Staff</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Input -->
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-container">
+                    <i class="fas fa-envelope"></i>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input" 
+                        placeholder="Enter your email"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+            </div>
+
+            <!-- Password Input -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-container">
+                    <i class="fas fa-lock"></i>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input" 
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password"
+                    >
+                    <button type="button" class="password-toggle" id="passwordToggle">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="forgot-password">
+                    <a href="#" id="forgotPasswordLink">Forgot your password?</a>
+                </div>
+            </div>
+
+            <!-- Sign In Button -->
+            <button type="submit" class="signin-button" id="signinButton">
+                <span class="button-text">Sign In to Dashboard</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">
+            <span>Or continue with</span>
+        </div>
+
+        <!-- Social Sign In -->
+        <div class="social-signin">
+            <a href="#" class="social-button" id="googleSignin">
+                <i class="fab fa-google"></i>
+                Google
+            </a>
+            <a href="#" class="social-button" id="microsoftSignin">
+                <i class="fab fa-microsoft"></i>
+                Microsoft
+            </a>
+        </div>
+
+        <!-- Sign Up Link -->
+        <div class="signup-link">
+            Don't have an account? <a href="#" id="signupLink">Create one here</a>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the sign-in page
+        class SignInPage {
+            constructor() {
+                this.selectedRole = 'doctor';
+                this.isLoading = false;
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.setupRoleSelection();
+                this.setupPasswordToggle();
+                this.setupFormValidation();
+            }
+
+            setupEventListeners() {
+                const form = document.getElementById('signinForm');
+                form.addEventListener('submit', this.handleSignIn.bind(this));
+
+                // Social sign-in buttons
+                document.getElementById('googleSignin').addEventListener('click', this.handleGoogleSignIn.bind(this));
+                document.getElementById('microsoftSignin').addEventListener('click', this.handleMicrosoftSignIn.bind(this));
+                
+                // Navigation links
+                document.getElementById('signupLink').addEventListener('click', this.handleSignUpClick.bind(this));
+                document.getElementById('forgotPasswordLink').addEventListener('click', this.handleForgotPassword.bind(this));
+            }
+
+            setupRoleSelection() {
+                const roleOptions = document.querySelectorAll('.role-option');
+                roleOptions.forEach(option => {
+                    option.addEventListener('click', () => {
+                        // Remove selected class from all options
+                        roleOptions.forEach(opt => opt.classList.remove('selected'));
+                        
+                        // Add selected class to clicked option
+                        option.classList.add('selected');
+                        
+                        // Update selected role
+                        this.selectedRole = option.dataset.role;
+                        
+                        // Update form for role-specific fields if needed
+                        this.updateFormForRole(this.selectedRole);
+                    });
+                });
+            }
+
+            setupPasswordToggle() {
+                const passwordInput = document.getElementById('password');
+                const passwordToggle = document.getElementById('passwordToggle');
+                
+                passwordToggle.addEventListener('click', () => {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    
+                    const icon = passwordToggle.querySelector('i');
+                    icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+                });
+            }
+
+            setupFormValidation() {
+                const inputs = document.querySelectorAll('.form-input');
+                inputs.forEach(input => {
+                    input.addEventListener('blur', this.validateField.bind(this));
+                    input.addEventListener('input', this.clearFieldError.bind(this));
+                });
+            }
+
+            validateField(event) {
+                const field = event.target;
+                const value = field.value.trim();
+                
+                // Remove existing validation styles
+                field.style.borderColor = '';
+                
+                if (!value) {
+                    field.style.borderColor = '#EF4444';
+                    return false;
+                }
+                
+                // Email validation
+                if (field.type === 'email' && !this.isValidEmail(value)) {
+                    field.style.borderColor = '#EF4444';
+                    return false;
+                }
+                
+                // Password validation
+                if (field.type === 'password' && value.length < 6) {
+                    field.style.borderColor = '#EF4444';
+                    return false;
+                }
+                
+                field.style.borderColor = '#10B981';
+                return true;
+            }
+
+            clearFieldError(event) {
+                event.target.style.borderColor = '';
+            }
+
+            isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            updateFormForRole(role) {
+                // Update form styling or fields based on selected role
+                const form = document.getElementById('signinForm');
+                form.dataset.role = role;
+                
+                // You can add role-specific logic here
+                console.log(`Form updated for role: ${role}`);
+            }
+
+            async handleSignIn(event) {
+                event.preventDefault();
+                
+                if (this.isLoading) return;
+                
+                const formData = new FormData(event.target);
+                const email = formData.get('email').trim();
+                const password = formData.get('password').trim();
+                
+                // Validate inputs
+                if (!email || !password) {
+                    this.showError('Please fill in all required fields');
+                    return;
+                }
+                
+                if (!this.isValidEmail(email)) {
+                    this.showError('Please enter a valid email address');
+                    return;
+                }
+                
+                this.setLoading(true);
+                
+                try {
+                    // API call to backend
+                    const response = await fetch('http://localhost:8080/api/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            password: password,
+                            role: this.selectedRole
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Store auth token
+                        localStorage.setItem('reddytalk_token', data.token);
+                        localStorage.setItem('reddytalk_user', JSON.stringify(data.user));
+                        
+                        this.showSuccess('Sign in successful! Redirecting to dashboard...');
+                        
+                        // Redirect to dashboard after short delay
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 1500);
+                    } else {
+                        this.showError(data.message || 'Invalid email or password');
+                    }
+                } catch (error) {
+                    console.error('Sign in error:', error);
+                    this.showError('Connection failed. Please try again.');
+                } finally {
+                    this.setLoading(false);
+                }
+            }
+
+            async handleGoogleSignIn(event) {
+                event.preventDefault();
+                this.showError('Google Sign-In integration coming soon!');
+            }
+
+            async handleMicrosoftSignIn(event) {
+                event.preventDefault();
+                this.showError('Microsoft Sign-In integration coming soon!');
+            }
+
+            handleSignUpClick(event) {
+                event.preventDefault();
+                window.location.href = 'signup.html';
+            }
+
+            handleForgotPassword(event) {
+                event.preventDefault();
+                window.location.href = 'forgot-password.html';
+            }
+
+            setLoading(loading) {
+                this.isLoading = loading;
+                const button = document.getElementById('signinButton');
+                const buttonText = button.querySelector('.button-text');
+                const buttonIcon = button.querySelector('i');
+                
+                if (loading) {
+                    button.classList.add('loading');
+                    button.disabled = true;
+                    buttonText.textContent = 'Signing In...';
+                    buttonIcon.className = 'loading-spinner';
+                } else {
+                    button.classList.remove('loading');
+                    button.disabled = false;
+                    buttonText.textContent = 'Sign In to Dashboard';
+                    buttonIcon.className = 'fas fa-arrow-right';
+                }
+            }
+
+            showError(message) {
+                const errorDiv = document.getElementById('errorMessage');
+                const successDiv = document.getElementById('successMessage');
+                
+                successDiv.style.display = 'none';
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
+
+            showSuccess(message) {
+                const errorDiv = document.getElementById('errorMessage');
+                const successDiv = document.getElementById('successMessage');
+                
+                errorDiv.style.display = 'none';
+                successDiv.textContent = message;
+                successDiv.style.display = 'block';
+            }
+        }
+
+        // Initialize the sign-in page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new SignInPage();
+        });
+
+        // Check if user is already signed in
+        if (localStorage.getItem('reddytalk_token')) {
+            // Redirect to dashboard if already signed in
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>

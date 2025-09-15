@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReddyTalk AI - System Design & Architecture</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1a1a1a;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+        }
+
+        .logo-text p {
+            font-size: 0.875rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .architecture-icon { background: linear-gradient(135deg, #10b981, #059669); }
+        .dataflow-icon { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .security-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .deployment-icon { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1a1a1a;
+        }
+
+        .architecture-diagram {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 32px;
+            margin: 24px 0;
+            border: 2px solid #e2e8f0;
+            overflow-x: auto;
+        }
+
+        .diagram {
+            min-width: 800px;
+            height: 400px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .component {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            min-width: 140px;
+            text-align: center;
+            position: relative;
+        }
+
+        .component.primary { border-color: #3b82f6; background: #eff6ff; }
+        .component.secondary { border-color: #10b981; background: #ecfdf5; }
+        .component.tertiary { border-color: #f59e0b; background: #fffbeb; }
+
+        .component-title {
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .component-desc {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: #94a3b8;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .connection.horizontal {
+            width: 60px;
+        }
+
+        .connection.vertical {
+            width: 2px;
+            height: 60px;
+            transform: translateX(-50%);
+        }
+
+        .connection::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: -4px;
+            width: 8px;
+            height: 8px;
+            background: #94a3b8;
+            border-radius: 50%;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 24px 0;
+        }
+
+        .tech-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 24px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .tech-title {
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tech-list {
+            list-style: none;
+        }
+
+        .tech-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .tech-list li:last-child {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-ready { background: #d1fae5; color: #059669; }
+        .status-progress { background: #fef3c7; color: #d97706; }
+        .status-pending { background: #fee2e2; color: #dc2626; }
+
+        .data-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .flow-step {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            text-align: center;
+            flex: 1;
+            min-width: 140px;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #94a3b8;
+            font-weight: bold;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .flow-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin: 0 auto 12px;
+        }
+
+        .security-feature {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+
+        .security-feature h4 {
+            color: #dc2626;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .deployment-step {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .deployment-step h4 {
+            color: #8b5cf6;
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        @media (max-width: 768px) {
+            .diagram {
+                min-width: 600px;
+            }
+            
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-flow {
+                flex-direction: column;
+            }
+            
+            .flow-step::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -20px;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>ReddyTalk AI</h1>
+                        <p>System Design & Architecture</p>
+                    </div>
+                </div>
+                <button onclick="window.print()" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    <i class="fas fa-print"></i> Print Design
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- System Architecture -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon architecture-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div>
+                        <h2 class="section-title">System Architecture</h2>
+                        <p style="color: #6b7280; font-size: 1.125rem;">High-level system design and component relationships</p>
+                    </div>
+                </div>
+
+                <div class="architecture-diagram">
+                    <div class="diagram">
+                        <div class="component primary">
+                            <div class="component-title">Frontend UI</div>
+                            <div class="component-desc">React.js<br>Authentication<br>Dashboard</div>
+                        </div>
+
+                        <div class="component secondary">
+                            <div class="component-title">API Gateway</div>
+                            <div class="component-desc">Express.js<br>JWT Auth<br>Rate Limiting</div>
+                        </div>
+
+                        <div class="component tertiary">
+                            <div class="component-title">AI Engine</div>
+                            <div class="component-desc">Azure OpenAI<br>Medical KB<br>NLP Processing</div>
+                        </div>
+
+                        <div class="component secondary">
+                            <div class="component-title">Voice Services</div>
+                            <div class="component-desc">Azure Speech<br>Twilio Voice<br>Real-time STT/TTS</div>
+                        </div>
+
+                        <div class="component primary">
+                            <div class="component-title">Database</div>
+                            <div class="component-desc">PostgreSQL<br>Patient Records<br>Conversations</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="tech-title">
+                            <i class="fas fa-laptop-code"></i>
+                            Frontend Technologies
+                        </div>
+                        <ul class="tech-list">
+                            <li>
+                                <span>React.js with TypeScript</span>
+                                <span class="status-badge status-progress">IN PROGRESS</span>
+                            </li>
+                            <li>
+                                <span>Tailwind CSS</span>
+                                <span class="status-badge status-ready">READY</span>
+                            </li>
+                            <li>
+                                <span>Socket.IO Client</span>
+                                <span class="status-badge status-pending">PENDING</span>
+                            </li>
+                            <li>
+                                <span>React Query</span>
+                                <span class="status-badge status-pending">PENDING</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tech-card">
+                        <div class="tech-title">
+                            <i class="fas fa-server"></i>
+                            Backend Technologies
+                        </div>
+                        <ul class="tech-list">
+                            <li>
+                                <span>Node.js with Express.js</span>
+                                <span class="status-badge status-ready">READY</span>
+                            </li>
+                            <li>
+                                <span>JWT Authentication</span>
+                                <span class="status-badge status-ready">READY</span>
+                            </li>
+                            <li>
+                                <span>PostgreSQL Database</span>
+                                <span class="status-badge status-progress">IN PROGRESS</span>
+                            </li>
+                            <li>
+                                <span>Redis Cache</span>
+                                <span class="status-badge status-pending">PENDING</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tech-card">
+                        <div class="tech-title">
+                            <i class="fas fa-brain"></i>
+                            AI & ML Services
+                        </div>
+                        <ul class="tech-list">
+                            <li>
+                                <span>Azure OpenAI</span>
+                                <span class="status-badge status-ready">READY</span>
+                            </li>
+                            <li>
+                                <span>Azure Speech Services</span>
+                                <span class="status-badge status-ready">READY</span>
+                            </li>
+                            <li>
+                                <span>Medical Knowledge Base</span>
+                                <span class="status-badge status-progress">IN PROGRESS</span>
+                            </li>
+                            <li>
+                                <span>Crawl4AI Integration</span>
+                                <span class="status-badge status-ready">READY</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tech-card">
+                        <div class="tech-title">
+                            <i class="fas fa-cloud"></i>
+                            Infrastructure
+                        </div>
+                        <ul class="tech-list">
+                            <li>
+                                <span>Azure App Service</span>
+                                <span class="status-badge status-pending">PENDING</span>
+                            </li>
+                            <li>
+                                <span>Azure Static Web Apps</span>
+                                <span class="status-badge status-pending">PENDING</span>
+                            </li>
+                            <li>
+                                <span>Docker Containers</span>
+                                <span class="status-badge status-pending">PENDING</span>
+                            </li>
+                            <li>
+                                <span>CDN & Load Balancer</span>
+                                <span class="status-badge status-pending">PENDING</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Flow -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon dataflow-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Data Flow & Processing</h2>
+                        <p style="color: #6b7280; font-size: 1.125rem;">How data moves through the system</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 16px; color: #1a1a1a;">Patient Call Processing Flow</h3>
+                <div class="data-flow">
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div style="font-weight: 600;">Incoming Call</div>
+                        <div style="font-size: 0.875rem; color: #6b7280;">Twilio receives call</div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <div style="font-weight: 600;">Speech-to-Text</div>
+                        <div style="font-size: 0.875rem; color: #6b7280;">Azure Speech Services</div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div style="font-weight: 600;">AI Processing</div>
+                        <div style="font-size: 0.875rem; color: #6b7280;">Azure OpenAI analysis</div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div style="font-weight: 600;">Data Storage</div>
+                        <div style="font-size: 0.875rem; color: #6b7280;">PostgreSQL database</div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <div style="font-weight: 600;">Text-to-Speech</div>
+                        <div style="font-size: 0.875rem; color: #6b7280;">Response to patient</div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 32px 0 16px; color: #1a1a1a;">API Request Processing</h3>
+                <div class="code-block">
+Client Request → CORS Middleware → Authentication → Rate Limiting → Route Handler → Database Query → Response
+     │                │                    │              │               │               │            │
+     └────────────────┴────────────────────┴──────────────┴───────────────┴───────────────┴────────────┘
+                                         Logging & Monitoring
+                </div>
+
+                <h3 style="margin: 32px 0 16px; color: #1a1a1a;">Real-time Features</h3>
+                <div class="data-flow">
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div style="font-weight: 600;">WebSocket Connection</div>
+                        <div style="font-size: 0.875rem; color: #6b7280;">Socket.IO</div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div style="font-weight: 600;">Live Chat</div>
+                        <div style="font-size: 0.875rem; color: #6b7280;">Real-time messaging</div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div style="font-weight: 600;">Live Updates</div>
+                        <div style="font-size: 0.875rem; color: #6b7280;">Dashboard metrics</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Architecture -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon security-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Security Architecture</h2>
+                        <p style="color: #6b7280; font-size: 1.125rem;">HIPAA-compliant security measures and data protection</p>
+                    </div>
+                </div>
+
+                <div class="security-feature">
+                    <h4><i class="fas fa-lock"></i> Authentication & Authorization</h4>
+                    <ul style="list-style: none; padding-left: 24px;">
+                        <li>• JWT token-based authentication with 24-hour expiry</li>
+                        <li>• Role-based access control (Admin, Doctor, Staff)</li>
+                        <li>• Password hashing using bcrypt with salt rounds</li>
+                        <li>• Multi-factor authentication (planned)</li>
+                    </ul>
+                </div>
+
+                <div class="security-feature">
+                    <h4><i class="fas fa-database"></i> Data Protection</h4>
+                    <ul style="list-style: none; padding-left: 24px;">
+                        <li>• AES-256 encryption for data at rest</li>
+                        <li>• TLS 1.3 encryption for data in transit</li>
+                        <li>• Database connection encryption</li>
+                        <li>• Secure API key management</li>
+                    </ul>
+                </div>
+
+                <div class="security-feature">
+                    <h4><i class="fas fa-eye"></i> Monitoring & Auditing</h4>
+                    <ul style="list-style: none; padding-left: 24px;">
+                        <li>• Comprehensive audit logging for all operations</li>
+                        <li>• Real-time security monitoring and alerts</li>
+                        <li>• Access logs for all patient data operations</li>
+                        <li>• Regular security vulnerability scanning</li>
+                    </ul>
+                </div>
+
+                <div class="security-feature">
+                    <h4><i class="fas fa-hospital"></i> HIPAA Compliance</h4>
+                    <ul style="list-style: none; padding-left: 24px;">
+                        <li>• Patient data segregation and access controls</li>
+                        <li>• Secure communication protocols</li>
+                        <li>• Data retention and deletion policies</li>
+                        <li>• Business Associate Agreements (BAA) with vendors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Deployment Strategy -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon deployment-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Deployment Strategy</h2>
+                        <p style="color: #6b7280; font-size: 1.125rem;">Cloud infrastructure and deployment pipeline</p>
+                    </div>
+                </div>
+
+                <div class="deployment-step">
+                    <h4>Phase 1: Development Environment Setup</h4>
+                    <p>Local development with Docker containers, PostgreSQL database, and mock services for rapid iteration.</p>
+                    <div class="code-block">
+docker-compose up -d
+npm run dev
+python test-crawl4ai.py
+                    </div>
+                </div>
+
+                <div class="deployment-step">
+                    <h4>Phase 2: Staging Environment</h4>
+                    <p>Azure App Service deployment with integrated testing, monitoring, and performance validation.</p>
+                    <div class="code-block">
+az webapp create --resource-group reddytalk-rg --plan reddytalk-plan --name reddytalk-staging
+az webapp deployment source config --name reddytalk-staging --resource-group reddytalk-rg --repo-url https://github.com/akhil/reddytalk.git
+                    </div>
+                </div>
+
+                <div class="deployment-step">
+                    <h4>Phase 3: Production Deployment</h4>
+                    <p>Multi-region deployment with load balancing, auto-scaling, and comprehensive monitoring.</p>
+                    <div class="code-block">
+# Frontend: Azure Static Web Apps
+az staticwebapp create --name reddytalk-frontend --resource-group reddytalk-rg
+
+# Backend: Azure App Service with auto-scaling
+az appservice plan create --name reddytalk-plan --resource-group reddytalk-rg --sku P1V2
+az webapp create --resource-group reddytalk-rg --plan reddytalk-plan --name reddytalk-api
+
+# Database: Azure Database for PostgreSQL
+az postgres server create --resource-group reddytalk-rg --name reddytalk-db --admin-user reddytalkuser
+                    </div>
+                </div>
+
+                <div class="deployment-step">
+                    <h4>Phase 4: Monitoring & Optimization</h4>
+                    <p>Application Insights, performance monitoring, and continuous optimization based on usage patterns.</p>
+                    <ul style="list-style: none; padding-left: 0; margin-top: 12px;">
+                        <li>• Azure Application Insights for performance monitoring</li>
+                        <li>• Azure Monitor for infrastructure health</li>
+                        <li>• Custom dashboards for business metrics</li>
+                        <li>• Automated alerts and incident response</li>
+                    </ul>
+                </div>
+
+                <h3 style="margin: 32px 0 16px; color: #1a1a1a;">Infrastructure Diagram</h3>
+                <div class="architecture-diagram">
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 12px; padding: 24px; margin: 16px; display: inline-block;">
+                            <strong>Azure Cloud Environment</strong><br><br>
+                            Frontend (Static Web Apps) ←→ CDN ←→ Load Balancer ←→ App Service (Backend)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Database (PostgreSQL)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                            Azure OpenAI ←→ Azure Speech ←→ Twilio Voice ←→ External APIs
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // System design interactive features
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('ReddyTalk AI System Design loaded');
+            
+            // Add click handlers for components
+            document.querySelectorAll('.component').forEach(component => {
+                component.addEventListener('click', () => {
+                    const title = component.querySelector('.component-title').textContent;
+                    showComponentDetails(title);
+                });
+            });
+        });
+
+        function showComponentDetails(componentName) {
+            const details = {
+                'Frontend UI': 'React.js application with TypeScript, Tailwind CSS, and real-time WebSocket integration for live updates.',
+                'API Gateway': 'Express.js server with JWT authentication, rate limiting, CORS handling, and comprehensive API documentation.',
+                'AI Engine': 'Azure OpenAI integration with custom medical knowledge base, natural language processing, and conversation management.',
+                'Voice Services': 'Azure Speech Services for STT/TTS, Twilio Voice API for call handling, and real-time audio processing.',
+                'Database': 'PostgreSQL with optimized schemas for patient records, conversation logs, and system audit trails.'
+            };
+            
+            alert(`${componentName}:\n\n${details[componentName] || 'Component details not available.'}`);
+        }
+    </script>
+</body>
+</html>
