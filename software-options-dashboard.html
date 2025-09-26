@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Software Stack Options & Cost Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        .option-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #3b82f6;
+        }
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .recommended {
+            border-left-color: #10b981;
+            background: linear-gradient(45deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+        }
+        .current {
+            border-left-color: #ef4444;
+            background: linear-gradient(45deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
+        }
+        .budget {
+            border-left-color: #f59e0b;
+            background: linear-gradient(45deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1));
+        }
+        .premium {
+            border-left-color: #8b5cf6;
+            background: linear-gradient(45deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.1));
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+            border-bottom-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <div class="gradient-bg text-white p-8">
+        <div class="container mx-auto">
+            <h1 class="text-4xl font-bold mb-3">🔧 Complete Software Stack Options</h1>
+            <p class="text-xl opacity-90">Compare ALL alternatives, costs, and build your optimal tech stack</p>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                    <p class="text-sm opacity-90">Current Stack Cost</p>
+                    <p class="text-2xl font-bold">$14,784/clinic/year</p>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                    <p class="text-sm opacity-90">Best Alternative</p>
+                    <p class="text-2xl font-bold">$1,974/clinic/year</p>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                    <p class="text-sm opacity-90">Potential Savings</p>
+                    <p class="text-2xl font-bold">$12,810/clinic/year</p>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                    <p class="text-sm opacity-90">ROI Timeline</p>
+                    <p class="text-2xl font-bold">2 clinics</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="container mx-auto px-6 -mt-4">
+        <div class="bg-white rounded-lg shadow-lg p-1 mb-8">
+            <div class="flex flex-wrap">
+                <button class="tab-button active px-6 py-3 font-medium rounded" onclick="showTab('overview')">Stack Overview</button>
+                <button class="tab-button px-6 py-3 font-medium rounded" onclick="showTab('voice')">Voice Platforms</button>
+                <button class="tab-button px-6 py-3 font-medium rounded" onclick="showTab('automation')">Automation</button>
+                <button class="tab-button px-6 py-3 font-medium rounded" onclick="showTab('database')">Database</button>
+                <button class="tab-button px-6 py-3 font-medium rounded" onclick="showTab('hosting')">UI Hosting</button>
+                <button class="tab-button px-6 py-3 font-medium rounded" onclick="showTab('roadmap')">Optimization Roadmap</button>
+            </div>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview-tab" class="tab-content">
+            <!-- Complete Stack Comparisons -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">🏗️ Complete Stack Comparisons</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <canvas id="stackCostChart"></canvas>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="option-card current p-6 rounded-lg">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-lg font-bold text-red-800">Current Stack</h3>
+                                <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Most Expensive</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Vapi + Make.com + Azure SQL + Azure Hosting</p>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span>Cost per call:</span>
+                                    <span class="font-bold text-red-600">$0.352</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Annual per clinic:</span>
+                                    <span class="font-bold text-red-600">$14,784</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Setup cost:</span>
+                                    <span class="font-medium">$2,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-card budget p-6 rounded-lg">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-lg font-bold text-orange-800">Budget Stack</h3>
+                                <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Quick Wins</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Bland.ai + n8n + PostgreSQL + Vercel</p>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span>Cost per call:</span>
+                                    <span class="font-bold text-orange-600">$0.093</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Annual per clinic:</span>
+                                    <span class="font-bold text-orange-600">$3,906</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Savings vs current:</span>
+                                    <span class="font-bold text-green-600">$10,878</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-card recommended p-6 rounded-lg">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-lg font-bold text-green-800">Premium Direct APIs</h3>
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Recommended</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Twilio + OpenAI + Deepgram + Custom Node.js</p>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span>Cost per call:</span>
+                                    <span class="font-bold text-green-600">$0.047</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Annual per clinic:</span>
+                                    <span class="font-bold text-green-600">$1,974</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Break-even:</span>
+                                    <span class="font-bold text-green-600">2 clinics</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-card premium p-6 rounded-lg">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-lg font-bold text-purple-800">Ultra Budget Open Source</h3>
+                                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Scale Play</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Self-hosted everything (Whisper + Llama + Custom)</p>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span>Cost per call:</span>
+                                    <span class="font-bold text-purple-600">$0.013</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Annual per clinic:</span>
+                                    <span class="font-bold text-purple-600">$546</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Break-even:</span>
+                                    <span class="font-bold text-purple-600">6 clinics</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scaling Cost Analysis -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-xl font-bold mb-4 text-gray-800">📈 Scaling Cost Analysis</h2>
+                <canvas id="scalingChart"></canvas>
+                <div class="mt-6 overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b-2">
+                                <th class="text-left py-3 px-4">Stack</th>
+                                <th class="text-center py-3 px-4">3 Clinics</th>
+                                <th class="text-center py-3 px-4">10 Clinics</th>
+                                <th class="text-center py-3 px-4">25 Clinics</th>
+                                <th class="text-center py-3 px-4">100 Clinics</th>
+                                <th class="text-center py-3 px-4">Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="py-3 px-4 font-medium">Current</td>
+                                <td class="text-center">$50,352</td>
+                                <td class="text-center">$167,840</td>
+                                <td class="text-center">$419,600</td>
+                                <td class="text-center text-red-600 font-bold">$1,678,400</td>
+                                <td class="text-center text-red-600">❌ Not recommended</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50 bg-orange-50">
+                                <td class="py-3 px-4 font-medium">Budget</td>
+                                <td class="text-center">$20,718</td>
+                                <td class="text-center">$69,060</td>
+                                <td class="text-center">$172,650</td>
+                                <td class="text-center">$690,600</td>
+                                <td class="text-center text-orange-600">🚀 Startup phase</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50 bg-green-50">
+                                <td class="py-3 px-4 font-medium">Premium</td>
+                                <td class="text-center">$32,922</td>
+                                <td class="text-center">$44,740</td>
+                                <td class="text-center">$74,350</td>
+                                <td class="text-center text-green-600 font-bold">$222,400</td>
+                                <td class="text-center text-green-600">⭐ Growth phase</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50 bg-purple-50">
+                                <td class="py-3 px-4 font-medium">Ultra Budget</td>
+                                <td class="text-center">$38,384</td>
+                                <td class="text-center">$40,460</td>
+                                <td class="text-center">$48,650</td>
+                                <td class="text-center text-purple-600 font-bold">$89,600</td>
+                                <td class="text-center text-purple-600">🏆 Scale phase</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Voice Platforms Tab -->
+        <div id="voice-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">🎤 Voice Platform Options</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="option-card current p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3 text-red-800">Vapi.ai (Current)</h3>
+                        <div class="space-y-2 mb-4">
+                            <p class="text-2xl font-bold text-red-600">$0.337/call</p>
+                            <p class="text-sm text-gray-600">$14,154/clinic/year</p>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <p><strong>Includes:</strong> STT, LLM, TTS, Platform</p>
+                            <p class="text-green-600">✅ Easy integration</p>
+                            <p class="text-green-600">✅ No technical complexity</p>
+                            <p class="text-red-600">❌ Most expensive</p>
+                            <p class="text-red-600">❌ Vendor lock-in</p>
+                        </div>
+                    </div>
+
+                    <div class="option-card budget p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3 text-orange-800">Bland.ai</h3>
+                        <div class="space-y-2 mb-4">
+                            <p class="text-2xl font-bold text-orange-600">$0.090/call</p>
+                            <p class="text-sm text-gray-600">$3,780/clinic/year</p>
+                            <p class="text-sm text-green-600">Save: $10,374</p>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <p><strong>Includes:</strong> Everything</p>
+                            <p class="text-green-600">✅ All-inclusive</p>
+                            <p class="text-green-600">✅ Much cheaper</p>
+                            <p class="text-orange-600">⚠️ Basic features</p>
+                            <p class="text-red-600">❌ Less control</p>
+                        </div>
+                    </div>
+
+                    <div class="option-card recommended p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3 text-green-800">Direct APIs</h3>
+                        <div class="space-y-2 mb-4">
+                            <p class="text-2xl font-bold text-green-600">$0.044/call</p>
+                            <p class="text-sm text-gray-600">$1,848/clinic/year</p>
+                            <p class="text-sm text-green-600">Save: $12,306</p>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <p><strong>Stack:</strong> Twilio+OpenAI+Deepgram</p>
+                            <p class="text-green-600">✅ Best value long-term</p>
+                            <p class="text-green-600">✅ Full control</p>
+                            <p class="text-orange-600">⚠️ Requires development</p>
+                            <p class="text-orange-600">⚠️ $15K setup cost</p>
+                        </div>
+                    </div>
+
+                    <div class="option-card premium p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3 text-purple-800">Self-Hosted OS</h3>
+                        <div class="space-y-2 mb-4">
+                            <p class="text-2xl font-bold text-purple-600">$0.012/call</p>
+                            <p class="text-sm text-gray-600">$504/clinic/year</p>
+                            <p class="text-sm text-green-600">Save: $13,650</p>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <p><strong>Stack:</strong> Whisper+Llama+Coqui</p>
+                            <p class="text-green-600">✅ Cheapest per call</p>
+                            <p class="text-green-600">✅ Complete control</p>
+                            <p class="text-red-600">❌ High setup ($25K)</p>
+                            <p class="text-red-600">❌ Complex maintenance</p>
+                        </div>
+                    </div>
+
+                    <div class="option-card p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3">Retell.ai</h3>
+                        <div class="space-y-2 mb-4">
+                            <p class="text-2xl font-bold">$0.100/call</p>
+                            <p class="text-sm text-gray-600">$4,200/clinic/year</p>
+                            <p class="text-sm text-green-600">Save: $9,954</p>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <p><strong>Features:</strong> Good reliability</p>
+                            <p class="text-green-600">✅ Reliable platform</p>
+                            <p class="text-green-600">✅ Better than Vapi</p>
+                            <p class="text-orange-600">⚠️ Still expensive</p>
+                            <p class="text-red-600">❌ Limited customization</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Automation Tab -->
+        <div id="automation-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">⚙️ Automation Platform Options</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-6">
+                        <div class="option-card current p-6 rounded-lg">
+                            <h3 class="text-lg font-bold mb-3 text-red-800">Make.com (Current)</h3>
+                            <div class="space-y-2">
+                                <p class="text-xl font-bold text-red-600">$0.011/call</p>
+                                <p class="text-sm text-gray-600">$462/clinic/year</p>
+                                <p class="text-sm"><strong>Pros:</strong> Visual interface, many integrations</p>
+                                <p class="text-sm"><strong>Cons:</strong> Can get expensive, operation limits</p>
+                            </div>
+                        </div>
+
+                        <div class="option-card p-6 rounded-lg">
+                            <h3 class="text-lg font-bold mb-3">Zapier</h3>
+                            <div class="space-y-2">
+                                <p class="text-xl font-bold">$0.015/call</p>
+                                <p class="text-sm text-gray-600">$630/clinic/year</p>
+                                <p class="text-sm"><strong>Pros:</strong> Most integrations, user-friendly</p>
+                                <p class="text-sm"><strong>Cons:</strong> More expensive, complex pricing</p>
+                            </div>
+                        </div>
+
+                        <div class="option-card recommended p-6 rounded-lg">
+                            <h3 class="text-lg font-bold mb-3 text-green-800">n8n Self-hosted</h3>
+                            <div class="space-y-2">
+                                <p class="text-xl font-bold text-green-600">$0.002/call</p>
+                                <p class="text-sm text-gray-600">$84/clinic/year</p>
+                                <p class="text-sm text-green-600">Save: $378/clinic</p>
+                                <p class="text-sm"><strong>Pros:</strong> Much cheaper, full control</p>
+                                <p class="text-sm"><strong>Cons:</strong> Requires setup, self-maintenance</p>
+                            </div>
+                        </div>
+
+                        <div class="option-card premium p-6 rounded-lg">
+                            <h3 class="text-lg font-bold mb-3 text-purple-800">Custom Node.js</h3>
+                            <div class="space-y-2">
+                                <p class="text-xl font-bold text-purple-600">$0.0005/call</p>
+                                <p class="text-sm text-gray-600">$21/clinic/year</p>
+                                <p class="text-sm text-green-600">Save: $441/clinic</p>
+                                <p class="text-sm"><strong>Pros:</strong> Cheapest, fully optimized</p>
+                                <p class="text-sm"><strong>Cons:</strong> $8K development, requires developers</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <canvas id="automationChart"></canvas>
+                        <div class="mt-4 bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-800 mb-2">💡 Recommendation</h4>
+                            <p class="text-sm text-blue-700">
+                                <strong>Phase 1:</strong> Switch to n8n for immediate 82% savings<br>
+                                <strong>Phase 2:</strong> Build custom APIs when you have 10+ clinics
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Database Tab -->
+        <div id="database-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">🗄️ Database Options</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="option-card current p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3 text-red-800">Azure SQL (Current)</h3>
+                        <p class="text-xl font-bold text-red-600">$0.002/call</p>
+                        <p class="text-sm text-gray-600 mb-3">$84/clinic/year</p>
+                        <div class="space-y-1 text-xs">
+                            <p class="text-green-600">✅ Managed service</p>
+                            <p class="text-green-600">✅ Enterprise-grade</p>
+                            <p class="text-red-600">❌ Vendor lock-in</p>
+                        </div>
+                    </div>
+
+                    <div class="option-card recommended p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3 text-green-800">PostgreSQL</h3>
+                        <p class="text-xl font-bold text-green-600">$0.0003/call</p>
+                        <p class="text-sm text-gray-600 mb-3">$12.60/clinic/year</p>
+                        <p class="text-sm text-green-600 mb-3">Save: $71.40</p>
+                        <div class="space-y-1 text-xs">
+                            <p class="text-green-600">✅ Much cheaper</p>
+                            <p class="text-green-600">✅ Open source</p>
+                            <p class="text-orange-600">⚠️ Self-managed</p>
+                        </div>
+                    </div>
+
+                    <div class="option-card p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3">Supabase</h3>
+                        <p class="text-xl font-bold">$0.0008/call</p>
+                        <p class="text-sm text-gray-600 mb-3">$33.60/clinic/year</p>
+                        <p class="text-sm text-green-600 mb-3">Save: $50.40</p>
+                        <div class="space-y-1 text-xs">
+                            <p class="text-green-600">✅ PostgreSQL-based</p>
+                            <p class="text-green-600">✅ Real-time features</p>
+                            <p class="text-orange-600">⚠️ Newer platform</p>
+                        </div>
+                    </div>
+
+                    <div class="option-card p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3">MongoDB Atlas</h3>
+                        <p class="text-xl font-bold">$0.0015/call</p>
+                        <p class="text-sm text-gray-600 mb-3">$63/clinic/year</p>
+                        <p class="text-sm text-green-600 mb-3">Save: $21</p>
+                        <div class="space-y-1 text-xs">
+                            <p class="text-green-600">✅ Document-based</p>
+                            <p class="text-green-600">✅ JSON native</p>
+                            <p class="text-red-600">❌ Different model</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hosting Tab -->
+        <div id="hosting-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">🌐 UI Hosting Options</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="option-card current p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3 text-red-800">Azure App Service</h3>
+                        <p class="text-xl font-bold text-red-600">$0.002/call</p>
+                        <p class="text-sm text-gray-600 mb-3">$84/clinic/year</p>
+                        <div class="space-y-1 text-sm">
+                            <p class="text-green-600">✅ Auto-scaling</p>
+                            <p class="text-green-600">✅ Enterprise features</p>
+                            <p class="text-red-600">❌ Azure lock-in</p>
+                        </div>
+                    </div>
+
+                    <div class="option-card recommended p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3 text-green-800">Vercel</h3>
+                        <p class="text-xl font-bold text-green-600">$0.0005/call</p>
+                        <p class="text-sm text-gray-600 mb-3">$21/clinic/year</p>
+                        <p class="text-sm text-green-600 mb-3">Save: $63</p>
+                        <div class="space-y-1 text-sm">
+                            <p class="text-green-600">✅ Great for React/Next.js</p>
+                            <p class="text-green-600">✅ Edge network</p>
+                            <p class="text-orange-600">⚠️ Function limits</p>
+                        </div>
+                    </div>
+
+                    <div class="option-card p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3">Netlify</h3>
+                        <p class="text-xl font-bold">$0.0003/call</p>
+                        <p class="text-sm text-gray-600 mb-3">$12.60/clinic/year</p>
+                        <p class="text-sm text-green-600 mb-3">Save: $71.40</p>
+                        <div class="space-y-1 text-sm">
+                            <p class="text-green-600">✅ Great DX</p>
+                            <p class="text-green-600">✅ JAMstack optimized</p>
+                            <p class="text-red-600">❌ Limited dynamic features</p>
+                        </div>
+                    </div>
+
+                    <div class="option-card p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3">AWS Amplify</h3>
+                        <p class="text-xl font-bold">$0.0008/call</p>
+                        <p class="text-sm text-gray-600 mb-3">$33.60/clinic/year</p>
+                        <p class="text-sm text-green-600 mb-3">Save: $50.40</p>
+                        <div class="space-y-1 text-sm">
+                            <p class="text-green-600">✅ Full-stack platform</p>
+                            <p class="text-green-600">✅ AWS integration</p>
+                            <p class="text-red-600">❌ AWS complexity</p>
+                        </div>
+                    </div>
+
+                    <div class="option-card premium p-6 rounded-lg">
+                        <h3 class="text-lg font-bold mb-3 text-purple-800">Self-hosted VPS</h3>
+                        <p class="text-xl font-bold text-purple-600">$0.0002/call</p>
+                        <p class="text-sm text-gray-600 mb-3">$8.40/clinic/year</p>
+                        <p class="text-sm text-green-600 mb-3">Save: $75.60</p>
+                        <div class="space-y-1 text-sm">
+                            <p class="text-green-600">✅ Cheapest option</p>
+                            <p class="text-green-600">✅ Full control</p>
+                            <p class="text-red-600">❌ Server management</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roadmap Tab -->
+        <div id="roadmap-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">🗺️ Optimization Roadmap</h2>
+                <div class="space-y-6">
+                    <div class="border-l-4 border-green-500 pl-6">
+                        <h3 class="text-xl font-bold text-green-700 mb-2">Phase 1: Quick Wins (Month 1-3)</h3>
+                        <div class="space-y-3">
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-800">Switch from Vapi to Bland.ai</h4>
+                                <p class="text-sm text-gray-700">Immediate cost reduction with minimal effort</p>
+                                <div class="grid grid-cols-3 gap-4 mt-2 text-sm">
+                                    <div>
+                                        <span class="font-medium">Savings:</span>
+                                        <span class="text-green-600 font-bold">$10,374/clinic/year</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Effort:</span>
+                                        <span class="text-green-600">Low</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Risk:</span>
+                                        <span class="text-green-600">Low</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-blue-500 pl-6">
+                        <h3 class="text-xl font-bold text-blue-700 mb-2">Phase 2: Infrastructure (Month 4-6)</h3>
+                        <div class="space-y-3">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-800">Replace Make.com with n8n</h4>
+                                <p class="text-sm text-gray-700">Self-hosted automation for better control</p>
+                                <div class="grid grid-cols-3 gap-4 mt-2 text-sm">
+                                    <div>
+                                        <span class="font-medium">Additional Savings:</span>
+                                        <span class="text-blue-600 font-bold">$378/clinic/year</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Effort:</span>
+                                        <span class="text-yellow-600">Medium</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Risk:</span>
+                                        <span class="text-yellow-600">Medium</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-800">Migrate to PostgreSQL + Vercel</h4>
+                                <p class="text-sm text-gray-700">Better pricing, same reliability</p>
+                                <div class="grid grid-cols-3 gap-4 mt-2 text-sm">
+                                    <div>
+                                        <span class="font-medium">Additional Savings:</span>
+                                        <span class="text-blue-600 font-bold">$134/clinic/year</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Effort:</span>
+                                        <span class="text-green-600">Low</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Risk:</span>
+                                        <span class="text-green-600">Low</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-purple-500 pl-6">
+                        <h3 class="text-xl font-bold text-purple-700 mb-2">Phase 3: Premium Stack (Month 7-12)</h3>
+                        <div class="space-y-3">
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-purple-800">Build Direct API Stack</h4>
+                                <p class="text-sm text-gray-700">Maximum control and optimization</p>
+                                <div class="grid grid-cols-4 gap-4 mt-2 text-sm">
+                                    <div>
+                                        <span class="font-medium">Final Cost:</span>
+                                        <span class="text-purple-600 font-bold">$1,974/clinic/year</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Total Savings:</span>
+                                        <span class="text-green-600 font-bold">$12,810/clinic</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Effort:</span>
+                                        <span class="text-red-600">High</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Break-even:</span>
+                                        <span class="text-purple-600 font-bold">2 clinics</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-orange-500 pl-6">
+                        <h3 class="text-xl font-bold text-orange-700 mb-2">Phase 4: Scale Phase (Year 2+)</h3>
+                        <div class="space-y-3">
+                            <div class="bg-orange-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-orange-800">Self-hosted Everything</h4>
+                                <p class="text-sm text-gray-700">Ultimate cost optimization for massive scale</p>
+                                <div class="grid grid-cols-4 gap-4 mt-2 text-sm">
+                                    <div>
+                                        <span class="font-medium">Final Cost:</span>
+                                        <span class="text-orange-600 font-bold">$546/clinic/year</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Total Savings:</span>
+                                        <span class="text-green-600 font-bold">$14,238/clinic</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Effort:</span>
+                                        <span class="text-red-600">Very High</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Break-even:</span>
+                                        <span class="text-orange-600 font-bold">6 clinics</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROI Calculator -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-4 text-gray-800">🧮 ROI Calculator</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Number of Clinics: <span id="roiClinicsDisplay">10</span>
+                            </label>
+                            <input type="range" id="roiClinicsSlider" min="1" max="100" step="1" value="10"
+                                   class="w-full" oninput="updateROI()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Target Stack:
+                            </label>
+                            <select id="targetStack" class="w-full border rounded px-3 py-2" onchange="updateROI()">
+                                <option value="budget">Budget Stack (Bland.ai + n8n)</option>
+                                <option value="premium" selected>Premium Stack (Direct APIs)</option>
+                                <option value="ultra">Ultra Budget (Self-hosted)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-3">Investment Analysis</h3>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span>Setup Cost:</span>
+                                <span class="font-bold" id="setupCost">$25,000</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Annual Savings:</span>
+                                <span class="font-bold text-green-600" id="annualSavings">$128,100</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Payback Period:</span>
+                                <span class="font-bold text-blue-600" id="paybackPeriod">2.3 months</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>3-Year ROI:</span>
+                                <span class="font-bold text-purple-600" id="threeYearROI">1,433%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg p-8 mt-8">
+            <h2 class="text-3xl font-bold mb-6 text-center">🎯 Strategic Recommendations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white bg-opacity-20 rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-3">🚀 Immediate (Month 1)</h3>
+                    <ul class="space-y-2">
+                        <li>• Switch to Bland.ai immediately</li>
+                        <li>• Save $10,374/clinic/year</li>
+                        <li>• Zero risk, minimal effort</li>
+                        <li>• Keep everything else same</li>
+                    </ul>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-3">⚡ Growth Phase (Month 4-12)</h3>
+                    <ul class="space-y-2">
+                        <li>• Build Direct API stack</li>
+                        <li>• Total savings: $12,810/clinic</li>
+                        <li>• Break-even at 2 clinics</li>
+                        <li>• Maximum control & optimization</li>
+                    </ul>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-3">🏆 Scale Phase (25+ clinics)</h3>
+                    <ul class="space-y-2">
+                        <li>• Self-hosted everything</li>
+                        <li>• Cost: $546/clinic/year</li>
+                        <li>• At 100 clinics: Save $1.5M/year</li>
+                        <li>• Ultimate competitive advantage</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let stackCostChart, scalingChart, automationChart;
+
+        // Data
+        const stackData = {
+            current: { cost: 14784, name: 'Current' },
+            budget: { cost: 3906, name: 'Budget' },
+            premium: { cost: 1974, name: 'Premium' },
+            ultra: { cost: 546, name: 'Ultra Budget' }
+        };
+
+        const roiData = {
+            budget: { setupCost: 3000, annualSavingsPerClinic: 10878 },
+            premium: { setupCost: 25000, annualSavingsPerClinic: 12810 },
+            ultra: { setupCost: 35000, annualSavingsPerClinic: 14238 }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeCharts();
+            updateROI();
+        });
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function initializeCharts() {
+            // Stack Cost Chart
+            const stackCtx = document.getElementById('stackCostChart').getContext('2d');
+            stackCostChart = new Chart(stackCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Current', 'Budget', 'Premium', 'Ultra Budget'],
+                    datasets: [{
+                        label: 'Annual Cost per Clinic',
+                        data: [14784, 3906, 1974, 546],
+                        backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#8b5cf6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + (value/1000) + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Scaling Chart
+            const scalingCtx = document.getElementById('scalingChart').getContext('2d');
+            scalingChart = new Chart(scalingCtx, {
+                type: 'line',
+                data: {
+                    labels: ['3 Clinics', '10 Clinics', '25 Clinics', '100 Clinics'],
+                    datasets: [{
+                        label: 'Current',
+                        data: [50352, 167840, 419600, 1678400],
+                        borderColor: '#ef4444',
+                        tension: 0.3
+                    }, {
+                        label: 'Budget',
+                        data: [20718, 69060, 172650, 690600],
+                        borderColor: '#f59e0b',
+                        tension: 0.3
+                    }, {
+                        label: 'Premium',
+                        data: [32922, 44740, 74350, 222400],
+                        borderColor: '#10b981',
+                        tension: 0.3
+                    }, {
+                        label: 'Ultra Budget',
+                        data: [38384, 40460, 48650, 89600],
+                        borderColor: '#8b5cf6',
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + (value/1000) + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Automation Chart
+            const autoCtx = document.getElementById('automationChart').getContext('2d');
+            automationChart = new Chart(autoCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Make.com', 'Zapier', 'n8n', 'Custom'],
+                    datasets: [{
+                        data: [462, 630, 84, 21],
+                        backgroundColor: ['#ef4444', '#f97316', '#10b981', '#8b5cf6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': $' + context.parsed + '/clinic/year';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateROI() {
+            const clinics = parseInt(document.getElementById('roiClinicsSlider').value);
+            const stack = document.getElementById('targetStack').value;
+            const data = roiData[stack];
+
+            document.getElementById('roiClinicsDisplay').textContent = clinics;
+
+            const setupCost = data.setupCost;
+            const annualSavings = data.annualSavingsPerClinic * clinics;
+            const paybackMonths = (setupCost / annualSavings * 12);
+            const threeYearROI = ((annualSavings * 3 - setupCost) / setupCost * 100);
+
+            document.getElementById('setupCost').textContent = '$' + setupCost.toLocaleString();
+            document.getElementById('annualSavings').textContent = '$' + annualSavings.toLocaleString();
+            document.getElementById('paybackPeriod').textContent = paybackMonths.toFixed(1) + ' months';
+            document.getElementById('threeYearROI').textContent = threeYearROI.toFixed(0) + '%';
+        }
+    </script>
+</body>
+</html>

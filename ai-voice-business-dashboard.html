@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Voice Agent Business Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        .profit-positive { color: #10b981; }
+        .profit-negative { color: #ef4444; }
+        .metric-card {
+            transition: transform 0.2s;
+        }
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="gradient-bg text-white p-6">
+        <div class="container mx-auto">
+            <h1 class="text-4xl font-bold mb-2">AI Voice Agent Business Dashboard</h1>
+            <p class="text-xl opacity-90">Real-time Profitability & Cost Analysis</p>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="container mx-auto px-6 -mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="card metric-card rounded-lg shadow-lg p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Recommended Price</h3>
+                <p class="text-3xl font-bold text-indigo-600">$0.08/min</p>
+                <p class="text-sm text-green-600 mt-2">↓ 11% below competitors</p>
+            </div>
+            <div class="card metric-card rounded-lg shadow-lg p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Cost per Minute</h3>
+                <p class="text-3xl font-bold text-gray-900">$0.044</p>
+                <p class="text-sm text-gray-600 mt-2">Direct API approach</p>
+            </div>
+            <div class="card metric-card rounded-lg shadow-lg p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Gross Margin</h3>
+                <p class="text-3xl font-bold text-green-600">45%</p>
+                <p class="text-sm text-gray-600 mt-2">$0.036 profit/min</p>
+            </div>
+            <div class="card metric-card rounded-lg shadow-lg p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Break-even</h3>
+                <p class="text-3xl font-bold text-purple-600">278 customers</p>
+                <p class="text-sm text-gray-600 mt-2">At 500 min/month each</p>
+            </div>
+        </div>
+
+        <!-- Interactive Pricing Calculator -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="card rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Profit Calculator</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Price per minute: $<span id="priceDisplay">0.08</span>
+                        </label>
+                        <input type="range" id="priceSlider" min="0.05" max="0.50" step="0.01" value="0.08"
+                               class="w-full" onchange="updateCalculations()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Monthly minutes: <span id="minutesDisplay">250,000</span>
+                        </label>
+                        <input type="range" id="minutesSlider" min="10000" max="1000000" step="10000" value="250000"
+                               class="w-full" onchange="updateCalculations()">
+                    </div>
+                    <div class="pt-4 border-t">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">Revenue:</span>
+                            <span class="font-bold" id="revenueCalc">$20,000</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">Costs:</span>
+                            <span class="font-bold" id="costsCalc">$11,000</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-bold">
+                            <span>Profit:</span>
+                            <span id="profitCalc" class="profit-positive">$9,000</span>
+                        </div>
+                        <div class="flex justify-between mt-2">
+                            <span class="text-gray-600">Margin:</span>
+                            <span class="font-bold" id="marginCalc">45%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cost Breakdown -->
+            <div class="card rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Cost Breakdown (Per Minute)</h2>
+                <canvas id="costBreakdownChart"></canvas>
+                <div class="mt-4 space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Twilio (Phone):</span>
+                        <span class="font-medium">$0.013</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">OpenAI GPT-3.5:</span>
+                        <span class="font-medium">$0.015</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Deepgram STT:</span>
+                        <span class="font-medium">$0.004</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Azure TTS:</span>
+                        <span class="font-medium">$0.008</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Infrastructure:</span>
+                        <span class="font-medium">$0.004</span>
+                    </div>
+                    <div class="flex justify-between font-bold border-t pt-2">
+                        <span>Total:</span>
+                        <span>$0.044</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Competitor Analysis -->
+        <div class="card rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Competitor Pricing Analysis</h2>
+            <canvas id="competitorChart" height="80"></canvas>
+        </div>
+
+        <!-- Revenue Projections -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="card rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">12-Month Revenue Projection</h2>
+                <canvas id="revenueProjectionChart"></canvas>
+            </div>
+            <div class="card rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Customer Growth Model</h2>
+                <canvas id="customerGrowthChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Pricing Strategies Comparison -->
+        <div class="card rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Pricing Strategy Comparison</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="text-left py-3 px-4">Strategy</th>
+                            <th class="text-center py-3 px-4">Price/min</th>
+                            <th class="text-center py-3 px-4">Cost/min</th>
+                            <th class="text-center py-3 px-4">Margin</th>
+                            <th class="text-center py-3 px-4">Monthly Profit (100K min)</th>
+                            <th class="text-center py-3 px-4">Risk Level</th>
+                        </tr>
+                    </thead>
+                    <tbody id="strategyTable">
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-3 px-4 font-medium">With Vapi (Premium)</td>
+                            <td class="text-center">$0.50</td>
+                            <td class="text-center">$0.256</td>
+                            <td class="text-center text-green-600">48.8%</td>
+                            <td class="text-center font-bold">$24,400</td>
+                            <td class="text-center"><span class="bg-red-100 text-red-800 px-2 py-1 rounded text-sm">High</span></td>
+                        </tr>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-3 px-4 font-medium">With Vapi (Competitive)</td>
+                            <td class="text-center">$0.25</td>
+                            <td class="text-center">$0.256</td>
+                            <td class="text-center text-red-600">-2.4%</td>
+                            <td class="text-center font-bold text-red-600">-$600</td>
+                            <td class="text-center"><span class="bg-red-100 text-red-800 px-2 py-1 rounded text-sm">Very High</span></td>
+                        </tr>
+                        <tr class="border-b hover:bg-gray-50 bg-green-50">
+                            <td class="py-3 px-4 font-medium">Direct APIs (Recommended)</td>
+                            <td class="text-center">$0.08</td>
+                            <td class="text-center">$0.044</td>
+                            <td class="text-center text-green-600">45%</td>
+                            <td class="text-center font-bold text-green-600">$3,600</td>
+                            <td class="text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Low</span></td>
+                        </tr>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-3 px-4 font-medium">Direct APIs (Aggressive)</td>
+                            <td class="text-center">$0.07</td>
+                            <td class="text-center">$0.044</td>
+                            <td class="text-center text-green-600">37.1%</td>
+                            <td class="text-center font-bold">$2,600</td>
+                            <td class="text-center"><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">Medium</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Market Opportunity -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="card rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-bold mb-4 text-gray-800">Target Market Size</h3>
+                <canvas id="marketSizeChart"></canvas>
+            </div>
+            <div class="card rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-bold mb-4 text-gray-800">Industry Breakdown</h3>
+                <canvas id="industryChart"></canvas>
+            </div>
+            <div class="card rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-bold mb-4 text-gray-800">Feature Priorities</h3>
+                <div class="space-y-3">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm text-gray-600">24/7 Availability</span>
+                            <span class="text-sm font-medium">95%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-indigo-600 h-2 rounded-full" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm text-gray-600">Cost Savings</span>
+                            <span class="text-sm font-medium">88%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-indigo-600 h-2 rounded-full" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm text-gray-600">Easy Integration</span>
+                            <span class="text-sm font-medium">76%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-indigo-600 h-2 rounded-full" style="width: 76%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm text-gray-600">Custom Voices</span>
+                            <span class="text-sm font-medium">42%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-indigo-600 h-2 rounded-full" style="width: 42%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Implementation Roadmap -->
+        <div class="card rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">90-Day Implementation Roadmap</h2>
+            <div class="relative">
+                <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300"></div>
+                <div class="space-y-8">
+                    <div class="flex items-start">
+                        <div class="bg-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center font-bold z-10">
+                            W1-2
+                        </div>
+                        <div class="ml-6">
+                            <h3 class="font-bold text-lg">MVP Development</h3>
+                            <p class="text-gray-600">Set up Twilio, OpenAI, Deepgram accounts. Build core voice pipeline.</p>
+                            <p class="text-sm text-indigo-600 font-medium mt-1">Cost: $500 | Time: 40 hours</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-purple-600 text-white rounded-full w-16 h-16 flex items-center justify-center font-bold z-10">
+                            W3-4
+                        </div>
+                        <div class="ml-6">
+                            <h3 class="font-bold text-lg">Make.com Integration</h3>
+                            <p class="text-gray-600">Create automation workflows, connect APIs, test call flows.</p>
+                            <p class="text-sm text-purple-600 font-medium mt-1">Cost: $29/month | Time: 30 hours</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-green-600 text-white rounded-full w-16 h-16 flex items-center justify-center font-bold z-10">
+                            M2
+                        </div>
+                        <div class="ml-6">
+                            <h3 class="font-bold text-lg">Beta Launch</h3>
+                            <p class="text-gray-600">Launch with 10 beta customers at $0.07/min introductory price.</p>
+                            <p class="text-sm text-green-600 font-medium mt-1">Revenue: $3,500 | Customers: 10</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-yellow-600 text-white rounded-full w-16 h-16 flex items-center justify-center font-bold z-10">
+                            M3
+                        </div>
+                        <div class="ml-6">
+                            <h3 class="font-bold text-lg">Scale & Optimize</h3>
+                            <p class="text-gray-600">Optimize costs, add premium features, scale to 50+ customers.</p>
+                            <p class="text-sm text-yellow-600 font-medium mt-1">Revenue: $10,000 | Profit: $4,500</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Insights -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="card rounded-lg shadow-lg p-6 border-l-4 border-green-500">
+                <h3 class="text-lg font-bold mb-3 text-gray-800">✅ Why Direct APIs Win</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-2">•</span>
+                        <span>Vapi charges $0.08/min just for orchestration</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-2">•</span>
+                        <span>Direct APIs cost only $0.044/min total</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-2">•</span>
+                        <span>45% profit margin vs -2.4% with Vapi at competitive prices</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-2">•</span>
+                        <span>Full control over optimization and caching</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="card rounded-lg shadow-lg p-6 border-l-4 border-red-500">
+                <h3 class="text-lg font-bold mb-3 text-gray-800">⚠️ Risks to Avoid</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li class="flex items-start">
+                        <span class="text-red-500 mr-2">•</span>
+                        <span>Pricing above $0.15/min without differentiation</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-red-500 mr-2">•</span>
+                        <span>Using expensive voices (ElevenLabs) for all calls</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-red-500 mr-2">•</span>
+                        <span>Not caching common responses (30% cost savings)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-red-500 mr-2">•</span>
+                        <span>Targeting enterprise without compliance features</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global configuration
+        const colors = {
+            primary: '#6366f1',
+            success: '#10b981',
+            danger: '#ef4444',
+            warning: '#f59e0b',
+            info: '#3b82f6'
+        };
+
+        // Cost Breakdown Chart
+        const costBreakdownCtx = document.getElementById('costBreakdownChart').getContext('2d');
+        const costBreakdownChart = new Chart(costBreakdownCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Twilio', 'OpenAI GPT-3.5', 'Deepgram STT', 'Azure TTS', 'Infrastructure'],
+                datasets: [{
+                    data: [0.013, 0.015, 0.004, 0.008, 0.004],
+                    backgroundColor: [
+                        '#6366f1',
+                        '#8b5cf6',
+                        '#ec4899',
+                        '#f59e0b',
+                        '#10b981'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': $' + context.parsed.toFixed(3) + '/min';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Competitor Analysis Chart
+        const competitorCtx = document.getElementById('competitorChart').getContext('2d');
+        const competitorChart = new Chart(competitorCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Your Price', 'Bland.ai', 'PlayAI', 'Synthflow', 'Retell.ai', 'Air.ai', 'Vapi (raw)'],
+                datasets: [{
+                    label: 'Price per Minute',
+                    data: [0.08, 0.09, 0.07, 0.12, 0.125, 0.275, 0.08],
+                    backgroundColor: function(context) {
+                        return context.dataIndex === 0 ? '#10b981' : '#e5e7eb';
+                    },
+                    borderColor: function(context) {
+                        return context.dataIndex === 0 ? '#059669' : '#d1d5db';
+                    },
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return '$' + context.parsed.y.toFixed(3) + ' per minute';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toFixed(2);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Revenue Projection Chart
+        const revenueCtx = document.getElementById('revenueProjectionChart').getContext('2d');
+        const revenueChart = new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6',
+                        'Month 7', 'Month 8', 'Month 9', 'Month 10', 'Month 11', 'Month 12'],
+                datasets: [{
+                    label: 'Revenue',
+                    data: [2000, 3500, 5000, 7500, 10000, 14000, 18000, 23000, 28000, 35000, 42000, 50000],
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    tension: 0.3,
+                    fill: true
+                }, {
+                    label: 'Profit',
+                    data: [900, 1575, 2250, 3375, 4500, 6300, 8100, 10350, 12600, 15750, 18900, 22500],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': $' + context.parsed.y.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + (value/1000) + 'k';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Customer Growth Chart
+        const customerCtx = document.getElementById('customerGrowthChart').getContext('2d');
+        const customerChart = new Chart(customerCtx, {
+            type: 'line',
+            data: {
+                labels: ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12'],
+                datasets: [{
+                    label: 'Total Customers',
+                    data: [10, 25, 50, 85, 130, 200, 280, 380, 500, 650, 825, 1000],
+                    borderColor: '#8b5cf6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    tension: 0.3,
+                    fill: true
+                }, {
+                    label: 'Active Users',
+                    data: [10, 23, 45, 77, 117, 180, 252, 342, 450, 585, 743, 900],
+                    borderColor: '#ec4899',
+                    backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Market Size Chart
+        const marketCtx = document.getElementById('marketSizeChart').getContext('2d');
+        const marketChart = new Chart(marketCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Addressable', 'Competition', 'Enterprise'],
+                datasets: [{
+                    data: [45, 35, 20],
+                    backgroundColor: ['#10b981', '#f59e0b', '#ef4444']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Industry Chart
+        const industryCtx = document.getElementById('industryChart').getContext('2d');
+        const industryChart = new Chart(industryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Healthcare', 'E-commerce', 'Services', 'Real Estate', 'Other'],
+                datasets: [{
+                    data: [30, 25, 20, 15, 10],
+                    backgroundColor: [
+                        '#6366f1',
+                        '#8b5cf6',
+                        '#ec4899',
+                        '#f59e0b',
+                        '#10b981'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Interactive Calculator
+        function updateCalculations() {
+            const price = parseFloat(document.getElementById('priceSlider').value);
+            const minutes = parseInt(document.getElementById('minutesSlider').value);
+            const costPerMin = 0.044;
+
+            document.getElementById('priceDisplay').textContent = price.toFixed(2);
+            document.getElementById('minutesDisplay').textContent = minutes.toLocaleString();
+
+            const revenue = price * minutes;
+            const costs = costPerMin * minutes;
+            const profit = revenue - costs;
+            const margin = (profit / revenue * 100).toFixed(1);
+
+            document.getElementById('revenueCalc').textContent = '$' + revenue.toLocaleString();
+            document.getElementById('costsCalc').textContent = '$' + costs.toLocaleString();
+            document.getElementById('profitCalc').textContent = '$' + profit.toLocaleString();
+            document.getElementById('marginCalc').textContent = margin + '%';
+
+            // Update profit color
+            const profitElement = document.getElementById('profitCalc');
+            if (profit >= 0) {
+                profitElement.className = 'profit-positive';
+            } else {
+                profitElement.className = 'profit-negative';
+            }
+        }
+
+        // Initialize
+        updateCalculations();
+    </script>
+</body>
+</html>

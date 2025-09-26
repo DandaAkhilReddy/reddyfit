@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vapi Real Cost Analysis Dashboard - Based on Actual Usage</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #dc2626 0%, #ea580c 100%); }
+        .profit-positive { color: #10b981; font-weight: 600; }
+        .profit-negative { color: #ef4444; font-weight: 600; }
+        .warning-bg { background: linear-gradient(45deg, rgba(239, 68, 68, 0.1), rgba(234, 88, 12, 0.1)); }
+        .optimization-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #f59e0b;
+        }
+        .optimization-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header with Warning -->
+    <div class="gradient-bg text-white p-8">
+        <div class="container mx-auto">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold mb-2">⚠️ Vapi Real Cost Analysis</h1>
+                    <p class="text-xl opacity-90">Based on Actual Usage Data - URGENT Optimization Needed</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-2xl font-bold">109% OVER BUDGET</p>
+                    <p class="text-lg opacity-90">Estimated vs Actual</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Critical Metrics Alert -->
+    <div class="container mx-auto px-6 -mt-8">
+        <div class="warning-bg border border-red-300 rounded-lg p-6 mb-8">
+            <div class="flex items-center mb-4">
+                <div class="bg-red-500 text-white rounded-full p-2 mr-4">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-red-800">COST OVERRUN ALERT</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-red-800">
+                <div>
+                    <p class="font-semibold">Estimated Cost/Min:</p>
+                    <p class="text-xl">$0.095</p>
+                </div>
+                <div>
+                    <p class="font-semibold">Actual Cost/Min:</p>
+                    <p class="text-xl font-bold">$0.199</p>
+                </div>
+                <div>
+                    <p class="font-semibold">Profit Impact:</p>
+                    <p class="text-xl font-bold">-$0.104/min</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Updated Key Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Real Cost per Call</h3>
+                <p class="text-3xl font-bold text-red-600">$0.337</p>
+                <p class="text-sm text-red-600 mt-2">↑ 227% vs estimate</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Cost per Minute</h3>
+                <p class="text-3xl font-bold text-red-600">$0.199</p>
+                <p class="text-sm text-red-600 mt-2">↑ 109% vs estimate</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Profit at $0.50</h3>
+                <p class="text-3xl font-bold profit-positive">$0.163</p>
+                <p class="text-sm text-gray-600 mt-2">32.6% margin</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Monthly (10K calls)</h3>
+                <p class="text-3xl font-bold profit-positive">$1,630</p>
+                <p class="text-sm text-red-600 mt-2">↓ $2,340 less profit</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Break-even Price</h3>
+                <p class="text-3xl font-bold text-purple-600">$0.67</p>
+                <p class="text-sm text-gray-600 mt-2">For 50% margin</p>
+            </div>
+        </div>
+
+        <!-- Actual Call Data Analysis -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-4 text-gray-800">Real Call Cost Breakdown</h2>
+                <canvas id="realCostChart"></canvas>
+                <div class="mt-4">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-2">Component</th>
+                                <th class="text-right py-2">Avg %</th>
+                                <th class="text-right py-2">Avg Cost</th>
+                                <th class="text-right py-2">Optimization</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="py-2 font-medium">LLM</td>
+                                <td class="text-right">39.9%</td>
+                                <td class="text-right font-bold text-red-600">$0.134</td>
+                                <td class="text-right text-green-600">-50%</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-2 font-medium">TTS</td>
+                                <td class="text-right">27.7%</td>
+                                <td class="text-right font-bold text-orange-600">$0.094</td>
+                                <td class="text-right text-green-600">-40%</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-2 font-medium">Platform</td>
+                                <td class="text-right">26.1%</td>
+                                <td class="text-right font-bold text-blue-600">$0.088</td>
+                                <td class="text-right text-yellow-600">-10%</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-2 font-medium">STT</td>
+                                <td class="text-right">6.4%</td>
+                                <td class="text-right font-bold text-green-600">$0.021</td>
+                                <td class="text-right text-green-600">-20%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-4 text-gray-800">Individual Call Analysis</h2>
+                <canvas id="callComparisonChart"></canvas>
+                <div class="mt-4 space-y-2 text-sm">
+                    <div class="flex justify-between p-2 bg-gray-50 rounded">
+                        <span>WebCall (47s):</span>
+                        <span class="font-bold">$0.17 ($0.217/min)</span>
+                    </div>
+                    <div class="flex justify-between p-2 bg-red-50 rounded">
+                        <span>Outbound (3m54s):</span>
+                        <span class="font-bold text-red-600">$0.87 ($0.223/min)</span>
+                    </div>
+                    <div class="flex justify-between p-2 bg-green-50 rounded">
+                        <span>Inbound (20s):</span>
+                        <span class="font-bold text-green-600">$0.07 ($0.21/min)</span>
+                    </div>
+                    <div class="flex justify-between p-2 bg-blue-50 rounded">
+                        <span>Outbound (1m39s):</span>
+                        <span class="font-bold text-blue-600">$0.24 ($0.145/min)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Optimization Strategies -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">🎯 Immediate Optimization Strategies</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="optimization-card p-6 bg-orange-50 rounded-lg">
+                    <h3 class="text-lg font-bold mb-3 text-orange-800">🤖 LLM Cost Reduction (-50%)</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex justify-between">
+                            <span>• Compress system prompt:</span>
+                            <span class="font-medium text-green-600">-$0.040/call</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>• Use function calling:</span>
+                            <span class="font-medium text-green-600">-$0.027/call</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>• Cache responses:</span>
+                            <span class="font-medium text-green-600">-$0.020/call</span>
+                        </div>
+                        <div class="flex justify-between border-t pt-2 font-bold">
+                            <span>Total LLM Savings:</span>
+                            <span class="text-green-600">-$0.067/call</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="optimization-card p-6 bg-blue-50 rounded-lg">
+                    <h3 class="text-lg font-bold mb-3 text-blue-800">🔊 TTS Cost Reduction (-40%)</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex justify-between">
+                            <span>• Remove filler words:</span>
+                            <span class="font-medium text-green-600">-$0.019/call</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>• Shorter responses:</span>
+                            <span class="font-medium text-green-600">-$0.014/call</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>• Cache phrases:</span>
+                            <span class="font-medium text-green-600">-$0.005/call</span>
+                        </div>
+                        <div class="flex justify-between border-t pt-2 font-bold">
+                            <span>Total TTS Savings:</span>
+                            <span class="text-green-600">-$0.038/call</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Updated Profitability Scenarios -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4 text-gray-800">Profitability Scenarios</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="text-left py-3 px-4">Scenario</th>
+                            <th class="text-center py-3 px-4">Cost/Call</th>
+                            <th class="text-center py-3 px-4">Price/Call</th>
+                            <th class="text-center py-3 px-4">Profit/Call</th>
+                            <th class="text-center py-3 px-4">Margin</th>
+                            <th class="text-center py-3 px-4">Monthly (10K)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b bg-red-50">
+                            <td class="py-3 px-4 font-medium">Current (No Changes)</td>
+                            <td class="text-center">$0.337</td>
+                            <td class="text-center">$0.50</td>
+                            <td class="text-center profit-positive">$0.163</td>
+                            <td class="text-center">32.6%</td>
+                            <td class="text-center profit-positive">$1,630</td>
+                        </tr>
+                        <tr class="border-b bg-yellow-50">
+                            <td class="py-3 px-4 font-medium">LLM Optimized</td>
+                            <td class="text-center">$0.270</td>
+                            <td class="text-center">$0.50</td>
+                            <td class="text-center profit-positive">$0.230</td>
+                            <td class="text-center">46%</td>
+                            <td class="text-center profit-positive">$2,300</td>
+                        </tr>
+                        <tr class="border-b bg-green-50">
+                            <td class="py-3 px-4 font-medium">Full Optimization</td>
+                            <td class="text-center">$0.232</td>
+                            <td class="text-center">$0.50</td>
+                            <td class="text-center profit-positive">$0.268</td>
+                            <td class="text-center">53.6%</td>
+                            <td class="text-center profit-positive">$2,680</td>
+                        </tr>
+                        <tr class="border-b bg-blue-50">
+                            <td class="py-3 px-4 font-medium">Optimized + Higher Price</td>
+                            <td class="text-center">$0.232</td>
+                            <td class="text-center">$0.67</td>
+                            <td class="text-center profit-positive">$0.438</td>
+                            <td class="text-center">65.4%</td>
+                            <td class="text-center profit-positive">$4,380</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Interactive Optimization Calculator -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4 text-gray-800">Optimization Impact Calculator</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                LLM Optimization: <span id="llmOptDisplay">0%</span>
+                            </label>
+                            <input type="range" id="llmOptSlider" min="0" max="50" step="5" value="0"
+                                   class="w-full" oninput="updateOptimization()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                TTS Optimization: <span id="ttsOptDisplay">0%</span>
+                            </label>
+                            <input type="range" id="ttsOptSlider" min="0" max="40" step="5" value="0"
+                                   class="w-full" oninput="updateOptimization()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Selling Price: $<span id="priceOptDisplay">0.50</span>
+                            </label>
+                            <input type="range" id="priceOptSlider" min="0.30" max="1.00" step="0.05" value="0.50"
+                                   class="w-full" oninput="updateOptimization()">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-3">Optimization Results</h3>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span>Original Cost:</span>
+                                <span class="font-medium">$0.337/call</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Optimized Cost:</span>
+                                <span class="font-medium" id="optimizedCost">$0.337/call</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Cost Savings:</span>
+                                <span class="font-medium text-green-600" id="costSavings">$0.000/call</span>
+                            </div>
+                            <div class="flex justify-between border-t pt-2">
+                                <span>New Profit/Call:</span>
+                                <span class="font-bold profit-positive" id="newProfit">$0.163</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>New Margin:</span>
+                                <span class="font-bold" id="newMargin">32.6%</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Monthly Profit (10K):</span>
+                                <span class="font-bold text-green-600" id="monthlyOptProfit">$1,630</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Plan -->
+        <div class="bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-lg p-6">
+            <h2 class="text-2xl font-bold mb-4">🚀 Immediate Action Plan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h3 class="font-bold mb-2">Week 1: LLM Optimization</h3>
+                    <ul class="space-y-1 text-sm">
+                        <li>• Audit system prompts</li>
+                        <li>• Implement function calling</li>
+                        <li>• Add response caching</li>
+                        <li>• Target: -$0.067/call</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-2">Week 2: TTS Optimization</h3>
+                    <ul class="space-y-1 text-sm">
+                        <li>• Remove filler words</li>
+                        <li>• Shorten responses</li>
+                        <li>• Cache common phrases</li>
+                        <li>• Target: -$0.038/call</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-2">Week 3: Pricing Adjustment</h3>
+                    <ul class="space-y-1 text-sm">
+                        <li>• Test $0.67/call pricing</li>
+                        <li>• A/B test with current customers</li>
+                        <li>• Justify with premium features</li>
+                        <li>• Target: 65.4% margins</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let realCostChart, callComparisonChart;
+
+        // Real cost data from screenshots
+        const realCosts = {
+            stt: 0.021,
+            llm: 0.134,
+            tts: 0.094,
+            platform: 0.088,
+            total: 0.337
+        };
+
+        const callData = [
+            { name: 'WebCall', duration: 47, cost: 0.17, costPerMin: 0.217 },
+            { name: 'Outbound 1', duration: 234, cost: 0.87, costPerMin: 0.223 },
+            { name: 'Inbound', duration: 20, cost: 0.07, costPerMin: 0.21 },
+            { name: 'Outbound 2', duration: 99, cost: 0.24, costPerMin: 0.145 }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeCharts();
+            updateOptimization();
+        });
+
+        function initializeCharts() {
+            // Real Cost Breakdown Chart
+            const realCtx = document.getElementById('realCostChart').getContext('2d');
+            realCostChart = new Chart(realCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['LLM (39.9%)', 'TTS (27.7%)', 'Platform (26.1%)', 'STT (6.4%)'],
+                    datasets: [{
+                        data: [39.9, 27.7, 26.1, 6.4],
+                        backgroundColor: ['#ef4444', '#f97316', '#3b82f6', '#10b981']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Call Comparison Chart
+            const callCtx = document.getElementById('callComparisonChart').getContext('2d');
+            callComparisonChart = new Chart(callCtx, {
+                type: 'bar',
+                data: {
+                    labels: callData.map(call => call.name),
+                    datasets: [{
+                        label: 'Cost per Call',
+                        data: callData.map(call => call.cost),
+                        backgroundColor: ['#3b82f6', '#ef4444', '#10b981', '#f97316']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toFixed(2);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateOptimization() {
+            const llmOpt = parseFloat(document.getElementById('llmOptSlider').value);
+            const ttsOpt = parseFloat(document.getElementById('ttsOptSlider').value);
+            const price = parseFloat(document.getElementById('priceOptSlider').value);
+
+            // Update displays
+            document.getElementById('llmOptDisplay').textContent = llmOpt + '%';
+            document.getElementById('ttsOptDisplay').textContent = ttsOpt + '%';
+            document.getElementById('priceOptDisplay').textContent = price.toFixed(2);
+
+            // Calculate optimized costs
+            const llmSavings = realCosts.llm * (llmOpt / 100);
+            const ttsSavings = realCosts.tts * (ttsOpt / 100);
+            const totalSavings = llmSavings + ttsSavings;
+            const optimizedCost = realCosts.total - totalSavings;
+
+            // Update results
+            document.getElementById('optimizedCost').textContent = '$' + optimizedCost.toFixed(3) + '/call';
+            document.getElementById('costSavings').textContent = '$' + totalSavings.toFixed(3) + '/call';
+
+            const profit = price - optimizedCost;
+            const margin = (profit / price * 100);
+            const monthlyProfit = profit * 10000;
+
+            document.getElementById('newProfit').textContent = '$' + profit.toFixed(3);
+            document.getElementById('newMargin').textContent = margin.toFixed(1) + '%';
+            document.getElementById('monthlyOptProfit').textContent = '$' + monthlyProfit.toLocaleString();
+
+            // Update colors
+            const profitElement = document.getElementById('newProfit');
+            profitElement.className = profit > 0 ? 'font-bold profit-positive' : 'font-bold profit-negative';
+        }
+    </script>
+</body>
+</html>

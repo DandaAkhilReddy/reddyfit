@@ -1,0 +1,289 @@
+{
+  "templates": {
+    "restaurant_booking": {
+      "name": "Restaurant Reservation System",
+      "description": "AI voice agent for handling restaurant reservations",
+      "modules": [
+        {
+          "type": "webhook",
+          "name": "Incoming Call Trigger",
+          "config": {
+            "method": "POST",
+            "dataStructure": {
+              "from": "phone_number",
+              "callSid": "string",
+              "timestamp": "datetime"
+            }
+          }
+        },
+        {
+          "type": "vapi",
+          "name": "Process Voice Call",
+          "config": {
+            "assistant": {
+              "firstMessage": "Thank you for calling {restaurant_name}. Would you like to make a reservation?",
+              "model": "gpt-4",
+              "voice": "rachel",
+              "functions": [
+                "check_availability",
+                "book_table",
+                "cancel_reservation"
+              ]
+            }
+          }
+        },
+        {
+          "type": "googleCalendar",
+          "name": "Check Availability",
+          "config": {
+            "calendarId": "restaurant_bookings",
+            "checkConflicts": true
+          }
+        },
+        {
+          "type": "database",
+          "name": "Store Reservation",
+          "config": {
+            "table": "reservations",
+            "fields": [
+              "customer_name",
+              "phone",
+              "date_time",
+              "party_size",
+              "special_requests"
+            ]
+          }
+        },
+        {
+          "type": "twilio",
+          "name": "Send SMS Confirmation",
+          "config": {
+            "message": "Your reservation for {party_size} at {restaurant_name} on {date_time} is confirmed. Reply CANCEL to cancel."
+          }
+        }
+      ],
+      "estimated_cost_per_call": 0.35,
+      "average_call_duration": "2.5 minutes"
+    },
+    "medical_appointment": {
+      "name": "Medical Appointment Scheduler",
+      "description": "HIPAA-compliant voice agent for medical appointments",
+      "modules": [
+        {
+          "type": "webhook",
+          "name": "Secure Call Handler",
+          "config": {
+            "encryption": true,
+            "hipaa_compliant": true
+          }
+        },
+        {
+          "type": "vapi",
+          "name": "Medical Assistant",
+          "config": {
+            "assistant": {
+              "firstMessage": "Thank you for calling {clinic_name}. I can help you schedule an appointment. May I have your patient ID or date of birth?",
+              "model": "gpt-4",
+              "voice": "matthew",
+              "systemPrompt": "You are a medical receptionist. Be professional and empathetic. Collect necessary information while maintaining HIPAA compliance.",
+              "functions": [
+                "verify_patient",
+                "check_doctor_availability",
+                "book_appointment",
+                "send_reminders"
+              ]
+            }
+          }
+        },
+        {
+          "type": "api",
+          "name": "EHR Integration",
+          "config": {
+            "system": "epic_or_cerner",
+            "endpoints": {
+              "patient_lookup": "/api/patients",
+              "appointment_create": "/api/appointments",
+              "availability": "/api/schedules"
+            }
+          }
+        },
+        {
+          "type": "email",
+          "name": "Appointment Confirmation",
+          "config": {
+            "template": "appointment_confirmation",
+            "attachments": ["appointment_details.pdf", "preparation_instructions.pdf"]
+          }
+        }
+      ],
+      "estimated_cost_per_call": 0.42,
+      "average_call_duration": "3.5 minutes",
+      "compliance": ["HIPAA", "GDPR"]
+    },
+    "ecommerce_support": {
+      "name": "E-commerce Customer Support",
+      "description": "24/7 AI support agent for online stores",
+      "modules": [
+        {
+          "type": "webhook",
+          "name": "Support Call Router"
+        },
+        {
+          "type": "vapi",
+          "name": "Support Assistant",
+          "config": {
+            "assistant": {
+              "firstMessage": "Thank you for calling {store_name} support. I can help with orders, returns, or product questions. How can I assist you?",
+              "model": "gpt-3.5-turbo",
+              "voice": "rachel",
+              "functions": [
+                "order_lookup",
+                "track_shipment",
+                "process_return",
+                "product_inquiry"
+              ]
+            }
+          }
+        },
+        {
+          "type": "shopify",
+          "name": "Order Management",
+          "config": {
+            "actions": ["get_order", "create_return", "update_customer"]
+          }
+        },
+        {
+          "type": "zendesk",
+          "name": "Ticket Creation",
+          "config": {
+            "priority_rules": {
+              "high": ["refund", "damaged", "urgent"],
+              "medium": ["exchange", "delay"],
+              "low": ["inquiry", "feedback"]
+            }
+          }
+        }
+      ],
+      "estimated_cost_per_call": 0.28,
+      "average_call_duration": "2 minutes"
+    },
+    "real_estate_lead": {
+      "name": "Real Estate Lead Qualifier",
+      "description": "Qualify and route real estate leads",
+      "modules": [
+        {
+          "type": "vapi",
+          "name": "Lead Qualifier",
+          "config": {
+            "assistant": {
+              "firstMessage": "Thank you for your interest in {property_address}. I'd love to learn more about what you're looking for. Are you looking to buy or rent?",
+              "qualification_questions": [
+                "What's your timeline for moving?",
+                "What's your budget range?",
+                "Are you pre-approved for financing?",
+                "What size home are you looking for?"
+              ],
+              "lead_scoring": {
+                "hot": "score >= 8",
+                "warm": "score >= 5",
+                "cold": "score < 5"
+              }
+            }
+          }
+        },
+        {
+          "type": "crm",
+          "name": "CRM Integration",
+          "config": {
+            "system": "salesforce",
+            "lead_assignment_rules": {
+              "hot": "senior_agent",
+              "warm": "standard_agent",
+              "cold": "nurture_campaign"
+            }
+          }
+        },
+        {
+          "type": "calendly",
+          "name": "Schedule Showing",
+          "config": {
+            "event_types": ["property_tour", "virtual_showing", "agent_consultation"]
+          }
+        }
+      ],
+      "estimated_cost_per_call": 0.38,
+      "average_call_duration": "4 minutes"
+    },
+    "service_scheduling": {
+      "name": "Service Business Scheduler",
+      "description": "For plumbers, electricians, HVAC, etc.",
+      "modules": [
+        {
+          "type": "vapi",
+          "name": "Service Dispatcher",
+          "config": {
+            "assistant": {
+              "firstMessage": "Thank you for calling {business_name}. I can help schedule a service appointment. What type of service do you need?",
+              "service_types": [
+                "emergency",
+                "routine_maintenance",
+                "installation",
+                "consultation"
+              ],
+              "pricing_rules": {
+                "emergency": "1.5x",
+                "weekend": "1.25x",
+                "after_hours": "1.5x"
+              }
+            }
+          }
+        },
+        {
+          "type": "serviceTitan",
+          "name": "Job Management",
+          "config": {
+            "dispatch_rules": {
+              "emergency": "nearest_available",
+              "routine": "next_available",
+              "installation": "specialized_tech"
+            }
+          }
+        },
+        {
+          "type": "googleMaps",
+          "name": "Route Optimization",
+          "config": {
+            "optimize_for": "time",
+            "traffic_aware": true
+          }
+        },
+        {
+          "type": "quickbooks",
+          "name": "Invoice Generation",
+          "config": {
+            "auto_generate": true,
+            "payment_terms": "net_30"
+          }
+        }
+      ],
+      "estimated_cost_per_call": 0.32,
+      "average_call_duration": "3 minutes"
+    }
+  },
+  "common_integrations": {
+    "crm": ["Salesforce", "HubSpot", "Pipedrive", "Zoho"],
+    "calendar": ["Google Calendar", "Outlook", "Calendly", "Acuity"],
+    "communication": ["Twilio", "SendGrid", "Mailchimp", "Slack"],
+    "payment": ["Stripe", "PayPal", "Square", "Authorize.net"],
+    "database": ["Airtable", "Google Sheets", "MySQL", "PostgreSQL"],
+    "analytics": ["Google Analytics", "Mixpanel", "Segment", "Amplitude"]
+  },
+  "cost_optimization_tips": [
+    "Use GPT-3.5 for simple queries, GPT-4 for complex",
+    "Cache common responses",
+    "Implement call duration limits",
+    "Use webhook filters to reduce processing",
+    "Batch database operations",
+    "Compress audio when possible"
+  ]
+}
