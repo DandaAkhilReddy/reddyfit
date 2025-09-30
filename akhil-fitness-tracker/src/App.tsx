@@ -1,18 +1,30 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { AuthProvider } from './contexts/AuthContext'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
-import Community from './pages/Community'
-import FitnessMatch from './pages/FitnessMatch'
-import Profile from './pages/Profile'
-import MealPlanner from './pages/MealPlanner'
-import WorkoutTracker from './pages/WorkoutTracker'
-import Progress from './pages/Progress'
-import RecipeLibrary from './pages/RecipeLibrary'
-import Settings from './pages/Settings'
+
+// Lazy load heavy pages for better performance
+const Community = lazy(() => import('./pages/Community'))
+const FitnessMatch = lazy(() => import('./pages/FitnessMatch'))
+const Profile = lazy(() => import('./pages/Profile'))
+const MealPlanner = lazy(() => import('./pages/MealPlanner'))
+const WorkoutTracker = lazy(() => import('./pages/WorkoutTracker'))
+const Progress = lazy(() => import('./pages/Progress'))
+const RecipeLibrary = lazy(() => import('./pages/RecipeLibrary'))
+const Settings = lazy(() => import('./pages/Settings'))
+
+// Loading component
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="text-center">
+      <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+      <p className="text-gray-600">Loading...</p>
+    </div>
+  </div>
+)
 
 // Your personal data (starting point)
 export const USER_DATA = {
@@ -83,7 +95,9 @@ function App() {
                 <div className="relative z-10">
                   <Navbar />
                   <main className="container mx-auto px-4 py-8 max-w-7xl">
-                    <MealPlanner />
+                    <Suspense fallback={<PageLoader />}>
+                      <MealPlanner />
+                    </Suspense>
                   </main>
                 </div>
               </ProtectedRoute>
@@ -97,7 +111,9 @@ function App() {
                 <div className="relative z-10">
                   <Navbar />
                   <main className="container mx-auto px-4 py-8 max-w-7xl">
-                    <WorkoutTracker />
+                    <Suspense fallback={<PageLoader />}>
+                      <WorkoutTracker />
+                    </Suspense>
                   </main>
                 </div>
               </ProtectedRoute>
@@ -111,7 +127,9 @@ function App() {
                 <div className="relative z-10">
                   <Navbar />
                   <main className="container mx-auto px-4 py-8 max-w-7xl">
-                    <Progress />
+                    <Suspense fallback={<PageLoader />}>
+                      <Progress />
+                    </Suspense>
                   </main>
                 </div>
               </ProtectedRoute>
@@ -125,7 +143,9 @@ function App() {
                 <div className="relative z-10">
                   <Navbar />
                   <main className="container mx-auto px-4 py-8 max-w-7xl">
-                    <RecipeLibrary />
+                    <Suspense fallback={<PageLoader />}>
+                      <RecipeLibrary />
+                    </Suspense>
                   </main>
                 </div>
               </ProtectedRoute>
@@ -139,7 +159,9 @@ function App() {
                 <div className="relative z-10">
                   <Navbar />
                   <main className="container mx-auto px-4 py-8 max-w-7xl">
-                    <Community />
+                    <Suspense fallback={<PageLoader />}>
+                      <Community />
+                    </Suspense>
                   </main>
                 </div>
               </ProtectedRoute>
@@ -153,7 +175,9 @@ function App() {
                 <div className="relative z-10">
                   <Navbar />
                   <main className="container mx-auto px-4 py-8 max-w-7xl">
-                    <FitnessMatch />
+                    <Suspense fallback={<PageLoader />}>
+                      <FitnessMatch />
+                    </Suspense>
                   </main>
                 </div>
               </ProtectedRoute>
@@ -167,7 +191,9 @@ function App() {
                 <div className="relative z-10">
                   <Navbar />
                   <main className="container mx-auto px-4 py-8 max-w-7xl">
-                    <Profile />
+                    <Suspense fallback={<PageLoader />}>
+                      <Profile />
+                    </Suspense>
                   </main>
                 </div>
               </ProtectedRoute>
@@ -181,7 +207,9 @@ function App() {
                 <div className="relative z-10">
                   <Navbar />
                   <main className="container mx-auto px-4 py-8 max-w-7xl">
-                    <Settings />
+                    <Suspense fallback={<PageLoader />}>
+                      <Settings />
+                    </Suspense>
                   </main>
                 </div>
               </ProtectedRoute>
