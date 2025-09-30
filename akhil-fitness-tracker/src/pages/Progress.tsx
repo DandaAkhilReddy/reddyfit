@@ -256,19 +256,19 @@ export default function Progress() {
   const progressPercentage = startWeight !== goalWeight ? ((startWeight - currentWeight) / (startWeight - goalWeight)) * 100 : 0
 
   // Process progress data
-  const weightEntries = progress?.weightEntries || []
-  const photos = progress?.photos || []
-  const measurements = progress?.measurements || []
+  const weightEntries = progress?.filter((p: any) => p.type === 'weight') || []
+  const photos = progress?.filter((p: any) => p.type === 'photo') || []
+  const measurements = progress?.filter((p: any) => p.type === 'measurement') || []
 
   const getTimeRangeData = () => {
     const now = new Date()
     switch (timeRange) {
       case 'week':
-        return weightEntries.filter(entry => new Date(entry.date) >= subWeeks(now, 1))
+        return weightEntries.filter((entry: any) => new Date(entry.date) >= subWeeks(now, 1))
       case 'month':
-        return weightEntries.filter(entry => new Date(entry.date) >= subMonths(now, 1))
+        return weightEntries.filter((entry: any) => new Date(entry.date) >= subMonths(now, 1))
       case 'quarter':
-        return weightEntries.filter(entry => new Date(entry.date) >= subMonths(now, 3))
+        return weightEntries.filter((entry: any) => new Date(entry.date) >= subMonths(now, 3))
       default:
         return weightEntries
     }
@@ -289,14 +289,11 @@ export default function Progress() {
     try {
       setSaveStatus('saving')
       await addProgress({
-        type: 'weight',
-        data: {
-          weight: parseFloat(newWeight),
-          bodyFat: newBodyFat ? parseFloat(newBodyFat) : undefined,
-          muscle: newMuscle ? parseFloat(newMuscle) : undefined,
-          notes: newNotes || undefined
-        }
-      })
+        date: new Date(),
+        weight: parseFloat(newWeight),
+        bodyFat: newBodyFat ? parseFloat(newBodyFat) : undefined,
+        notes: newNotes || undefined
+      } as any)
       setSaveStatus('saved')
       setIsAddingWeight(false)
       setNewWeight('')
@@ -319,9 +316,9 @@ export default function Progress() {
       await updateProgress(editingEntry.id, {
         weight: parseFloat(newWeight),
         bodyFat: newBodyFat ? parseFloat(newBodyFat) : undefined,
-        muscle: newMuscle ? parseFloat(newMuscle) : undefined,
+        muscleMan: newMuscle ? parseFloat(newMuscle) : undefined,
         notes: newNotes || undefined
-      })
+      } as any)
       setSaveStatus('saved')
       setEditingEntry(null)
       setNewWeight('')
@@ -360,16 +357,17 @@ export default function Progress() {
     try {
       setSaveStatus('saving')
       await addProgress({
-        type: 'measurement',
-        data: {
+        date: new Date(),
+        weight: currentWeight,
+        measurements: {
           chest: newMeasurements.chest ? parseFloat(newMeasurements.chest) : undefined,
           waist: newMeasurements.waist ? parseFloat(newMeasurements.waist) : undefined,
           hips: newMeasurements.hips ? parseFloat(newMeasurements.hips) : undefined,
           biceps: newMeasurements.biceps ? parseFloat(newMeasurements.biceps) : undefined,
-          thighs: newMeasurements.thighs ? parseFloat(newMeasurements.thighs) : undefined,
-          notes: measurementNotes || undefined
-        }
-      })
+          thighs: newMeasurements.thighs ? parseFloat(newMeasurements.thighs) : undefined
+        },
+        notes: measurementNotes || undefined
+      } as any)
       setSaveStatus('saved')
       setIsAddingMeasurement(false)
       setNewMeasurements({ chest: '', waist: '', hips: '', biceps: '', thighs: '' })
@@ -422,8 +420,7 @@ export default function Progress() {
   if (loading || profileLoading) {
     return (
       <div className="space-y-6">
-        <LoadingState.Card />
-        <LoadingState.List rows={3} />
+        <LoadingState size="lg" loadingText="Loading progress..." />
       </div>
     )
   }
@@ -600,11 +597,11 @@ export default function Progress() {
                 </div>
               )}
 
-              {recentData.length > 0 && recentData[recentData.length - 1].muscle && (
+              {recentData.length > 0 && (recentData[recentData.length - 1] as any).muscleMan && (
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-gray-700">Muscle Mass</span>
-                    <span className="text-blue-600 font-semibold">{recentData[recentData.length - 1].muscle}kg</span>
+                    <span className="text-blue-600 font-semibold">{(recentData[recentData.length - 1] as any).muscleMan}kg</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-3">
                     <div className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" style={{ width: '85%' }} />
@@ -612,7 +609,7 @@ export default function Progress() {
                 </div>
               )}
 
-              {(!recentData.length || (!recentData[recentData.length - 1].bodyFat && !recentData[recentData.length - 1].muscle)) && (
+              {(!recentData.length || (!recentData[recentData.length - 1].bodyFat && !(recentData[recentData.length - 1] as any).muscleMan)) && (
                 <div className="text-center py-8 text-gray-500">
                   <Activity className="w-12 h-12 mx-auto mb-4 opacity-50" />
                   <p>No body composition data yet</p>
@@ -755,9 +752,9 @@ export default function Progress() {
                     {weightEntries
                       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                       .slice(0, 10)
-                      .map((entry, index) => {
-                        const allEntries = [...weightEntries].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-                        const entryIndex = allEntries.findIndex(e => e.id === entry.id)
+                      .map((entry: any) => {
+                        const allEntries = [...weightEntries].sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
+                        const entryIndex = allEntries.findIndex((e: any) => e.id === entry.id)
                         const previousEntry = entryIndex > 0 ? allEntries[entryIndex - 1] : null
                         const change = previousEntry ? entry.weight - previousEntry.weight : 0
 
@@ -842,7 +839,7 @@ export default function Progress() {
           {/* Legacy Photo Gallery for existing data */}
           {photos.length > 0 && (
             <PhotoGallery
-              photos={photos}
+              photos={photos as any}
               onAddPhoto={() => setIsAddingPhoto(true)}
               onDeletePhoto={handleDeletePhoto}
             />
@@ -873,8 +870,8 @@ export default function Progress() {
               {['chest', 'waist', 'hips', 'biceps', 'thighs'].map((measurement) => {
                 const latest = measurements[measurements.length - 1]
                 const previous = measurements[measurements.length - 2]
-                const current = latest?.[measurement as keyof BodyMeasurement] as number
-                const change = previous && current ? current - (previous[measurement as keyof BodyMeasurement] as number) : 0
+                const current = (latest as any)?.measurements?.[measurement] as number
+                const change = previous && current ? current - ((previous as any)?.measurements?.[measurement] as number || 0) : 0
 
                 return (
                   <div key={measurement} className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">

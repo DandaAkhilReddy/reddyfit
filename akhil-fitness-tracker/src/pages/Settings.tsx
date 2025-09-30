@@ -268,8 +268,7 @@ export default function Settings() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <LoadingState.Card />
-        <LoadingState.List rows={3} />
+        <LoadingState size="lg" loadingText="Loading settings..." />
       </div>
     )
   }
