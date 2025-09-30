@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import MediaUpload, { UploadedMedia } from './MediaUpload'
+import MediaUpload, { type UploadedMedia } from './MediaUpload'
 
 interface WorkoutVideoUploadProps {
   onVideosUploaded: (videos: UploadedMedia[]) => void
@@ -15,7 +15,7 @@ export const WorkoutVideoUpload: React.FC<WorkoutVideoUploadProps> = ({
   workoutId = 'new-workout'
 }) => {
   const [error, setError] = useState<string | null>(null)
-  const [uploadProgress, setUploadProgress] = useState(0)
+  const [_uploadProgress, setUploadProgress] = useState(0)
 
   const handleUploadComplete = (media: UploadedMedia[]) => {
     onVideosUploaded(media)

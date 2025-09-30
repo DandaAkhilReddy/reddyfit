@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import MediaUpload, { UploadedMedia } from './MediaUpload'
+import MediaUpload, { type UploadedMedia } from './MediaUpload'
 
 interface ProgressPhotoUploadProps {
   onPhotosUploaded: (photos: UploadedMedia[]) => void
@@ -13,7 +13,7 @@ export const ProgressPhotoUpload: React.FC<ProgressPhotoUploadProps> = ({
   className = ''
 }) => {
   const [error, setError] = useState<string | null>(null)
-  const [uploadProgress, setUploadProgress] = useState(0)
+  const [_uploadProgress, setUploadProgress] = useState(0)
 
   const handleUploadComplete = (media: UploadedMedia[]) => {
     onPhotosUploaded(media)

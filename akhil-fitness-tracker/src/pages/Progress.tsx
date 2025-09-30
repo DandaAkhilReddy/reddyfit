@@ -28,8 +28,8 @@ import LoadingState from '../components/LoadingState'
 import { AppErrorHandler } from '../utils/errorHandling'
 import ProgressPhotoUpload from '../components/ProgressPhotoUpload'
 import AzureProgressPhotoUpload from '../components/AzureProgressPhotoUpload'
-import { UploadedMedia } from '../components/MediaUpload'
-import { AzureUploadedMedia } from '../components/AzureMediaUpload'
+import { type UploadedMedia } from '../components/MediaUpload'
+import { type AzureUploadedMedia } from '../components/AzureMediaUpload'
 import { mediaService } from '../services/mediaService'
 
 interface ProgressEntry {

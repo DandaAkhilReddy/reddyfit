@@ -54,7 +54,7 @@ export const MediaUpload: React.FC<MediaUploadProps> = ({
   const [uploading, setUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [dragActive, setDragActive] = useState(false)
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([])
+  const [_selectedFiles, setSelectedFiles] = useState<File[]>([])
 
   const generateThumbnail = useCallback((file: File): Promise<string> => {
     return new Promise((resolve) => {

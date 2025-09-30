@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AzureMediaUpload, { AzureUploadedMedia } from './AzureMediaUpload'
+import AzureMediaUpload, { type AzureUploadedMedia } from './AzureMediaUpload'
 
 interface AzureProgressPhotoUploadProps {
   onPhotosUploaded: (photos: AzureUploadedMedia[]) => void
@@ -13,7 +13,7 @@ export const AzureProgressPhotoUpload: React.FC<AzureProgressPhotoUploadProps> =
   className = ''
 }) => {
   const [error, setError] = useState<string | null>(null)
-  const [uploadProgress, setUploadProgress] = useState(0)
+  const [_uploadProgress, setUploadProgress] = useState(0)
 
   const handleUploadComplete = (media: AzureUploadedMedia[]) => {
     onPhotosUploaded(media)

@@ -9,22 +9,18 @@ import {
   BookmarkCheck,
   Play,
   Heart,
-  Utensils,
-  Timer,
   X,
   Share2,
   PrinterIcon,
   Video,
   Image as ImageIcon,
   Plus,
-  Filter,
-  TrendingUp,
   Award,
   Zap,
   Target
 } from 'lucide-react'
 import RecipeMediaUpload from '../components/RecipeMediaUpload'
-import { UploadedMedia } from '../components/MediaUpload'
+import { type UploadedMedia } from '../components/MediaUpload'
 
 // Enhanced Recipe Interface with Videos and Professional Features
 interface Recipe {

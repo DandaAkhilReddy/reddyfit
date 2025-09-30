@@ -19,7 +19,7 @@ import {
   Flame
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
-import AzureMediaUpload, { AzureUploadedMedia } from '../components/AzureMediaUpload'
+import AzureMediaUpload, { type AzureUploadedMedia } from '../components/AzureMediaUpload'
 
 interface Post {
   id: string

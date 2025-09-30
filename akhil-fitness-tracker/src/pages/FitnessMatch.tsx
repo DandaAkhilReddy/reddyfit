@@ -165,6 +165,8 @@ export default function FitnessMatch() {
     }, 300)
   }
 
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
+
   const nextPhoto = () => {
     const photoCount = currentProfile.photos.length
     setCurrentPhotoIndex((prev) => (prev + 1) % photoCount)
@@ -174,8 +176,6 @@ export default function FitnessMatch() {
     const photoCount = currentProfile.photos.length
     setCurrentPhotoIndex((prev) => (prev - 1 + photoCount) % photoCount)
   }
-
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
 
   const getCompatibilityColor = (score: number) => {
     if (score >= 90) return 'text-green-500'

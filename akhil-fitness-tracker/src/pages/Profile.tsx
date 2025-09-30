@@ -23,7 +23,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import AzureProgressPhotoUpload from '../components/AzureProgressPhotoUpload'
-import { AzureUploadedMedia } from '../components/AzureMediaUpload'
+import { type AzureUploadedMedia } from '../components/AzureMediaUpload'
 
 interface UserProfile {
   id: string
@@ -197,7 +197,7 @@ const mockProfile: UserProfile = {
 export default function Profile() {
   const { user } = useAuth()
   const [profile] = useState<UserProfile>(mockProfile)
-  const [isEditing, setIsEditing] = useState(false)
+  const [_isEditing, setIsEditing] = useState(false)
   const [activeTab, setActiveTab] = useState<'overview' | 'progress' | 'achievements' | 'activity'>('overview')
   const [progressPhotos, setProgressPhotos] = useState<AzureUploadedMedia[]>([])
 

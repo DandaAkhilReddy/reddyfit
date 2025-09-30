@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react'
-import { azureBlobService, AzureContainerType, AzureUploadResult } from '../config/azure'
+import { azureBlobService, type AzureContainerType, type AzureUploadResult } from '../config/azure'
 import { useAuth } from '../contexts/AuthContext'
 import { errorHandler } from '../utils/errorHandling'
 

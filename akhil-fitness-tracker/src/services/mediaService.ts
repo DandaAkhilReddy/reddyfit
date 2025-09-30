@@ -1,7 +1,7 @@
 import { collection, doc, updateDoc, arrayUnion, arrayRemove, getDoc, setDoc } from 'firebase/firestore'
 import { ref, deleteObject } from 'firebase/storage'
 import { db, storage } from '../config/firebase'
-import { UploadedMedia } from '../components/MediaUpload'
+import { type UploadedMedia } from '../components/MediaUpload'
 
 export interface MediaCollection {
   id: string

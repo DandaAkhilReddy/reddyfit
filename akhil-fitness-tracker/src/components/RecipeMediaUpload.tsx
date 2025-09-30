@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import MediaUpload, { UploadedMedia } from './MediaUpload'
+import MediaUpload, { type UploadedMedia } from './MediaUpload'
 
 interface RecipeMediaUploadProps {
   onMediaUploaded: (media: UploadedMedia[]) => void
@@ -15,7 +15,7 @@ export const RecipeMediaUpload: React.FC<RecipeMediaUploadProps> = ({
   recipeId = 'new-recipe'
 }) => {
   const [error, setError] = useState<string | null>(null)
-  const [uploadProgress, setUploadProgress] = useState(0)
+  const [_uploadProgress, setUploadProgress] = useState(0)
 
   const handleUploadComplete = (media: UploadedMedia[]) => {
     onMediaUploaded(media)

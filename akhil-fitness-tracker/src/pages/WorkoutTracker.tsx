@@ -92,13 +92,13 @@ export default function WorkoutTracker() {
   const [currentSet, setCurrentSet] = useState(1)
   const [isTimerRunning, setIsTimerRunning] = useState(false)
   const [workoutTimer, setWorkoutTimer] = useState(0) // in seconds
-  const [exerciseTimer, setExerciseTimer] = useState(0) // in seconds
+  const [_exerciseTimer, setExerciseTimer] = useState(0) // in seconds
   const [restTimer, setRestTimer] = useState(0) // rest between sets
 
   // Form state
   const [showWorkoutForm, setShowWorkoutForm] = useState(false)
-  const [selectedTemplate, setSelectedTemplate] = useState<typeof WORKOUT_TEMPLATES[0] | null>(null)
-  const [customWorkout, setCustomWorkout] = useState({
+  const [_selectedTemplate, setSelectedTemplate] = useState<typeof WORKOUT_TEMPLATES[0] | null>(null)
+  const [_customWorkout, setCustomWorkout] = useState({
     workoutType: '',
     exercises: [] as Exercise[],
     notes: ''

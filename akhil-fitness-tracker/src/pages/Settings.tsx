@@ -131,7 +131,7 @@ export default function Settings() {
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
   const [activeSection, setActiveSection] = useState<'profile' | 'notifications' | 'preferences' | 'privacy' | 'account' | 'data'>('profile')
-  const errorHandler = AppErrorHandler.getInstance()
+  const _errorHandler = AppErrorHandler.getInstance()
 
   // Settings state with default values
   const [settings, setSettings] = useState<UserSettings>({
@@ -184,7 +184,7 @@ export default function Settings() {
         setSettings(JSON.parse(savedSettings))
       }
     } catch (error) {
-      errorHandler.handleError(error, 'Loading user settings')
+      _errorHandler.handleError(error, 'Loading user settings')
     }
   }
 
@@ -203,7 +203,7 @@ export default function Settings() {
       setTimeout(() => setSaveStatus('idle'), 2000)
     } catch (error) {
       setSaveStatus('error')
-      errorHandler.handleError(error, 'Saving user settings')
+      _errorHandler.handleError(error, 'Saving user settings')
       setTimeout(() => setSaveStatus('idle'), 3000)
     }
   }
@@ -227,7 +227,7 @@ export default function Settings() {
       setTimeout(() => setSaveStatus('idle'), 2000)
     } catch (error) {
       setSaveStatus('error')
-      errorHandler.handleError(error, 'Updating profile')
+      _errorHandler.handleError(error, 'Updating profile')
       setTimeout(() => setSaveStatus('idle'), 3000)
       throw error
     }
@@ -253,7 +253,7 @@ export default function Settings() {
       document.body.removeChild(link)
       URL.revokeObjectURL(url)
     } catch (error) {
-      errorHandler.handleError(error, 'Exporting data')
+      _errorHandler.handleError(error, 'Exporting data')
     }
   }
 
@@ -261,7 +261,7 @@ export default function Settings() {
     try {
       await signOut()
     } catch (error) {
-      errorHandler.handleError(error, 'Signing out')
+      _errorHandler.handleError(error, 'Signing out')
     }
   }
 

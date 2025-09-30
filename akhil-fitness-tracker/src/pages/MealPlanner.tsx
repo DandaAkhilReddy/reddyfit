@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Search,
   Plus,
@@ -7,13 +7,9 @@ import {
   Moon,
   Apple,
   Flame,
-  Scale,
   ChefHat,
   Star,
-  Filter,
   Calendar,
-  CheckCircle2,
-  X,
   Edit3,
   Trash2,
   Clock
