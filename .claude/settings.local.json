@@ -101,7 +101,8 @@
       "Read(//c/Users/akhil/projects/reddyfit-social-fitness-platform/**)",
       "Read(//c/Users/akhil/projects/**)",
       "Bash(/bashes)",
-      "Bash(timeout:*)"
+      "Bash(timeout:*)",
+      "Bash(docker:*)"
     ],
     "deny": []
   }
