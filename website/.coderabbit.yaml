@@ -1,0 +1,132 @@
+# CodeRabbit Configuration for ReddyFit
+# AI-Powered Code Review Settings
+
+# Language configuration
+language: en-US
+
+# Review settings
+reviews:
+  # Request changes if issues are critical
+  request_changes_workflow: true
+
+  # Auto-approve simple PRs (typo fixes, formatting)
+  auto_approve:
+    enabled: false  # Keep manual approval for now
+
+  # Review depth
+  high_level_summary: true
+  poem: false  # Skip AI poems to save tokens
+
+  # Review focus areas
+  review_focus:
+    - security_vulnerabilities
+    - performance_issues
+    - bug_risks
+    - code_smell
+    - best_practices
+    - accessibility
+    - type_safety
+
+  # Path-specific instructions
+  path_instructions:
+    - path: "app/api/**"
+      instructions: |
+        - Check for proper error handling
+        - Verify input validation
+        - Ensure rate limiting is considered
+        - Check for sensitive data exposure
+        - Verify Firebase security rules alignment
+
+    - path: "components/**"
+      instructions: |
+        - Check for accessibility (ARIA labels, keyboard navigation)
+        - Verify responsive design considerations
+        - Check for performance (memoization, lazy loading)
+        - Ensure proper TypeScript typing
+
+    - path: "lib/**"
+      instructions: |
+        - Verify comprehensive error handling
+        - Check for edge cases
+        - Ensure proper TypeScript typing
+        - Look for optimization opportunities
+
+    - path: "**/*.test.ts"
+      instructions: |
+        - Check test coverage
+        - Verify edge cases are tested
+        - Ensure proper mocking
+        - Check for flaky test patterns
+
+# Project-specific context
+tone_instructions: |
+  You are reviewing code for ReddyFit, a recovery-based weight loss SaaS application.
+
+  Key context:
+  - Next.js 14 with App Router
+  - TypeScript with strict mode
+  - Firebase for authentication and database
+  - Resend for email delivery
+  - Azure Static Web Apps for hosting
+  - Focus on weight loss, Whoop integration, AI meal planning
+
+  Priority concerns:
+  1. Security: User health data (HIPAA considerations)
+  2. Performance: Fast page loads, optimized API calls
+  3. Reliability: Error handling, data consistency
+  4. Accessibility: Inclusive design for all users
+  5. Type Safety: Strict TypeScript usage
+
+# Early access features (enable experimental CodeRabbit features)
+early_access: true
+
+# Chat settings
+chat:
+  # Allow developers to ask CodeRabbit questions about the codebase
+  auto_reply: true
+
+# Knowledge base (important patterns in our codebase)
+knowledge_base:
+  - "We use Next.js App Router, not Pages Router"
+  - "All API routes should use try-catch and return proper error responses"
+  - "Firebase queries should include error handling"
+  - "Email sending via Resend should be wrapped in try-catch"
+  - "All forms should have loading states and error messages"
+  - "Use Tailwind CSS for styling (no inline styles)"
+  - "TypeScript: Prefer interfaces over types for object shapes"
+  - "Environment variables must use NEXT_PUBLIC_ prefix for client-side access"
+
+# Files to ignore
+ignore:
+  - "*.md"
+  - "*.mdx"
+  - ".next/**"
+  - "out/**"
+  - "node_modules/**"
+  - "package-lock.json"
+  - "*.log"
+
+# Tools to run automatically
+tools:
+  # Static analysis
+  eslint:
+    enabled: true
+
+  # Type checking
+  typescript:
+    enabled: true
+
+  # Accessibility checker
+  axe:
+    enabled: true
+
+# Notifications
+notifications:
+  # Post summary comment on every PR
+  summary_comment: true
+
+  # Inline comments for specific issues
+  inline_comments: true
+
+  # Review status checks
+  status_check: true
