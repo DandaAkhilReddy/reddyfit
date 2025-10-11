@@ -116,7 +116,7 @@ If you see an error, take a screenshot and we can fix it specifically.
   appId: "1:123730832729:web:16ce63a0f2d5401f60b048",
   measurementId: "G-ECC4W6B3JN"
 }
-```
+```text
 
 This configuration is correct and already deployed! ✅
 

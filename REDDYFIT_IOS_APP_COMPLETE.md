@@ -27,7 +27,7 @@ A complete **iOS app in SwiftUI** for the ReddyFit platform with:
 
 ## 📁 File Structure Created
 
-```
+```text
 ios/ReddyFitElite/
 ├── ReddyFitEliteApp.swift          (Main app entry point)
 ├── README.md                        (Complete documentation)
@@ -56,7 +56,7 @@ ios/ReddyFitElite/
     ├── NutritionView.swift          (AI food tracking)
     ├── AchievementsView.swift       (Photo scanner)
     └── ProfileView.swift            (Settings + integrations)
-```
+```text
 
 **Total:** 16 Swift files + 1 README
 
@@ -66,7 +66,7 @@ ios/ReddyFitElite/
 
 ### MVVM Pattern
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │                      Views                          │
 │  (SwiftUI - UI rendering, user interaction)         │
@@ -86,7 +86,7 @@ ios/ReddyFitElite/
 │              Backend API (FastAPI)                  │
 │  (Firebase, Whoop, AI, Photo steganography)         │
 └─────────────────────────────────────────────────────┘
-```
+```text
 
 ---
 
@@ -102,7 +102,7 @@ enum DataSource {
     case healthKit   // Pro tier ($69/mo)
     case manual      // Starter tier ($29/mo)
 }
-```
+```text
 
 **Dashboard adapts based on data source:**
 - Whoop users: Recovery rings, HRV, Strain targets
@@ -124,7 +124,7 @@ let embeddedPhoto = await photoService.embedWorkoutMetadata(
 // Extract
 let metadata = await photoService.extractMetadata(from: scannedPhoto)
 // Returns: workout stats, recovery, achievements, verification status
-```
+```text
 
 **Use cases:**
 - Share workout achievements on Instagram
@@ -149,7 +149,7 @@ await whoopService.connectWhoop(userId: userId)
 // 4. Data sync
 await whoopService.syncData(userId: userId)
 // Fetches recovery, strain, sleep, workouts
-```
+```text
 
 ### 4. Subscription Management
 
@@ -168,7 +168,7 @@ user.hasWhoopAccess       // Elite, Platinum only
 user.hasHealthKitAccess   // Pro, Elite, Platinum
 user.hasHumanCoach        // Platinum only
 user.canUsePhotoSteganography // Elite, Platinum
-```
+```text
 
 ### 5. AI Food Tracking
 
@@ -188,7 +188,7 @@ let analysis = await apiService.analyzeFood(
 // - Detected foods with confidence
 // - Calories, protein, carbs, fat
 // - Portion estimates
-```
+```text
 
 ### 6. Achievements System
 
@@ -207,7 +207,7 @@ let analysis = await apiService.analyzeFood(
 
 ### First-Time User
 
-```
+```text
 1. Launch app
    ↓
 2. LoginView
@@ -227,11 +227,11 @@ let analysis = await apiService.analyzeFood(
    - Nutrition
    - Achievements
    - Profile
-```
+```text
 
 ### Elite User (Whoop)
 
-```
+```text
 1. Complete onboarding → Select "Whoop" → Choose "Elite"
    ↓
 2. Dashboard loads with loading state
@@ -252,11 +252,11 @@ let analysis = await apiService.analyzeFood(
    - Target strain
    - Sleep breakdown
    - AI recommendations
-```
+```text
 
 ### Photo Steganography Flow
 
-```
+```text
 1. Complete workout
    ↓
 2. Take selfie/photo
@@ -280,7 +280,7 @@ let analysis = await apiService.analyzeFood(
    - ✅ Verified ReddyFit Photo
    - Stats breakdown
    - Achievements
-```
+```text
 
 ---
 
@@ -298,11 +298,11 @@ Accents:
 - .green (recovery green, success)
 - .yellow (recovery yellow, achievements)
 - .red (recovery red, errors)
-```
+```text
 
 ### Dashboard Recovery Ring
 
-```
+```text
 ┌─────────────────────────────────┐
 │         Recovery               │
 │                                 │
@@ -312,11 +312,11 @@ Accents:
 │    HRV          Resting HR     │
 │   45.2 ms         52 bpm       │
 └─────────────────────────────────┘
-```
+```text
 
 ### Onboarding Cards
 
-```
+```text
 ┌─────────────────────────────────┐
 │  🏃 Whoop                       │
 │                                 │
@@ -332,7 +332,7 @@ Accents:
 │  HealthKit                      │
 │                                 │
 └─────────────────────────────────┘
-```
+```text
 
 ---
 
@@ -392,7 +392,7 @@ struct User {
     var totalCalories: Double
     var currentStreak: Int
 }
-```
+```text
 
 ### Workout Model
 
@@ -418,7 +418,7 @@ struct Workout {
     // Whoop-specific
     var whoopStrain: Double?
 }
-```
+```text
 
 ### Whoop Recovery Model
 
@@ -437,7 +437,7 @@ struct WhoopRecovery {
         }
     }
 }
-```
+```text
 
 ---
 
@@ -451,7 +451,7 @@ struct WhoopRecovery {
 # Product Name: ReddyFitElite
 # Interface: SwiftUI
 # Language: Swift
-```
+```text
 
 ### 2. Add Firebase
 
@@ -463,14 +463,14 @@ struct WhoopRecovery {
 - FirebaseAuth
 - FirebaseFirestore
 - FirebaseStorage
-```
+```text
 
 ### 3. Copy Files
 
 ```bash
 # Copy all Swift files from ios/ReddyFitElite/
 # into your Xcode project
-```
+```text
 
 ### 4. Configure
 
@@ -480,14 +480,14 @@ struct WhoopRecovery {
 
 // Set API_BASE_URL in environment
 // Or hardcode in APIService.swift
-```
+```text
 
 ### 5. Test Build
 
 ```bash
 # ⌘ + R to build and run
 # Test in iOS Simulator
-```
+```text
 
 ---
 
@@ -744,7 +744,7 @@ extension UIImage {
         return jpegData(compressionQuality: quality)
     }
 }
-```
+```text
 
 ---
 

@@ -38,17 +38,17 @@
 ### **Total: 141 Tests Passing (84% coverage)**
 
 #### Service Tests (90/90 - 100%) ✅
-```
+```text
 ✓ geminiVision.test.ts        28/28  ✅
 ✓ storageService.test.ts       31/31  ✅
 ✓ scans.test.ts (Firestore)    31/31  ✅
-```
+```text
 
 #### Component Tests (51/61 - 84%) ⚠️
-```
+```text
 ✓ ProgressChart.test.tsx       29/29  ✅
 ✓ CameraCapture.test.tsx       22/32  ⚠️  (Browser API mocking complexity)
-```
+```text
 
 ### Test Distribution by Category
 
@@ -76,7 +76,7 @@
 - `JIRA_IMPLEMENTATION_COMPLETE.md` - Implementation summary
 
 **Project Structure:**
-```
+```text
 REDDYFIT (Project Key: RFIT)
 ├── Epic 1: Daily Scan MVP (Phases 1-44) ✅ DONE
 ├── Epic 2: Advanced Testing (Phases 45-50) 🔄 IN PROGRESS
@@ -84,7 +84,7 @@ REDDYFIT (Project Key: RFIT)
 ├── Epic 4: Social Feed & Community
 ├── Epic 5: Trainer Dashboard
 └── Epic 6: Mobile App (React Native)
-```
+```text
 
 **Task Categories:**
 - RFIT-1XX: Frontend (React/TypeScript)
@@ -114,7 +114,7 @@ gh pr create --title "RFIT-101: Feature"
 
 # 6. After PR merged
 ./jira-scripts/update-status.sh RFIT-101 "Done"
-```
+```text
 
 ### 🚀 How to Start Jira
 
@@ -131,7 +131,7 @@ http://localhost:8080
 # Configure environment variables
 # Create REDDYFIT project
 # Create tasks RFIT-101, RFIT-102, RFIT-103
-```
+```text
 
 ---
 
@@ -143,10 +143,10 @@ Repository: https://github.com/DandaAkhilReddy/RFC
 Branch: feature/daily-scan-system
 Commits: 11
 Latest: 9b04826 (Phase 46 Component Tests)
-```
+```text
 
 ### Commit History
-```
+```text
 9b04826  ✅ Phase 46: Component Tests (ProgressChart + CameraCapture)
 c9abed2  ✅ Phase 45: Firestore scans.test.ts (31/31 passing)
 f6fb8d8  ✅ Phase 41-44: Service test suite (gemini + storage)
@@ -156,10 +156,10 @@ f3f4bd4  Redeploy frontend to Azure
 fdbccdf  Add guide to fix Google login
 d5ed966  🎉 ReddyFit deployed to Azure
 71fddf0  Add deployment status
-```
+```text
 
 ### Files Changed (Total)
-```
+```text
 Components:
 + src/components/ProgressChart.tsx
 + src/components/__tests__/ProgressChart.test.tsx
@@ -178,7 +178,7 @@ Jira Infrastructure:
 + jira-scripts/README.md
 + JIRA_SETUP_GUIDE.md
 + JIRA_IMPLEMENTATION_COMPLETE.md
-```
+```text
 
 ---
 
@@ -275,7 +275,7 @@ Complete implementation of Daily Scan MVP system with comprehensive testing.
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 EOF
 )"
-```
+```text
 
 ### CodeRabbit Integration
 CodeRabbit will automatically review the PR when created. It will check:
@@ -314,7 +314,7 @@ npm test -- src/components/__tests__/ProgressChart.test.tsx
 
 # Build for production
 npm run build
-```
+```text
 
 ### Git Workflow
 ```bash
@@ -329,7 +329,7 @@ git push origin feature/daily-scan-system
 
 # Create PR
 gh pr create
-```
+```text
 
 ### Jira Commands
 ```bash
@@ -341,7 +341,7 @@ gh pr create
 
 # Add comment
 ./jira-scripts/add-comment.sh RFIT-101 "PR created"
-```
+```text
 
 ---
 
@@ -423,7 +423,7 @@ docker-compose restart jira
 
 # Stop Jira
 docker-compose down
-```
+```text
 
 ### Test Issues
 ```bash
@@ -435,7 +435,7 @@ npm test -- --watch
 
 # Run tests with coverage
 npm test -- --coverage
-```
+```text
 
 ### Git Issues
 ```bash
@@ -447,7 +447,7 @@ git branch -a
 
 # View log
 git log --graph --oneline --all
-```
+```text
 
 ---
 

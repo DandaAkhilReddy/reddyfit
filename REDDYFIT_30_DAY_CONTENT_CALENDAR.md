@@ -30,7 +30,7 @@
 **Instagram Feed**:
 - **Image**: ReddyFit logo on gradient background + "Coming Soon"
 - **Caption**:
-```
+```text
 Something BIG is coming 🚀
 
 We're building the first AI weight loss app that adapts to YOUR body's recovery state.
@@ -49,7 +49,7 @@ Join the waitlist (link in bio) 👆
 #ReddyFit #AIWeightLoss #WhoopIntegration #SustainableWeightLoss #RecoveryBasedTraining
 
 Drop a 🔥 if you're ready to lose weight the smart way!
-```
+```text
 
 **Instagram Stories** (3-5):
 1. "Big news coming..." teaser with timer sticker
@@ -59,7 +59,7 @@ Drop a 🔥 if you're ready to lose weight the smart way!
 5. CTA: "Link in bio to join waitlist" with swipe-up sticker
 
 **Twitter Thread**:
-```
+```text
 Tweet 1/4:
 Introducing ReddyFit - the first AI weight loss app that adapts to your body's recovery state 🚀
 
@@ -93,10 +93,10 @@ Early members get:
 ✅ Exclusive beta features
 
 RT to help spread the word! 🙏
-```
+```text
 
 **LinkedIn Post**:
-```
+```text
 Excited to announce ReddyFit - enterprise wellness solution that's changing how we approach sustainable weight loss.
 
 Traditional corporate wellness programs have a 70% dropout rate. Why? They ignore individual biometric data and recovery capacity.
@@ -106,7 +106,7 @@ ReddyFit integrates with Whoop and Apple HealthKit to create adaptive weight los
 Interested in bringing ReddyFit to your organization? DM for corporate wellness packages.
 
 #CorporateWellness #HealthTech #EmployeeWellbeing #AIHealthcare
-```
+```text
 
 **TikTok**:
 - **Video**: Quick 15-second teaser
@@ -123,7 +123,7 @@ Interested in bringing ReddyFit to your organization? DM for corporate wellness 
 **Instagram Feed**:
 - **Image**: Stat graphic "78% of dieters regain weight in 5 years"
 - **Caption**:
-```
+```text
 Why do 78% of dieters regain their weight? 📉
 
 It's not about willpower.
@@ -142,7 +142,7 @@ ReddyFit solves this by adapting to YOUR recovery state.
 We're launching soon. Join the waitlist → link in bio
 
 #WeightLossTips #WhoopData #SmartWeightLoss #SustainableDiet
-```
+```text
 
 **Twitter** (5 tweets throughout day):
 1. "Quick weight loss tip: Check your Whoop recovery before deciding your workout intensity. Low recovery = active recovery or rest. Your body will thank you."
@@ -178,7 +178,7 @@ We're launching soon. Join the waitlist → link in bio
 **Instagram Feed**:
 - **Image**: Infographic showing "Your Whoop Recovery → ReddyFit AI → Personalized Plan"
 - **Caption**:
-```
+```text
 How ReddyFit Works (Part 1/3) 🧠
 
 Step 1: Your Whoop measures HRV, sleep, strain
@@ -207,12 +207,12 @@ Your body. Your pace. Your results. 💪
 Waitlist link in bio.
 
 #AIFitness #WhoopRecovery #PersonalizedNutrition #AdaptiveTraining
-```
+```text
 
 **Twitter Thread**: How recovery affects fat loss (scientific breakdown)
 
 **LinkedIn Post**:
-```
+```text
 The science behind recovery-based weight loss:
 
 Research from the Journal of Sports Medicine shows that overtraining can reduce metabolic rate by up to 20% and increase cortisol (a fat-storage hormone) by 40%.
@@ -224,7 +224,7 @@ This isn't just a consumer app - it's enterprise wellness reimagined.
 Learn more: [link]
 
 #HealthTech #Biometrics #CorporateWellness
-```
+```text
 
 **TikTok**: "What your Whoop recovery % actually means for weight loss"
 
@@ -238,7 +238,7 @@ Learn more: [link]
 **Instagram Feed**:
 - **Image**: App screenshot mockup showing dashboard
 - **Caption**:
-```
+```text
 How ReddyFit Works (Part 2/3) 📱
 
 Inside the app you'll see:
@@ -260,7 +260,7 @@ This is what sustainable weight loss looks like 💚
 Join waitlist → link in bio
 
 #FitnessApp #WeightLossApp #HealthTech #AICoach
-```
+```text
 
 **Twitter**: Live-tweet app development, share behind-the-scenes
 
@@ -276,7 +276,7 @@ Join waitlist → link in bio
 **Instagram Feed**:
 - **Image**: Before/after mockup (with permission) or graph showing sustainable weight loss
 - **Caption**:
-```
+```text
 How ReddyFit Works (Part 3/3) 📈
 
 RESULTS:
@@ -305,7 +305,7 @@ That's how you lose weight for good 💪
 Beta launching soon. Join waitlist (link in bio)
 
 #SustainableWeightLoss #NoMoreCrashDiets #RecoveryFirst #LongTermResults
-```
+```text
 
 **Twitter**: Success story preview, engagement with community
 
@@ -330,7 +330,7 @@ Beta launching soon. Join waitlist (link in bio)
 **Instagram Feed**:
 - **Image**: Motivational quote on branded background
 - **Caption**:
-```
+```text
 Weekend reminder 🌟
 
 Rest days aren't "cheating."
@@ -343,7 +343,7 @@ Enjoy your weekend. Trust the process. Stay consistent.
 ReddyFit launches soon - we'll handle the strategy, you focus on living your life 💚
 
 #WeekendVibes #FitnessMotivation #RestDayIsLegDay #WeightLossJourney
-```
+```text
 
 **Twitter**: Engage with community, answer questions, share tips
 
@@ -361,7 +361,7 @@ ReddyFit launches soon - we'll handle the strategy, you focus on living your lif
 **Instagram Feed**:
 - **Image**: Carousel post recapping Week 1 highlights
 - **Caption**:
-```
+```text
 Week 1 Recap 🎉
 
 This week we shared:
@@ -381,7 +381,7 @@ Haven't joined the waitlist yet? Link in bio 👆
 What topic should we cover next? Comment below! 👇
 
 #ReddyFit #WeightLossCommunity #FitnessJourney
-```
+```text
 
 **Instagram Stories**: Poll for next week's content topics
 
@@ -399,7 +399,7 @@ What topic should we cover next? Comment below! 👇
 **Instagram Feed**:
 - **Image**: Graphic showing "500+ AI Agents for Every Goal"
 - **Caption**:
-```
+```text
 Meet the AI Agent Marketplace 🤖
 
 ReddyFit isn't just ONE app.
@@ -418,7 +418,7 @@ This is the future of personalized fitness 🚀
 Launching soon. Waitlist in bio.
 
 #AIAgents #PersonalizedFitness #FitnessAI #WeightLossTech
-```
+```text
 
 **Twitter Thread**: Explaining AI agent marketplace concept with examples
 
@@ -436,7 +436,7 @@ Launching soon. Waitlist in bio.
 **Instagram Feed**:
 - **Image**: App screenshot of meal planner
 - **Caption**:
-```
+```text
 ReddyFit Meal Planner 🥗
 
 NOT your typical meal plan:
@@ -460,7 +460,7 @@ The plan ADAPTS to you. Not the other way around 💚
 Join waitlist → link in bio
 
 #MealPlanning #FlexibleDieting #MacroCounting #HealthyEating
-```
+```text
 
 **Twitter**: Share sample meal plans for different recovery levels
 
@@ -479,7 +479,7 @@ Join waitlist → link in bio
 **Instagram Feed**:
 - **Image**: Split screen - low recovery = yoga, high recovery = HIIT
 - **Caption**:
-```
+```text
 Your workout should match your recovery 🏋️‍♀️
 
 ReddyFit automatically adjusts:
@@ -504,7 +504,7 @@ ReddyFit knows the difference 🧠
 Waitlist link in bio.
 
 #WorkoutPlan #RecoveryDay #SmartTraining #AdaptiveFitness
-```
+```text
 
 **Twitter**: Workout tips based on recovery levels
 
@@ -520,7 +520,7 @@ Waitlist link in bio.
 **Instagram Feed**:
 - **Image**: Logos of Whoop + Apple Health + ReddyFit connected
 - **Caption**:
-```
+```text
 Seamless Integration 🔗
 
 ReddyFit works with:
@@ -548,7 +548,7 @@ Flexible. Adaptive. Personalized 💪
 Join waitlist (link in bio) to get early access.
 
 #WhoopIntegration #AppleHealth #Wearables #HealthTech
-```
+```text
 
 **Twitter**: Technical deep-dive thread on integrations
 
@@ -562,7 +562,7 @@ Join waitlist (link in bio) to get early access.
 **Instagram Feed**:
 - **Image**: Photo of beta tester with quote overlay
 - **Caption**:
-```
+```text
 Beta Tester Spotlight 🌟
 
 "I've tried every diet app. ReddyFit is the ONLY one that actually listens to my body.
@@ -578,7 +578,7 @@ This is sustainable. This is smart. This is the future."
 Want results like Sarah's? Join the waitlist 👆
 
 #SuccessStory #WeightLossResults #BetaTester #RealResults
-```
+```text
 
 **Twitter**: Share full testimonial as thread
 
@@ -599,7 +599,7 @@ Want results like Sarah's? Join the waitlist 👆
 **Instagram Feed**:
 - **Image**: Someone enjoying brunch with friends
 - **Caption**:
-```
+```text
 You can still have a life AND lose weight 🥂
 
 ReddyFit adapts to YOUR lifestyle:
@@ -616,7 +616,7 @@ Life happens. We help you stay on track anyway 💚
 Launching soon. Link in bio.
 
 #FlexibleDieting #LifestyleBalance #SocialLife #SustainableWeightLoss
-```
+```text
 
 **Twitter**: Tips for eating out while losing weight
 
@@ -645,7 +645,7 @@ Launching soon. Link in bio.
 **Instagram Feed**:
 - **Image**: App screenshot of progress photo feature
 - **Caption**:
-```
+```text
 Track more than just the scale 📸
 
 ReddyFit includes:
@@ -670,7 +670,7 @@ ReddyFit shows you the REAL progress 💪
 Join waitlist (link in bio) for early access.
 
 #ProgressPhotos #BodyComposition #BeyondTheScale #WeightLossProgress
-```
+```text
 
 **Twitter**: Thread on why scale weight is misleading
 
@@ -688,7 +688,7 @@ Join waitlist (link in bio) for early access.
 **Instagram Feed**:
 - **Image**: Graphic showing Discord community
 - **Caption**:
-```
+```text
 You're not alone in this journey 👥
 
 ReddyFit includes:
@@ -709,7 +709,7 @@ Early members get:
 Join waitlist now → link in bio
 
 #FitnessCommunity #WeightLossSupport #Accountability #TogetherWeWin
-```
+```text
 
 **Twitter**: Announce Discord server for early members
 
@@ -727,7 +727,7 @@ Join waitlist now → link in bio
 **Instagram Feed**:
 - **Image**: Pricing tiers graphic
 - **Caption**:
-```
+```text
 ReddyFit Pricing 💰
 
 🥉 Starter - $29/mo
@@ -757,7 +757,7 @@ That's $14.50, $34.50, $74.50, or $149.50 to start.
 Join waitlist → link in bio
 
 #Pricing #EarlyBird #FitnessApp #WeightLossApp
-```
+```text
 
 **Twitter**: Pricing breakdown thread
 
@@ -773,7 +773,7 @@ Join waitlist → link in bio
 **Instagram Feed**:
 - **Image**: Infographic citing research studies
 - **Caption**:
-```
+```text
 The science behind ReddyFit 🧬
 
 Our approach is backed by research:
@@ -793,7 +793,7 @@ We built a science-backed system.
 Read full research breakdown on our website (link in bio).
 
 #ScienceBacked #ResearchBased #EvidenceBased #WeightLossScience
-```
+```text
 
 **Twitter**: Thread breaking down each study
 
@@ -809,7 +809,7 @@ Read full research breakdown on our website (link in bio).
 **Instagram Feed**:
 - **Image**: App screenshot of habit tracker
 - **Caption**:
-```
+```text
 Build habits that last 🎯
 
 ReddyFit habit tracker:
@@ -833,7 +833,7 @@ We help you stay consistent 💚
 Join waitlist (link in bio)
 
 #HabitTracking #ConsistencyIsKey #SmallWins #LifestyleChange
-```
+```text
 
 **Twitter**: Share habit-building tips
 
@@ -851,7 +851,7 @@ Join waitlist (link in bio)
 **Instagram Feed**:
 - **Image**: Challenge graphic
 - **Caption**:
-```
+```text
 Weekend Challenge 🏆
 
 This weekend, try this:
@@ -869,7 +869,7 @@ Comment "DONE" and I'll send you early access code when we launch 🎁
 Let's go! 💪
 
 #WeekendChallenge #FitnessChallenge #HealthyWeekend #Consistency
-```
+```text
 
 **Instagram Stories**: Track challenge participants
 
@@ -898,7 +898,7 @@ Let's go! 💪
 **Instagram Feed**:
 - **Image**: "7 DAYS" countdown graphic
 - **Caption**:
-```
+```text
 🚨 7 DAYS UNTIL LAUNCH 🚨
 
 One week from today, ReddyFit goes live.
@@ -919,7 +919,7 @@ Join now → link in bio
 The countdown starts NOW ⏰
 
 #LaunchWeek #ComingSoon #LastChance #EarlyAccess
-```
+```text
 
 **Instagram Stories**: Daily countdown sticker (7 days)
 
@@ -965,7 +965,7 @@ The countdown starts NOW ⏰
 **Instagram Feed**:
 - **Image**: Photo of you working on the app
 - **Caption**:
-```
+```text
 4 days until launch 🛠️
 
 Building ReddyFit has been a 12-month journey:
@@ -985,7 +985,7 @@ Thank you for being part of this journey 💚
 4 more days. Let's go.
 
 #BuildInPublic #Startup #FitnessApp #BehindTheScenes
-```
+```text
 
 **Twitter**: Behind-the-scenes thread
 
@@ -1016,7 +1016,7 @@ Thank you for being part of this journey 💚
 **Instagram Feed**:
 - **Image**: "LAST CHANCE" graphic
 - **Caption**:
-```
+```text
 ⚠️ 2 DAYS LEFT ⚠️
 
 This is your LAST CHANCE to join the waitlist and get:
@@ -1035,7 +1035,7 @@ Join now → link in bio
 See you Monday morning 🚀
 
 #LastChance #FinalCall #LaunchWeek #EarlyBird
-```
+```text
 
 **Instagram Stories**: 48-hour countdown timer
 
@@ -1051,7 +1051,7 @@ See you Monday morning 🚀
 **Instagram Feed**:
 - **Image**: "TOMORROW" graphic
 - **Caption**:
-```
+```text
 TOMORROW IS THE DAY 🎉
 
 After 12 months of building...
@@ -1069,7 +1069,7 @@ This is it. The future of weight loss starts tomorrow.
 Are you ready? 💪
 
 #LaunchDay #Tomorrow #ReddyFit #NewBeginnings
-```
+```text
 
 **Instagram Stories**: All-day countdown (24h, 18h, 12h, 6h, 3h, 1h)
 
@@ -1090,7 +1090,7 @@ Are you ready? 💪
 **Instagram Feed**:
 - **Image**: "WE'RE LIVE" celebration graphic
 - **Caption**:
-```
+```text
 🚨 REDDYFIT IS LIVE 🚨
 
 Waitlist members: Check your email RIGHT NOW for your early access link + discount code.
@@ -1104,7 +1104,7 @@ Download link in bio.
 Thank you for believing in us 🙏
 
 #LaunchDay #WeAreLive #ReddyFit #AIWeightLoss
-```
+```text
 
 **Instagram Stories** (Post every hour):
 - 9 AM: "WE'RE LIVE!"
@@ -1151,7 +1151,7 @@ Thank you for believing in us 🙏
 
 **Email to Waitlist**:
 Subject: "🎉 Your ReddyFit Early Access is HERE!"
-```
+```text
 Hey [Name],
 
 Today's the day! ReddyFit is officially LIVE 🚀
@@ -1176,7 +1176,7 @@ See you inside the app!
 Founder, ReddyFit
 
 P.S. Share your referral link to unlock bonus features: [referral link]
-```
+```text
 
 ---
 
@@ -1185,7 +1185,7 @@ P.S. Share your referral link to unlock bonus features: [referral link]
 **Instagram Feed**:
 - **Image**: Launch day stats graphic (signups, countries, ratings)
 - **Caption**:
-```
+```text
 Day 1 in the books 📊
 
 Yesterday we:
@@ -1206,7 +1206,7 @@ Day 2, let's keep the momentum going!
 Download: Link in bio
 
 #LaunchSuccess #DayOne #Gratitude #ReddyFit
-```
+```text
 
 **Instagram Stories**:
 - User testimonials from Day 1

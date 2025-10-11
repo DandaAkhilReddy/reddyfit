@@ -20,7 +20,7 @@ router.post('/create', async (req, res) => {
   // Check if profile exists, create if not
   // Returns profile data
 });
-```
+```text
 
 **Issue:** Incorrect public QR route path
 **Fix:** Changed from `/q/:slug` to `/:slug` (router already mounted at `/q`)

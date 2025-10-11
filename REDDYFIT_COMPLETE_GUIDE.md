@@ -41,18 +41,18 @@
 ### 1. Test API Health
 ```bash
 curl https://reddyfit-express-api.azurewebsites.net/api/health
-```
+```text
 Should return:
 ```json
 {"status":"healthy","database":"connected"}
-```
+```text
 
 ### 2. Test Complete User Flow
 
 **Step 1**: Open frontend
-```
+```text
 https://delightful-sky-0437f100f.2.azurestaticapps.net
-```
+```text
 
 **Step 2**: Click "Start Your Transformation" and sign in with Google
 
@@ -73,9 +73,9 @@ https://delightful-sky-0437f100f.2.azurestaticapps.net
 **Step 1**: Sign in with admin email (akhilreddyd3@gmail.com)
 
 **Step 2**: Navigate to:
-```
+```text
 https://delightful-sky-0437f100f.2.azurestaticapps.net/admin
-```
+```text
 
 **Expected Result**:
 - ✅ You see the Admin Panel
@@ -142,7 +142,7 @@ https://delightful-sky-0437f100f.2.azurestaticapps.net/admin
 az sql server firewall-rule list \
   --resource-group sixpack-rg \
   --server reddyfit-sql-server
-```
+```text
 
 **Fix**:
 - Allow Azure services:
@@ -221,7 +221,7 @@ az webapp log download \
   --resource-group sixpack-rg \
   --name reddyfit-express-api \
   --log-file logs.zip
-```
+```text
 
 ### Check Frontend Deployment
 - GitHub Actions: https://github.com/DandaAkhilReddy/ReddyFitClub_Website/actions
@@ -241,7 +241,7 @@ az sql db show \
 
 # Check connection
 curl "https://reddyfit-express-api.azurewebsites.net/api/users/all"
-```
+```text
 
 ---
 
@@ -257,7 +257,7 @@ curl "https://reddyfit-express-api.azurewebsites.net/api/users/all"
 
 ### File Structure
 
-```
+```text
 Frontend (ReddyfitWebsiteready/)
 ├── src/
 │   ├── App.tsx                    # Landing page
@@ -278,7 +278,7 @@ Backend (reddyfit-express-api/)
 ├── web.config                     # Azure App Service config
 └── .github/workflows/
     └── azure-deploy.yml           # CI/CD pipeline
-```
+```text
 
 ### Key Components
 
@@ -358,7 +358,7 @@ Backend (reddyfit-express-api/)
 ```bash
 curl https://reddyfit-express-api.azurewebsites.net/api/health
 # Should return: {"status":"healthy","database":"connected"}
-```
+```text
 
 **Frontend**:
 - Open: https://delightful-sky-0437f100f.2.azurestaticapps.net
@@ -371,7 +371,7 @@ curl https://reddyfit-express-api.azurewebsites.net/api/health
 ```bash
 curl "https://reddyfit-express-api.azurewebsites.net/api/users/all"
 # Should return array of users with onboarding data
-```
+```text
 
 ---
 
@@ -391,7 +391,7 @@ az webapp restart --resource-group sixpack-rg --name reddyfit-express-api
 # Deploy updates
 cd C:\users\akhil\reddyfit-express-api
 az webapp up --resource-group sixpack-rg --name reddyfit-express-api
-```
+```text
 
 ### Frontend Commands
 ```bash
@@ -403,7 +403,7 @@ git push origin main
 
 # Check deployment status
 # Visit: https://github.com/DandaAkhilReddy/ReddyFitClub_Website/actions
-```
+```text
 
 ### Database Commands
 ```bash
@@ -415,7 +415,7 @@ curl "https://reddyfit-express-api.azurewebsites.net/api/users/profile?email=tes
 
 # Check firewall rules
 az sql server firewall-rule list --resource-group sixpack-rg --server reddyfit-sql-server
-```
+```text
 
 ---
 

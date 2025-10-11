@@ -62,7 +62,7 @@
 
 ### High-Level Overview
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                         Users                                │
 └─────────┬────────────────────┬────────────────┬─────────────┘
@@ -86,7 +86,7 @@
     │Auth +   │ │SDK     │  │  API     │
     │Firestore│ │(AI)    │  │(Wearable)│
     └─────────┘ └────────┘  └──────────┘
-```
+```text
 
 ### Component Responsibilities
 
@@ -111,7 +111,7 @@
 
 **New API Routes to Create:**
 
-```
+```text
 /api/auth
   - POST /login
   - POST /register
@@ -155,7 +155,7 @@
 
 /api/admin (existing)
   - GET /waitlist           // Existing
-```
+```text
 
 #### 3. **Agent-SDK Integration**
 
@@ -171,7 +171,7 @@ export class AgentClient {
   async analyzeMeal(photo) { }
   // etc.
 }
-```
+```text
 
 **Deployment Options:**
 1. **Option A**: Bundle Agent-SDK into Next.js API routes (serverless)
@@ -189,7 +189,7 @@ let baseURL = "TBD"
 
 // New: Environment-based configuration
 let baseURL = Environment.apiBaseURL // https://reddyfit.vercel.app/api
-```
+```text
 
 **New API Methods:**
 ```swift
@@ -198,12 +198,12 @@ let baseURL = Environment.apiBaseURL // https://reddyfit.vercel.app/api
 - fetchWhoopInsights()
 - uploadProgressPhoto()
 - getAIWorkoutPlan()
-```
+```text
 
 #### 5. **Authentication Flow**
 
 **Unified Auth:**
-```
+```text
 1. User signs up/logs in on Web OR iOS
 2. Firebase Auth creates account
 3. Backend creates Firestore user document
@@ -211,7 +211,7 @@ let baseURL = Environment.apiBaseURL // https://reddyfit.vercel.app/api
 5. Client stores token securely (httpOnly cookie for web, Keychain for iOS)
 6. All API requests include token
 7. Server validates via Firebase Admin SDK
-```
+```text
 
 **Auth Middleware:**
 ```typescript
@@ -221,7 +221,7 @@ export async function requireAuth(request) {
   const user = await admin.auth().verifyIdToken(token);
   return user;
 }
-```
+```text
 
 ## Implementation Plan
 
@@ -310,7 +310,7 @@ interface User {
   createdAt: Date;
   updatedAt: Date;
 }
-```
+```text
 
 ### WhoopData (from Agent-SDK)
 ```typescript
@@ -331,7 +331,7 @@ interface WhoopDailyData {
   calories: number;
   // ... (existing structure from Agent-SDK)
 }
-```
+```text
 
 ### Workout
 ```typescript
@@ -347,7 +347,7 @@ interface Workout {
   aiGenerated: boolean;
   source: 'manual' | 'ai' | 'healthkit';
 }
-```
+```text
 
 ## Security Considerations
 
@@ -389,7 +389,7 @@ AZURE_STORAGE_CONNECTION_STRING=
 
 # Email (existing)
 RESEND_API_KEY=
-```
+```text
 
 ### iOS App (Configuration.swift)
 ```swift
@@ -398,7 +398,7 @@ enum Environment {
     static let firebaseConfig = FirebaseOptions(...)
     static let azureStorageURL = "..."
 }
-```
+```text
 
 ## Next Steps
 

@@ -39,11 +39,11 @@
 **Name**: `ReddyFit | AI Weight Loss`
 
 **Bio** (150 characters):
-```
+```text
 AI Weight Loss powered by your Whoop data 📊
 Lose weight sustainably without burnout 💪
 Join waitlist 👇
-```
+```text
 
 **Link**: `https://salmon-mud-01e8ee30f.2.azurestaticapps.net/waitlist`
 
@@ -66,7 +66,7 @@ Join waitlist 👇
 
 #### 5. First Posts (Pre-Launch)
 **Post 1: Coming Soon Announcement**
-```
+```text
 Caption:
 Something big is coming 🚀
 
@@ -83,7 +83,7 @@ Join the waitlist (link in bio) to be notified when we launch 👆
 💪 Never tried Whoop? We support Apple Watch too.
 
 Drop a 🔥 if you're interested!
-```
+```text
 
 **Image**: Clean graphic with logo + "Coming Soon" + tagline
 
@@ -121,15 +121,15 @@ Drop a 🔥 if you're interested!
 **Profile Picture**: Same RF logo (800x800px)
 
 **Banner** (2560x1440px):
-```
+```text
 Left side: ReddyFit logo
 Center: "AI Weight Loss Powered by Your Body's Data"
 Right side: "Join Waitlist →"
 Background: Clean gradient (blue to purple)
-```
+```text
 
 **Description**:
-```
+```text
 Welcome to ReddyFit - the first AI weight loss app that adapts to your body's recovery state.
 
 We integrate with your Whoop (or Apple Watch) to create a personalized weight loss plan that adjusts daily based on your recovery data. Lose weight sustainably, without burnout.
@@ -146,11 +146,11 @@ We integrate with your Whoop (or Apple Watch) to create a personalized weight lo
 🌐 Website: [link]
 
 New videos every week!
-```
+```text
 
 #### 3. Channel Trailer (60 seconds)
 **Script**:
-```
+```text
 [0-5s] Hook: "Why do 78% of dieters regain their weight?"
 
 [5-15s] Problem: "Because they ignore their body's signals. Pushing too hard leads to burnout, injury, and giving up."
@@ -162,7 +162,7 @@ New videos every week!
 [45-55s] CTA: "Join the waitlist at reddyfit.com to be first in line when we launch."
 
 [55-60s] Outro: "ReddyFit - Your Body. Your Pace. Your Results."
-```
+```text
 
 #### 4. First Videos to Create
 1. **"Introducing ReddyFit: AI Weight Loss That Adapts to You"** (3-5 min)
@@ -209,17 +209,17 @@ New videos every week!
 **Profile Picture**: RF logo (400x400px)
 
 **Header Image** (1500x500px):
-```
+```text
 "AI Weight Loss Powered by Whoop Data"
 Logo + app mockup + gradient background
-```
+```text
 
 **Bio** (160 characters):
-```
+```text
 AI weight loss that adapts to YOUR body's recovery signals 📊
 Whoop + AI = sustainable results 💪
 Join waitlist 👇
-```
+```text
 
 **Website**: Waitlist link
 
@@ -228,7 +228,7 @@ Join waitlist 👇
 **Birth Date**: Company founding date
 
 #### 3. Pin Tweet
-```
+```text
 Introducing ReddyFit - the first AI weight loss app that adapts to your body's recovery state 🚀
 
 Using your Whoop data, we create a personalized plan that adjusts daily:
@@ -238,7 +238,7 @@ Using your Whoop data, we create a personalized plan that adjusts daily:
 Join waitlist: [link]
 
 1/3 🧵
-```
+```text
 
 Thread:
 - Tweet 2: Problem (why diets fail)
@@ -277,16 +277,16 @@ Thread:
 **Logo**: RF logo (400x400px)
 
 **Cover Image** (1584x396px):
-```
+```text
 "Enterprise Wellness Solutions"
 "AI-Powered Weight Loss for Corporate Health Programs"
 Clean, professional design
-```
+```text
 
 **Tagline**: "AI Weight Loss That Adapts to Your Body's Recovery"
 
 **Description**:
-```
+```text
 ReddyFit is revolutionizing weight loss by integrating biometric data from devices like Whoop to create adaptive, personalized weight loss plans.
 
 Unlike traditional calorie-counting apps, ReddyFit uses AI to adjust your daily calorie targets and workout intensity based on your body's recovery state - preventing burnout and maximizing sustainable results.
@@ -302,7 +302,7 @@ We offer ReddyFit as part of employee wellness programs. Contact us for group ra
 
 📧 Business inquiries: partnerships@reddyfit.com
 🌐 Learn more: [website]
-```
+```text
 
 #### 3. First Posts
 **Post 1**: Company launch announcement (professional tone)
@@ -333,11 +333,11 @@ We offer ReddyFit as part of employee wellness programs. Contact us for group ra
 **Name**: `ReddyFit | AI Weight Loss`
 
 **Bio** (80 characters):
-```
+```text
 AI weight loss that adapts to YOUR body 🔥
 Whoop integration 📊
 Link in bio!
-```
+```text
 
 **Link**: Waitlist page
 

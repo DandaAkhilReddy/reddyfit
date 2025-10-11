@@ -53,12 +53,12 @@ Successfully completed **4 major phases** of the ReddyFit development plan, tran
 **Solution:** Code splitting + lazy loading
 
 #### Before:
-```
+```text
 Main bundle: 1,577.67 kB (1.5 MB)
-```
+```text
 
 #### After:
-```
+```text
 Main bundle:    326.30 kB  (↓ 78%)
 Firebase:       507.35 kB  (cached separately)
 Charts:         306.04 kB  (lazy loaded)
@@ -66,7 +66,7 @@ Dashboard:      262.17 kB  (lazy loaded after login)
 React:           45.68 kB
 UI:              47.35 kB
 Utils:           22.35 kB
-```
+```text
 
 #### Optimizations:
 - ✅ Manual chunks for vendor libraries
@@ -239,7 +239,7 @@ Utils:           22.35 kB
 1a61646 - ⚡ Phase 3-4: Performance & Security Improvements
 093a7a2 - 📸 Daily Scan System - Phase 1 & 2 Complete + Azure URL Fix
 05553a2 - 🔒 Fix Critical Security & Code Quality Issues from CodeRabbit Review
-```
+```text
 
 ---
 
@@ -277,7 +277,7 @@ Utils:           22.35 kB
 ## 💡 Technical Highlights
 
 ### Daily Scan Architecture
-```
+```text
 User captures 4 photos
     ↓
 Firebase Storage upload
@@ -298,10 +298,10 @@ Temporal Workflow triggered
 Results saved to Firestore
     ↓
 User views dashboard with insights
-```
+```text
 
 ### Code Splitting Strategy
-```
+```text
 Landing Page (eager) → 326KB
     ↓ (after login)
 Dashboard (lazy) → 262KB + Charts (306KB)
@@ -309,7 +309,7 @@ Dashboard (lazy) → 262KB + Charts (306KB)
 Daily Scan (lazy) → 11KB
 Profile (lazy) → 12KB
 Friends (lazy) → (in ImprovedDashboard)
-```
+```text
 
 ---
 

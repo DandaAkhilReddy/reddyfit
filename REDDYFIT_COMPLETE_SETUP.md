@@ -26,7 +26,7 @@
 
 ### **Architecture**
 
-```
+```text
 ┌─────────────────┐
 │   React PWA     │  ← User Interface
 │  (Frontend)     │
@@ -44,7 +44,7 @@
 │ Python FastAPI  │  ← ML Backend
 │ + scikit-learn  │  (Optional - for recommendations)
 └─────────────────┘
-```
+```text
 
 ###  **No Python ML Required for Basic Usage!**
 
@@ -68,7 +68,7 @@ Firebase is already configured in: `akhil-fitness-tracker/src/config/firebase.ts
 ```javascript
 Project ID: reddyfit-dcf41
 Auth Domain: reddyfit-dcf41.firebaseapp.com
-```
+```text
 
 ### **How Google Auth Works**
 
@@ -103,7 +103,7 @@ async function createRecipe(recipe) {
   })
   return docRef.id
 }
-```
+```text
 
 #### With Python Backend (Optional):
 ```python
@@ -115,7 +115,7 @@ async function createRecipe(recipe) {
   "instructions": [...],
   "nutritionInfo": {...}
 }
-```
+```text
 
 ---
 
@@ -137,7 +137,7 @@ FIREBASE_CLIENT_EMAIL="firebase-adminsdk@reddyfit-dcf41.iam.gserviceaccount.com"
 # Run backend
 python main.py
 # Or: uvicorn main:app --reload --port 8000
-```
+```text
 
 ### **ML Features**
 
@@ -149,7 +149,7 @@ POST /api/recommendations/workout
   "goals": ["muscle_gain"],
   "timeAvailable": 60
 }
-```
+```text
 
 2. **Meal Recommendations**
 ```python
@@ -159,7 +159,7 @@ POST /api/recommendations/meal
   "dietaryRestrictions": ["vegetarian"],
   "preferredCuisines": ["indian", "italian"]
 }
-```
+```text
 
 3. **Find Similar Users**
 ```python
@@ -167,7 +167,7 @@ POST /api/recommendations/similar-users
 {
   "userId": "user123"
 }
-```
+```text
 
 ### **How ML Works**
 
@@ -187,7 +187,7 @@ class MealRecommender:
         # Consider: calories, protein, carbs, fats
         # Return: meal plan matching needs
         return daily_meal_plan
-```
+```text
 
 ---
 
@@ -200,20 +200,20 @@ class MealRecommender:
 cd akhil-fitness-tracker
 npm install
 npm run dev
-```
+```text
 
 2. **Enable Firebase Firestore**
 ```bash
 # Go to Firebase Console
 # Enable Firestore Database
 # Set security rules
-```
+```text
 
 3. **Deploy to Azure**
 ```bash
 npm run build
 swa deploy
-```
+```text
 
 ### **Option 2: Add Python ML Backend**
 
@@ -223,7 +223,7 @@ swa deploy
 # Project Settings > Service Accounts
 # Generate new private key
 # Save as service-account.json
-```
+```text
 
 2. **Configure backend .env**
 ```env
@@ -231,18 +231,18 @@ FIREBASE_PROJECT_ID=reddyfit-dcf41
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@reddyfit-dcf41.iam.gserviceaccount.com
 FIREBASE_CLIENT_ID=...
-```
+```text
 
 3. **Run locally**
 ```bash
 cd backend
 python main.py
-```
+```text
 
 4. **Test API**
 ```bash
 curl http://localhost:8000/health
-```
+```text
 
 5. **Deploy to Azure Container**
 ```bash
@@ -254,7 +254,7 @@ az container create \
   --name reddyfit-backend \
   --image reddyfit-backend \
   --ports 8000
-```
+```text
 
 ---
 
@@ -272,7 +272,7 @@ npm run dev
 cd backend
 python main.py
 # API: http://localhost:8000
-```
+```text
 
 ### **Live Azure Deployment**
 
