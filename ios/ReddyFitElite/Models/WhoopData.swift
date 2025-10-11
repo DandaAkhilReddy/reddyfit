@@ -40,9 +40,9 @@ struct WhoopRecovery: Codable, Identifiable {
     }
 
     enum RecoveryState: String {
-        case red = "red"
-        case yellow = "yellow"
-        case green = "green"
+        case red
+        case yellow
+        case green
     }
 }
 
@@ -82,9 +82,9 @@ struct WhoopStrain: Codable, Identifiable {
     }
 
     enum StrainLevel: String {
-        case light = "light"
-        case moderate = "moderate"
-        case strenuous = "strenuous"
+        case light
+        case moderate
+        case strenuous
         case allOut = "all_out"
     }
 }
@@ -131,10 +131,10 @@ struct WhoopSleep: Codable, Identifiable {
     }
 
     enum SleepQuality: String {
-        case poor = "poor"
-        case good = "good"
-        case excellent = "excellent"
-        case unknown = "unknown"
+        case poor
+        case good
+        case excellent
+        case unknown
     }
 }
 

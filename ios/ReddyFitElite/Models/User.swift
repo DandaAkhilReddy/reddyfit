@@ -9,10 +9,10 @@ import Foundation
 
 // MARK: - Subscription Tiers
 enum SubscriptionTier: String, Codable, CaseIterable {
-    case starter = "starter"    // $29/mo - Manual entry
-    case pro = "pro"            // $69/mo - HealthKit
-    case elite = "elite"        // $149/mo - Whoop
-    case platinum = "platinum"  // $299/mo - Everything + Human coach
+    case starter    // $29/mo - Manual entry
+    case pro        // $69/mo - HealthKit
+    case elite      // $149/mo - Whoop
+    case platinum   // $299/mo - Everything + Human coach
 
     var displayName: String {
         switch self {
@@ -72,9 +72,9 @@ enum SubscriptionTier: String, Codable, CaseIterable {
 
 // MARK: - Data Source
 enum DataSource: String, Codable {
-    case manual = "manual"
+    case manual
     case healthKit = "healthkit"
-    case whoop = "whoop"
+    case whoop
 
     var displayName: String {
         switch self {

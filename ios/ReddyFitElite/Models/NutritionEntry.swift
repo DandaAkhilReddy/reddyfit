@@ -39,10 +39,10 @@ struct NutritionEntry: Codable, Identifiable {
     var updatedAt: Date
 
     enum MealType: String, Codable, CaseIterable {
-        case breakfast = "breakfast"
-        case lunch = "lunch"
-        case dinner = "dinner"
-        case snack = "snack"
+        case breakfast
+        case lunch
+        case dinner
+        case snack
 
         var emoji: String {
             switch self {
