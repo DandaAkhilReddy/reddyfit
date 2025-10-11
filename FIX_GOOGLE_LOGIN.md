@@ -9,22 +9,26 @@ Google login fails on the deployed Azure app because the domain isn't authorized
 1. Visit: https://console.firebase.google.com
 2. Select project: **reddyfit-dcf41**
 
-### **Step 2: Add Authorized Domain**
+### **Step 2: Add Authorized Domains**
 1. Click **Authentication** in the left menu
 2. Click **Settings** tab
 3. Scroll to **Authorized domains** section
 4. Click **Add domain**
-5. Add this domain:
+5. Add ALL deployment domains:
    ```
-   agreeable-water-04e942910.1.azurestaticapps.net
+   delightful-sky-0437f100f.2.azurestaticapps.net (Old deployment)
+   white-meadow-001c09f0f.2.azurestaticapps.net (Current deployment)
+   agreeable-water-04e942910.1.azurestaticapps.net (Alternative deployment)
    ```
-6. Click **Add**
+6. Click **Add** for each domain
 
 ### **Step 3: Verify Settings**
 Ensure these domains are listed:
 - ✅ `localhost` (for local development)
 - ✅ `reddyfit-dcf41.firebaseapp.com` (default)
-- ✅ `agreeable-water-04e942910.1.azurestaticapps.net` (your Azure app)
+- ✅ `delightful-sky-0437f100f.2.azurestaticapps.net` (OLD - needs fixing)
+- ✅ `white-meadow-001c09f0f.2.azurestaticapps.net` (current)
+- ✅ `agreeable-water-04e942910.1.azurestaticapps.net` (alternative)
 
 ### **Step 4: Enable Google Sign-In (if not enabled)**
 1. In Firebase Console → Authentication
@@ -67,7 +71,16 @@ Just refresh the app and try logging in again:
 ---
 
 ## Test Login
-1. Open: https://agreeable-water-04e942910.1.azurestaticapps.net
+
+### Old Deployment (needs fix):
+1. Open: https://delightful-sky-0437f100f.2.azurestaticapps.net
+2. Click "Sign in with Google"
+3. Should see Google account picker
+4. Select your account
+5. Should redirect back and be logged in ✅
+
+### Current Deployment:
+1. Open: https://white-meadow-001c09f0f.2.azurestaticapps.net
 2. Click "Sign in with Google"
 3. Should see Google account picker
 4. Select your account

@@ -16,5 +16,10 @@
     "clinics"
   ],
   "author": "Claude Code Analytics",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "ai": "^5.0.60",
+    "openai": "^6.2.0",
+    "zod": "^4.1.12"
+  }
 }

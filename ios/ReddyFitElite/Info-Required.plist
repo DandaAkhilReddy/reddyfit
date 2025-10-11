@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- HealthKit Privacy Descriptions -->
+    <key>NSHealthShareUsageDescription</key>
+    <string>ReddyFit needs access to your health data to automatically sync workouts from your Apple Watch, track heart rate, HRV, and sleep data for personalized fitness insights.</string>
+
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>ReddyFit will write your workout data to Apple Health to keep all your fitness data in sync.</string>
+
+    <!-- Camera Privacy Description -->
+    <key>NSCameraUsageDescription</key>
+    <string>Take photos of meals and workouts to track nutrition and create achievement photos.</string>
+
+    <!-- Photo Library Privacy Descriptions -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Save workout achievement photos to your library and load photos for nutrition tracking.</string>
+
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Save workout achievement photos with embedded stats to your photo library.</string>
+
+    <!-- Location (optional, for route tracking) -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Track your workout routes to provide accurate distance and location data.</string>
+
+    <!-- Background Modes (for HealthKit background sync) -->
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>processing</string>
+    </array>
+
+    <!-- URL Schemes for OAuth callbacks -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>com.reddyfit.elite</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>reddyfit</string>
+            </array>
+        </dict>
+    </array>
+
+    <!-- HealthKit Capabilities -->
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+        <string>healthkit</string>
+    </array>
+</dict>
+</plist>

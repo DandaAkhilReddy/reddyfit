@@ -68,4 +68,4 @@ nul
 *.log
 *.tmp
 temp_*
-test.txt
+test.txt.claude/settings.local.json
