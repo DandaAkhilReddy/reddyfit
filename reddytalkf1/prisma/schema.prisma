@@ -1,0 +1,197 @@
+// Prisma Schema for ReddyTalk.ai
+// Azure SQL Database
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Clinic {
+  id                String   @id @default(uuid())
+  name              String
+  timezone          String   @default("America/New_York")
+  owner_user_id     String
+  subscription_tier String   @default("starter") // starter, pro, enterprise
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  users             User[]
+  calls             Call[]
+  appointments      Appointment[]
+  waitlist          Waitlist[]
+  cancellations     Cancellation[]
+  billing_metrics   BillingMetrics[]
+  alerts            Alert[]
+  settings          Settings[]
+
+  @@map("clinics")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  clinic_id  String
+  role       String   // super_admin, clinic_admin, front_desk, doctor, franchise_admin
+  name       String
+  email      String   @unique
+  phone      String?
+  password   String   // hashed
+  status     String   @default("active") // active, inactive
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  clinic     Clinic     @relation(fields: [clinic_id], references: [id])
+  call_notes CallNote[]
+  calls_taken_over Call[] @relation("TakeoverCalls")
+
+  @@index([clinic_id])
+  @@index([email])
+  @@map("users")
+}
+
+model Call {
+  id                       String    @id @default(uuid())
+  clinic_id                String
+  started_at               DateTime  @default(now())
+  ended_at                 DateTime?
+  caller_number            String
+  intent                   String?
+  outcome                  String?   // booked, rescheduled, cancelled, info_only, escalated
+  duration_sec             Int?
+  sentiment                String?   // positive, neutral, negative
+  confidence               Float?
+  transcript_url           String?
+  redacted_transcript_url  String?
+  audio_url                String?
+  agent_name               String?
+  takeover_by_user_id      String?
+  status                   String    @default("active") // active, completed, failed
+
+  clinic                   Clinic      @relation(fields: [clinic_id], references: [id])
+  takeover_user            User?       @relation("TakeoverCalls", fields: [takeover_by_user_id], references: [id])
+  notes                    CallNote[]
+  alerts                   Alert[]
+
+  @@index([clinic_id, started_at(sort: Desc)])
+  @@index([intent])
+  @@index([outcome])
+  @@index([sentiment])
+  @@index([status])
+  @@map("calls")
+}
+
+model CallNote {
+  id         String   @id @default(uuid())
+  call_id    String
+  user_id    String
+  note       String   @db.Text
+  created_at DateTime @default(now())
+
+  call       Call @relation(fields: [call_id], references: [id])
+  user       User @relation(fields: [user_id], references: [id])
+
+  @@index([call_id])
+  @@map("call_notes")
+}
+
+model Appointment {
+  id             String   @id @default(uuid())
+  clinic_id      String
+  patient_name   String
+  patient_phone  String
+  doctor_id      String?
+  start_time     DateTime
+  end_time       DateTime
+  type           String
+  source         String   @default("manual") // ai, manual, ready_agent
+  status         String   @default("scheduled") // scheduled, completed, cancelled, no_show
+  external_ref   String?  // Calendly event ID
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  clinic         Clinic         @relation(fields: [clinic_id], references: [id])
+  cancellations  Cancellation[]
+
+  @@index([clinic_id, start_time])
+  @@index([status])
+  @@map("appointments")
+}
+
+model Waitlist {
+  id                 String   @id @default(uuid())
+  clinic_id          String
+  patient_name       String
+  patient_phone      String
+  preferred_windows  String   @db.Text // JSON string
+  priority_index     Int      // Timestamp for LIFO (higher = newer = higher priority)
+  created_at         DateTime @default(now())
+  status             String   @default("queued") // queued, called, booked, skipped
+
+  clinic             Clinic @relation(fields: [clinic_id], references: [id])
+
+  @@index([clinic_id, status, priority_index(sort: Desc)])
+  @@map("waitlist")
+}
+
+model Cancellation {
+  id             String   @id @default(uuid())
+  clinic_id      String
+  appointment_id String
+  created_at     DateTime @default(now())
+  reason         String?
+
+  clinic         Clinic      @relation(fields: [clinic_id], references: [id])
+  appointment    Appointment @relation(fields: [appointment_id], references: [id])
+
+  @@index([clinic_id, created_at(sort: Desc)])
+  @@map("cancellations")
+}
+
+model BillingMetrics {
+  id          String @id @default(uuid())
+  clinic_id   String
+  month       String // YYYY-MM
+  call_minutes Int    @default(0)
+  call_count  Int    @default(0)
+  cost_wapi   Float  @default(0)
+  cost_azure  Float  @default(0)
+  cost_make   Float  @default(0)
+  notes       String? @db.Text
+
+  clinic      Clinic @relation(fields: [clinic_id], references: [id])
+
+  @@unique([clinic_id, month])
+  @@map("billing_metrics")
+}
+
+model Alert {
+  id           String   @id @default(uuid())
+  clinic_id    String
+  call_id      String?
+  level        String   // info, warning, critical
+  message      String   @db.Text
+  created_at   DateTime @default(now())
+  acknowledged Boolean  @default(false)
+
+  clinic       Clinic @relation(fields: [clinic_id], references: [id])
+  call         Call?  @relation(fields: [call_id], references: [id])
+
+  @@index([clinic_id, acknowledged, created_at(sort: Desc)])
+  @@map("alerts")
+}
+
+model Settings {
+  id               String @id @default(uuid())
+  clinic_id        String @unique
+  business_hours   String @db.Text // JSON string
+  escalation_rules String @db.Text // JSON string
+  redaction_policy String @db.Text // JSON string
+  backfill_policy  String @db.Text // JSON string
+
+  clinic           Clinic @relation(fields: [clinic_id], references: [id])
+
+  @@map("settings")
+}

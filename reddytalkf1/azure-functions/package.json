@@ -1,0 +1,19 @@
+{
+  "name": "reddytalk-api",
+  "version": "1.0.0",
+  "description": "ReddyTalk.ai Azure Functions Backend",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests yet\""
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "@prisma/client": "^5.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
