@@ -60,7 +60,7 @@ Comprehensive HTML documentation suite for Mobile LiDAR-based conservation resea
 3. Navigate through the linked documents
 
 ### View Online
-🌐 **Live Website:** [Deployed on Vercel](#) *(link will be added after deployment)*
+🌐 **Live Website:** [https://pais-thesis-deployment-5spipy5wy.vercel.app](https://pais-thesis-deployment-5spipy5wy.vercel.app)
 
 ## 🎯 Key Features
 
