@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  /* Island Pride Gradient */
+  .island-gradient {
+    @apply bg-gradient-to-r from-island-blue-500 via-cricket-green-500 to-island-blue-500;
+  }
+
+  /* Hero Section Overlay */
+  .hero-overlay {
+    @apply absolute inset-0 bg-gradient-to-b from-island-blue-900/80 via-island-blue-800/70 to-island-blue-900/90;
+  }
+
+  /* Card Styles */
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300;
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    @apply bg-island-blue-500 hover:bg-island-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105;
+  }
+
+  .btn-secondary {
+    @apply bg-cricket-green-500 hover:bg-cricket-green-600 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105;
+  }
+
+  .btn-gold {
+    @apply bg-texas-gold-500 hover:bg-texas-gold-600 text-gray-900 font-semibold py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105;
+  }
+}
+
+@layer utilities {
+  /* Text Gradient */
+  .text-island-gradient {
+    @apply bg-gradient-to-r from-island-blue-500 to-cricket-green-500 bg-clip-text text-transparent;
+  }
+
+  .text-gold-gradient {
+    @apply bg-gradient-to-r from-texas-gold-400 to-texas-gold-600 bg-clip-text text-transparent;
+  }
+}

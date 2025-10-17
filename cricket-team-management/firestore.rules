@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAdmin();
+      allow update, delete: if isAdmin() || isOwner(userId);
+    }
+
+    // Players collection
+    match /players/{playerId} {
+      // Anyone can read player profiles (public)
+      allow read: if true;
+
+      // Admin can create/delete players
+      allow create, delete: if isAdmin();
+
+      // Players can update their own profile (limited fields)
+      // Admin can update all fields
+      allow update: if isAdmin() ||
+                       (isAuthenticated() &&
+                        resource.data.userId == request.auth.uid &&
+                        // Only allow updating specific fields
+                        request.resource.data.diff(resource.data).affectedKeys()
+                          .hasOnly(['bio', 'contact', 'photo', 'availability']));
+    }
+
+    // Matches collection
+    match /matches/{matchId} {
+      allow read: if true; // Public read
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Practices collection
+    match /practices/{practiceId} {
+      allow read: if true; // Public read
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Equipment collection
+    match /equipment/{equipmentId} {
+      allow read: if true; // Public read
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Expenses collection
+    match /expenses/{expenseId} {
+      allow read: if isAuthenticated(); // Team members only
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Announcements collection
+    match /announcements/{announcementId} {
+      allow read: if true; // Public read
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Messages collection
+    match /messages/{messageId} {
+      allow read: if isAuthenticated(); // Team members only
+      allow create: if isAuthenticated(); // Any authenticated user can post
+      allow update, delete: if isAdmin() || isOwner(resource.data.author);
+    }
+
+    // Leadership collection
+    match /leadership/{leaderId} {
+      allow read: if true; // Public read
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Sponsors collection
+    match /sponsors/{sponsorId} {
+      allow read: if true; // Public read
+      allow create, update, delete: if isAdmin();
+    }
+  }
+}
