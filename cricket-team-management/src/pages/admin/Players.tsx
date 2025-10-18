@@ -9,8 +9,8 @@ import Avatar from '../../components/Avatar';
 import Badge from '../../components/Badge';
 import EmptyState from '../../components/EmptyState';
 import type { Column } from '../../components/DataTable';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+// import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+// import { db } from '../../lib/firebase';
 import type { Player, PlayerRole } from '../../types';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -161,7 +161,7 @@ export default function Players() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => navigate(`/admin/players/edit/${player.id}`)}
-            className="p-2 text-island-blue-600 dark:text-island-blue-400 hover:bg-island-blue-50 dark:hover:bg-island-blue-900/20 rounded-lg transition-colors"
+            className="p-2 text-soft-blue-600 dark:text-soft-blue-400 hover:bg-soft-blue-50 dark:hover:bg-soft-blue-900/20 rounded-lg transition-colors"
             title="Edit player"
           >
             <Edit className="w-4 h-4" />
@@ -183,7 +183,7 @@ export default function Players() {
       <AdminLayout>
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-island-blue-200 border-t-island-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-16 h-16 border-4 border-soft-blue-200 border-t-soft-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-gray-600 dark:text-gray-400">Loading players...</p>
           </div>
         </div>
@@ -227,7 +227,7 @@ export default function Players() {
                 placeholder="Search by name..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-island-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-soft-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
             </div>
 
@@ -240,7 +240,7 @@ export default function Players() {
               <select
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value as PlayerRole | 'All')}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-island-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-soft-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 {roles.map(role => (
                   <option key={role} value={role}>{role}</option>
@@ -256,7 +256,7 @@ export default function Players() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as 'All' | 'Active' | 'Inactive')}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-island-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-soft-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="All">All Status</option>
                 <option value="Active">Active</option>

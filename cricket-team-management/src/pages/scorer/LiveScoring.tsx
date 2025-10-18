@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
-import { doc, getDoc, setDoc, onSnapshot, collection, addDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+// import { doc, getDoc, setDoc, onSnapshot, collection, addDoc, updateDoc } from 'firebase/firestore';
+// import { db } from '../../lib/firebase';
 import { useAuth } from '../../contexts/AuthContext';
 import type { Match } from '../../types';
 import type { LiveMatch, Ball, LiveInnings, LiveBatsman, LiveBowler } from '../../types/scoring';

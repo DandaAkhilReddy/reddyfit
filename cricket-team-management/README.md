@@ -1,6 +1,6 @@
 # Islanders Cricket Team Management Website
 
-A comprehensive cricket team management platform for the **Islanders Cricket Team** from Corpus Christi, Texas. Proudly sponsored by **Dr. Vishnu Reddy & Dr. Veena Reddy** (HHA Medicine).
+A comprehensive cricket team management platform for the **Islanders Cricket Team** from Corpus Christi, Texas. For questions, contact: canderson@hssmedicine.com.
 
 ## Features
 
@@ -36,18 +36,14 @@ A comprehensive cricket team management platform for the **Islanders Cricket Tea
 ## Squad
 
 ### Leadership
-- 🏏 **Principal & Chief Mentor:** Dr. Vishnu Reddy
-- 🧔🏻‍♂️ **Manager & Cofounder:** Sai Swaroop Naidu
-- 🎯 **Director & Mentor:** Rajasekhar Reddy
 - 🏆 **Captain:** Akhil Reddy Danda
 - 💪 **Vice Captain:** Faizan Mohammad
 - 🤝 **Associate Vice Captain:** Nitish
 - ⚙️ **Quality Directors:** Harshith & Dinesh Reddy
 
 ### Players (14 Total)
-- Vishnu Reddy (Batsman, Right)
+
 - Akhil Reddy Danda (Allrounder, Right) - Captain
-- Rajasekhar Reddy (Allrounder)
 - Faizan Mohammad (Allrounder, Right) - Vice Captain
 - Nitish (Allrounder, Right) - Associate VC
 - Dinesh Reddy (Allrounder, Right) - Quality Director
@@ -209,7 +205,7 @@ Private - © 2025 Islanders Cricket Team
 
 ## Acknowledgments
 
-Special thanks to our sponsors **Dr. Vishnu Reddy & Dr. Veena Reddy** (HHA Medicine) for making this possible!
+For inquiries, contact: canderson@hssmedicine.com
 
 ---
 

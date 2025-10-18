@@ -14,9 +14,16 @@ import Equipment from './pages/Equipment';
 import Budget from './pages/Budget';
 import Communications from './pages/Communications';
 import Login from './pages/Login';
+import ProtectedRoute from './components/ProtectedRoute';
+import PlayerProfile from './pages/PlayerProfile';
 import AdminDashboard from './pages/admin/Dashboard';
 import Players from './pages/admin/Players';
 import PlayerForm from './pages/admin/PlayerForm';
+import AdminMatches from './pages/admin/AdminMatches';
+import AdminPractice from './pages/admin/AdminPractice';
+import AdminEquipment from './pages/admin/AdminEquipment';
+import AdminBudget from './pages/admin/AdminBudget';
+import AdminCommunications from './pages/admin/AdminCommunications';
 import ScorerHome from './pages/scorer/ScorerHome';
 import LiveScoring from './pages/scorer/LiveScoring';
 import LiveMatch from './pages/LiveMatch';
@@ -40,12 +47,18 @@ function AppContent() {
         <Route path="/budget" element={<Budget />} />
         <Route path="/communications" element={<Communications />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<ProtectedRoute><PlayerProfile /></ProtectedRoute>} />
 
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/players" element={<Players />} />
         <Route path="/admin/players/add" element={<PlayerForm />} />
         <Route path="/admin/players/edit/:id" element={<PlayerForm />} />
+        <Route path="/admin/matches" element={<AdminMatches />} />
+        <Route path="/admin/practice" element={<AdminPractice />} />
+        <Route path="/admin/equipment" element={<AdminEquipment />} />
+        <Route path="/admin/budget" element={<AdminBudget />} />
+        <Route path="/admin/communications" element={<AdminCommunications />} />
 
         {/* Scorer Routes */}
         <Route path="/scorer" element={<ScorerHome />} />

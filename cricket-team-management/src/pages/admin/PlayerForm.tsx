@@ -5,9 +5,9 @@ import { Upload, Save, X, User as UserIcon } from 'lucide-react';
 import AdminLayout from '../../components/AdminLayout';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
-import { doc, getDoc, setDoc, addDoc, collection } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../../lib/firebase';
+// import { doc, getDoc, setDoc, addDoc, collection } from 'firebase/firestore';
+// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+// import { db, storage } from '../../lib/firebase';
 import type { Player, PlayerRole, PlayerPosition, BattingHand } from '../../types';
 import toast, { Toaster } from 'react-hot-toast';
 

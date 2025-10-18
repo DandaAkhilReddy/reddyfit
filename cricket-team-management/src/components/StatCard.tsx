@@ -1,8 +1,5 @@
-import type { ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { ArrowUp, ArrowDown } from 'lucide-react';
-import { motion } from 'framer-motion';
-import Card from './Card';
 
 interface StatCardProps {
   title: string;
@@ -23,48 +20,52 @@ export default function StatCard({
   subtitle,
   icon: Icon,
   trend,
-  color = 'from-island-blue-500 to-island-blue-600',
-  delay = 0
+  color = 'soft-orange',
 }: StatCardProps) {
+  // Explicit color mapping for Tailwind JIT
+  const colorClasses = color === 'soft-blue' ? {
+    bg: 'bg-soft-blue-100',
+    text: 'text-soft-blue-600'
+  } : {
+    bg: 'bg-soft-orange-100',
+    text: 'text-soft-orange-600'
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, duration: 0.3 }}
-    >
-      <Card className="p-6 hover:shadow-lg transition-shadow">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
-              {title}
-            </p>
-            <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
-              {value}
-            </h3>
-            {subtitle && (
-              <p className="text-xs text-gray-500 dark:text-gray-500">
-                {subtitle}
-              </p>
-            )}
-            {trend && (
-              <div className="flex items-center gap-1 mt-2">
-                {trend.isPositive ? (
-                  <ArrowUp className="w-4 h-4 text-green-500" />
-                ) : (
-                  <ArrowDown className="w-4 h-4 text-red-500" />
-                )}
-                <span className={`text-sm font-semibold ${trend.isPositive ? 'text-green-500' : 'text-red-500'}`}>
-                  {Math.abs(trend.value)}%
-                </span>
-                <span className="text-xs text-gray-500">vs last month</span>
-              </div>
-            )}
-          </div>
-          <div className={`p-3 rounded-xl bg-gradient-to-br ${color} shadow-lg`}>
-            <Icon className="w-6 h-6 text-white" />
-          </div>
+    <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
+      <div className="flex items-start justify-between mb-4">
+        <div className={`p-3 rounded-lg ${colorClasses.bg}`}>
+          <Icon className={`w-6 h-6 ${colorClasses.text}`} />
         </div>
-      </Card>
-    </motion.div>
+        {trend && (
+          <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+            trend.isPositive
+              ? 'bg-green-50 text-green-700'
+              : 'bg-red-50 text-red-700'
+          }`}>
+            {trend.isPositive ? (
+              <ArrowUp className="w-3 h-3" />
+            ) : (
+              <ArrowDown className="w-3 h-3" />
+            )}
+            <span>{Math.abs(trend.value)}%</span>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-1">
+        <p className="text-sm font-medium text-gray-600 uppercase tracking-wide">
+          {title}
+        </p>
+        <h3 className="text-3xl font-bold text-gray-900">
+          {value}
+        </h3>
+        {subtitle && (
+          <p className="text-sm text-gray-500">
+            {subtitle}
+          </p>
+        )}
+      </div>
+    </div>
   );
 }

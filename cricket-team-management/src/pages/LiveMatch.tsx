@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+// import { doc, onSnapshot } from 'firebase/firestore';
+// import { db } from '../lib/firebase';
 import type { LiveMatch as LiveMatchType } from '../types/scoring';
 import ScoreBoard from '../components/scoring/ScoreBoard';
 import { Activity, Clock, TrendingUp, Target } from 'lucide-react';

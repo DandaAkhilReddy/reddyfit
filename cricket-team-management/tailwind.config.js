@@ -4,17 +4,72 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  safelist: [
+    'bg-soft-orange-50',
+    'bg-soft-orange-100',
+    'bg-soft-orange-200',
+    'bg-soft-orange-400',
+    'bg-soft-orange-500',
+    'text-soft-orange-400',
+    'text-soft-orange-500',
+    'text-soft-orange-600',
+    'text-soft-orange-700',
+    'hover:bg-soft-orange-100',
+    'hover:bg-soft-orange-200',
+    'border-soft-orange-200',
+    'border-soft-orange-300',
+    'bg-soft-blue-50',
+    'bg-soft-blue-100',
+    'bg-soft-blue-200',
+    'bg-soft-blue-400',
+    'bg-soft-blue-500',
+    'text-soft-blue-400',
+    'text-soft-blue-500',
+    'text-soft-blue-600',
+    'text-soft-blue-700',
+    'hover:bg-soft-blue-50',
+    'hover:bg-soft-blue-100',
+    'border-soft-blue-200',
+    'border-soft-blue-300',
+    'hover:border-soft-blue-300',
+    'hover:text-soft-blue-600',
+  ],
   theme: {
     extend: {
       colors: {
-        // Islanders Team Colors
+        // New Simple Color Scheme
+        'soft-orange': {
+          50: '#fff7ed',
+          100: '#ffedd5',
+          200: '#fed7aa',
+          300: '#fdba74',
+          400: '#fb923c', // Main light orange
+          500: '#f97316',
+          600: '#ea580c',
+          700: '#c2410c',
+          800: '#9a3412',
+          900: '#7c2d12',
+        },
+        'soft-blue': {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa', // Main light blue
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+        },
+        // Keep original colors for backward compatibility
         'island-blue': {
           50: '#e6f2ff',
           100: '#cce5ff',
           200: '#99ccff',
           300: '#66b2ff',
           400: '#3399ff',
-          500: '#0066CC', // Primary Island Blue
+          500: '#0066CC',
           600: '#0052a3',
           700: '#003d7a',
           800: '#002952',
@@ -26,7 +81,7 @@ export default {
           200: '#b3e0b3',
           300: '#8cd18c',
           400: '#66c166',
-          500: '#228B22', // Cricket Green
+          500: '#228B22',
           600: '#1b6f1b',
           700: '#145314',
           800: '#0e380e',
@@ -38,7 +93,7 @@ export default {
           200: '#ffe599',
           300: '#ffd966',
           400: '#ffcc33',
-          500: '#FFB81C', // Texas Gold
+          500: '#FFB81C',
           600: '#cc9316',
           700: '#996e11',
           800: '#664a0b',

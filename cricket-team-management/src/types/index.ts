@@ -49,7 +49,7 @@ export interface Player {
     email?: string;
   };
   stats: PlayerStats;
-  equipment: string[]; // Array of equipment IDs
+  equipmentReceived: { practiceTShirt: boolean; matchTShirt: boolean; bat?: boolean; pads?: boolean; gloves?: boolean; helmet?: boolean; shoes?: boolean; kitBag?: boolean; other?: string[]; lastUpdated?: Date; }; // Array of equipment IDs
   availability: boolean; // Available for next match/practice
   attendanceRate: number; // Percentage
   joinedDate: Date;
