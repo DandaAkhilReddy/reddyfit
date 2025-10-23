@@ -1,0 +1,51 @@
+ReddyFit V2 - Quick Setup Instructions
+=====================================
+
+STEP 1: Configure Environment Variables
+----------------------------------------
+1. Copy .env.example to .env.local
+2. Add your Gemini API key from: https://aistudio.google.com/app/apikey
+3. Keep the existing Firebase config (already set in firebase.ts)
+
+STEP 2: Install Dependencies (if not done)
+------------------------------------------
+npm install
+
+STEP 3: Generate Favicon & Icons
+---------------------------------
+You need to create app icons. Use a tool like:
+- https://realfavicongenerator.net/
+- Upload a logo/icon image
+- Download the package and place in /public
+
+Required sizes:
+- favicon.ico (16x16, 32x32, 48x48)
+- icon-192x192.png
+- icon-512x512.png
+- apple-touch-icon.png (180x180)
+
+STEP 4: Run Development Server
+-------------------------------
+npm run dev
+
+STEP 5: Test Features
+---------------------
+- Sign up with email/password
+- Upload meal photo (Dashboard)
+- Upload gym video (Analyzer)
+- Try AI chat
+- Browse exercise library
+
+TROUBLESHOOTING
+---------------
+Issue: "API key not valid"
+Fix: Check GEMINI_API_KEY in .env.local
+
+Issue: Firestore 400 errors
+Fix: Verify Firebase config in firebase.ts matches your project
+
+Issue: Tailwind not working
+Fix: Restart dev server after config changes
+
+Issue: Can't upload files
+Fix: Check Firebase Storage rules in Firebase Console
