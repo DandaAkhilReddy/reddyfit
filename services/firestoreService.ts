@@ -10,7 +10,6 @@ export interface MealLog {
     id: string;
     userId: string;
     createdAt: firebase.firestore.Timestamp;
-    imageUrl: string;
     foodItems: string[];
     nutrition: NutritionalInfo;
 }
@@ -39,16 +38,30 @@ export const uploadImage = async (file: File, userId: string): Promise<string> =
 
 /**
  * Saves a meal log to Firestore for a specific user.
+ * Only nutrition data is saved - no image storage.
  * @param userId The ID of the user.
- * @param mealData The data for the meal log.
+ * @param mealData The data for the meal log (foodItems and nutrition).
  */
 export const saveMealLog = async (
     userId: string,
-    mealData: { imageUrl: string; foodItems: string[]; nutrition: NutritionalInfo }
+    mealData: { foodItems: string[]; nutrition: NutritionalInfo }
 ): Promise<void> => {
+    if (!userId) {
+        throw new Error('User ID is required to save meal log');
+    }
+    
+    if (!mealData.foodItems || mealData.foodItems.length === 0) {
+        throw new Error('Food items are required');
+    }
+    
+    if (!mealData.nutrition || !mealData.nutrition.calories) {
+        throw new Error('Nutrition information is required');
+    }
+    
     const mealLogsCollection = db.collection('users').doc(userId).collection('mealLogs');
     await mealLogsCollection.add({
         ...mealData,
+        userId, // Add userId to the document for easier querying
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
 };

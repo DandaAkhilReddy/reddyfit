@@ -177,20 +177,23 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, userProfile }) => {
             setLoadingMessage('Analyzing your meal...');
             const base64Image = await fileToBase64(file);
             const foodItems = await geminiService.analyzeFoodImage(base64Image, file.type);
-            if (foodItems.length === 0) throw new Error("Could not identify any food in the image.");
+            
+            if (foodItems.length === 0) {
+                throw new Error("Could not identify any food in the image. Please try a clearer photo.");
+            }
             
             setLoadingMessage('Calculating nutrition...');
             const nutrition = await geminiService.getNutritionalAnalysis(foodItems);
             
             setLoadingMessage('Saving your log...');
-            const imageUrl = await firestoreService.uploadImage(file, user.uid);
-            
-            await firestoreService.saveMealLog(user.uid, { imageUrl, foodItems, nutrition });
+            // Save only data, no image storage
+            await firestoreService.saveMealLog(user.uid, { foodItems, nutrition });
 
-            showToast("Meal logged successfully!", "success");
+            showToast(`Meal logged! ${Math.round(nutrition.calories)} calories added.`, "success");
             await fetchMealLogs();
 
         } catch (e: any) {
+            console.error('Meal logging error:', e);
             const errorMessage = e.message || 'An unknown error occurred while logging your meal.';
             setError(`Failed to log meal: ${errorMessage}`);
             showToast(`Error: ${errorMessage}`, "error");

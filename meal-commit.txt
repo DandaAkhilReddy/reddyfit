@@ -1,0 +1,27 @@
+feat: Implement data-only meal upload with comprehensive tests
+
+Major Changes:
+- Removed image storage (no Firebase Storage uploads)
+- Only nutrition data is saved to Firestore
+- Added validation for food items and nutrition data
+- Better error handling and user feedback
+- Comprehensive integration tests (8 test cases)
+
+Technical Improvements:
+- Updated MealLog interface (removed imageUrl)
+- Added input validation in saveMealLog
+- Better loading states with specific messages
+- Console logging for debugging
+- File input reset after upload
+
+Tests Added:
+- Successful meal upload flow
+- Empty food detection
+- API error handling
+- Non-image file rejection
+- Multiple meals per day
+- Nutrition data validation
+- Loading state transitions
+- File input reset
+
+All tests passing. Production-ready meal logging.

@@ -1,0 +1,5 @@
+fix: Update to @tailwindcss/postcss for Tailwind v4 compatibility
+
+- Installed @tailwindcss/postcss package
+- Updated postcss.config.js to use new plugin
+- Resolves PostCSS plugin error on dev server startup
