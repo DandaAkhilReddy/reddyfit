@@ -272,18 +272,39 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, userProfile }) => {
                 mealLogs.length > 0 ? (
                     <div className="space-y-4">
                         {mealLogs.map(log => (
-                            <div key={log.id} className="flex gap-4 bg-slate-800 p-3 rounded-lg border border-slate-700">
-                                <img src={log.imageUrl} alt="Logged meal" className="w-24 h-24 object-cover rounded-md flex-shrink-0" />
-                                <div className="space-y-2 flex-grow">
-                                    <div>
-                                        <h3 className="font-semibold text-sm text-slate-300">Identified Foods:</h3>
-                                        <p className="text-xs text-slate-400">{log.foodItems.join(', ')}</p>
+                            <div key={log.id} className="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <div className="space-y-3">
+                                    <div className="flex items-start justify-between">
+                                        <div>
+                                            <h3 className="font-semibold text-sm text-amber-400">🍽️ Meal Log</h3>
+                                            <p className="text-xs text-slate-500 mt-1">
+                                                {log.createdAt?.toDate?.()?.toLocaleTimeString() || 'Recent'}
+                                            </p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-2xl font-bold text-white">{Math.round(log.nutrition.calories)}</p>
+                                            <p className="text-xs text-slate-400">calories</p>
+                                        </div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-1 text-xs">
-                                        <div className="bg-slate-700 p-1 rounded"><strong>Cals:</strong> {log.nutrition.calories}</div>
-                                        <div className="bg-slate-700 p-1 rounded"><strong>P:</strong> {log.nutrition.macronutrients.protein}g</div>
-                                        <div className="bg-slate-700 p-1 rounded"><strong>C:</strong> {log.nutrition.macronutrients.carbohydrates}g</div>
-                                        <div className="bg-slate-700 p-1 rounded"><strong>F:</strong> {log.nutrition.macronutrients.fat}g</div>
+                                    
+                                    <div>
+                                        <h4 className="font-semibold text-xs text-slate-300 mb-1">Identified Foods:</h4>
+                                        <p className="text-sm text-slate-400">{log.foodItems.join(', ')}</p>
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-3 gap-2 text-xs">
+                                        <div className="bg-red-500/20 p-2 rounded text-center border border-red-500/30">
+                                            <p className="font-bold text-white">{Math.round(log.nutrition.macronutrients.protein)}g</p>
+                                            <p className="text-slate-400">Protein</p>
+                                        </div>
+                                        <div className="bg-blue-500/20 p-2 rounded text-center border border-blue-500/30">
+                                            <p className="font-bold text-white">{Math.round(log.nutrition.macronutrients.carbohydrates)}g</p>
+                                            <p className="text-slate-400">Carbs</p>
+                                        </div>
+                                        <div className="bg-yellow-500/20 p-2 rounded text-center border border-yellow-500/30">
+                                            <p className="font-bold text-white">{Math.round(log.nutrition.macronutrients.fat)}g</p>
+                                            <p className="text-slate-400">Fat</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
