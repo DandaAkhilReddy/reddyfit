@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import firebase from 'firebase/compat/app';
 import { useAuth } from '../hooks/useAuth';
 import { useUserPreferences, FitnessLevel, Goal } from '../hooks/useUserPreferences';
+import { 
+  calculateNutritionTargets, 
+  validateUserMetrics,
+  calculateBMI,
+  classifyBMI,
+  ACTIVITY_LEVELS,
+  type UserMetrics,
+  type NutritionTargets
+} from '../utils/nutritionCalculator';
 import * as dbService from '../database/dbService';
 import { useToast } from '../hooks/useToast';
 import { LogoutIcon } from './shared/icons';
+import { NutritionProfileForm } from './NutritionProfileForm';
+import { NutritionTargetsDisplay } from './NutritionTargetsDisplay';
 
 export const Settings: React.FC = () => {
     const { user, userProfile, signOutUser } = useAuth();
@@ -17,6 +29,16 @@ export const Settings: React.FC = () => {
     } = useUserPreferences();
     const { showToast } = useToast();
 
+    // Body metrics state
+    const [age, setAge] = useState(25);
+    const [sex, setSex] = useState<'male' | 'female' | 'other'>('male');
+    const [weight, setWeight] = useState(70);
+    const [height, setHeight] = useState(170);
+    const [activityLevel, setActivityLevel] = useState<1.2 | 1.375 | 1.55 | 1.725 | 1.9>(1.55);
+    const [nutritionGoal, setNutritionGoal] = useState<'maintain' | 'lose' | 'gain'>('maintain');
+    const [calculatedTargets, setCalculatedTargets] = useState<NutritionTargets | null>(null);
+    const [isCalculating, setIsCalculating] = useState(false);
+
     const handleClearData = async () => {
         if (window.confirm("Are you sure you want to delete all cached workout plans? This action cannot be undone.")) {
             try {
@@ -28,6 +50,44 @@ export const Settings: React.FC = () => {
             }
         }
     };
+
+    const handleCalculateTargets = () => {
+        const metrics: UserMetrics = {
+            age,
+            sex,
+            weight_kg: weight,
+            height_cm: height,
+            activity_level: activityLevel,
+            goal: nutritionGoal
+        };
+        
+        const errors = validateUserMetrics(metrics);
+        if (errors.length > 0) {
+            showToast(errors[0], 'error');
+            return;
+        }
+        
+        setIsCalculating(true);
+        try {
+            const targets = calculateNutritionTargets(metrics);
+            setCalculatedTargets(targets);
+            
+            // Update preferences with calculated macros
+            setCaloriesGoal(targets.calories);
+            setProteinGoal(targets.protein_g);
+            setCarbsGoal(targets.carbs_g);
+            setFatGoal(targets.fat_g);
+            
+            showToast('Nutrition targets calculated!', 'success');
+        } catch (error: any) {
+            showToast('Failed to calculate targets: ' + error.message, 'error');
+        } finally {
+            setIsCalculating(false);
+        }
+    };
+    
+    const bmi = calculateBMI(weight, height);
+    const bmiClass = classifyBMI(bmi);
 
     const fitnessLevels: FitnessLevel[] = ['Beginner', 'Intermediate', 'Advanced'];
     const goals: Goal[] = ['Build Muscle', 'Lose Fat', 'Improve Endurance'];
@@ -51,6 +111,27 @@ export const Settings: React.FC = () => {
                      </button>
                 </div>
             )}
+            
+            <NutritionProfileForm
+                age={age}
+                setAge={setAge}
+                sex={sex}
+                setSex={setSex}
+                weight={weight}
+                setWeight={setWeight}
+                height={height}
+                setHeight={setHeight}
+                activityLevel={activityLevel}
+                setActivityLevel={setActivityLevel}
+                goal={nutritionGoal}
+                setGoal={setNutritionGoal}
+                bmi={bmi}
+                bmiClass={bmiClass}
+                onCalculate={handleCalculateTargets}
+                isCalculating={isCalculating}
+            />
+            
+            {calculatedTargets && <NutritionTargetsDisplay targets={calculatedTargets} />}
 
             <div className="bg-slate-800/50 p-4 rounded-lg shadow-lg border border-slate-700 space-y-4">
                 <h3 className="text-lg font-semibold text-amber-400">Workout Personalization</h3>

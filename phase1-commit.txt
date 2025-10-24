@@ -1,0 +1,22 @@
+feat: Phase 1 - Smart Nutrition Coach Foundation
+
+Added personalized nutrition calculation system:
+
+New Modules:
+- nutritionCalculator.ts: BMR/TDEE/macro/RDA calculations
+- deficitCalculator.ts: Nutrient gap detection and prioritization
+- Comprehensive test suite: 18 tests covering all calculations
+
+Features:
+- BMR calculation (Mifflin-St Jeor equation)
+- TDEE with 5 activity levels
+- Goal-based calorie adjustment (lose/maintain/gain)
+- Macro targets (protein/carbs/fat/fiber)
+- 20+ micronutrient RDAs (age/sex specific)
+- Deficit severity classification (low/medium/high/critical)
+- Health impact and food source recommendations
+- Chronic deficit tracking
+- BMI calculation and classification
+
+Math validated. All tests passing.
+Ready for UI integration in next step.
