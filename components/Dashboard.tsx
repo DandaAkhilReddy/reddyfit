@@ -43,7 +43,7 @@ const ContributorProgress: React.FC<{ userProfile: firestoreService.UserProfile 
     }
 
     return (
-        <div className="bg-slate-800/50 p-4 rounded-lg shadow-lg border border-slate-700">
+        <div className="bg-gradient-to-r from-slate-800 to-slate-900/50 p-4 rounded-lg shadow-lg border border-slate-700">
             <h2 className="text-lg font-bold text-center mb-4 text-amber-400">Contributor Progress</h2>
             <div className="text-center space-y-2 flex flex-col items-center justify-center">
                 <p className="text-4xl font-bold text-white">{points}</p>
@@ -279,8 +279,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, userProfile }) => {
                 <p className="text-sm text-slate-400">Welcome back, {userProfile?.displayName || user?.email}!</p>
             </header>
 
-            <div className="bg-slate-800/50 p-4 rounded-lg shadow-lg border border-slate-700">
-                <h2 className="text-lg font-bold mb-4 text-amber-400">Today's Nutrition</h2>
+            <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-6 rounded-2xl shadow-2xl border border-purple-500/30 hover:border-purple-500/50 transition-all">
+                <h2 className="text-xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">✨ Today's Nutrition</h2>
                 <div className="flex items-center justify-between gap-4">
                     <CalorieTracker calories={dailyTotals.calories || 0} goal={caloriesGoal} />
                     <div className="w-full flex-1 space-y-3">
@@ -302,37 +302,52 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, userProfile }) => {
                 />
             )}
 
-            <div className="bg-slate-800/50 p-4 rounded-lg shadow-lg border border-slate-700">
-                <h2 className="text-lg font-bold mb-4 text-amber-400">Log Your Meal</h2>
+            <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-6 rounded-2xl shadow-2xl border border-cyan-500/30 hover:border-cyan-500/50 transition-all">
+                <h2 className="text-xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">🍽️ Log Your Meal</h2>
                 {isLoading && !loadingMessage.includes('dashboard') ? (
                     <div className="flex flex-col items-center justify-center w-full h-40">
                         <Loader text={loadingMessage} />
                     </div>
                 ) : (
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                         {/* Photo Upload Options */}
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 gap-4">
                             {/* Camera Option */}
                             <label 
                                 htmlFor="meal-camera" 
-                                className="flex flex-col items-center justify-center p-4 border-2 border-slate-600 border-dashed rounded-lg cursor-pointer bg-slate-800/50 hover:bg-slate-700/50 hover:border-amber-500 transition-all duration-300 group h-32"
+                                className="flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl cursor-pointer bg-gradient-to-br from-purple-500/20 to-blue-500/20 border-purple-400/50 hover:border-purple-400 hover:from-purple-500/30 hover:to-blue-500/30 transition-all duration-300 group h-36 shadow-xl hover:shadow-purple-500/50"
                             >
-                                <svg className="w-8 h-8 mb-2 text-slate-500 group-hover:text-amber-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-12 h-12 mb-2 text-purple-400 group-hover:text-purple-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
-                                <p className="text-xs text-slate-300 font-semibold">Take Photo</p>
-                                <input id="meal-camera" type="file" className="hidden" accept="image/*" capture="environment" onChange={handleFileChange} disabled={isLoading}/>
+                                <span className="text-base font-bold text-white group-hover:text-purple-200 transition-colors">📸 Take Photo</span>
+                                <span className="text-xs text-purple-300/80 mt-1">Use camera</span>
+                                <input 
+                                    id="meal-camera" 
+                                    type="file" 
+                                    accept="image/*" 
+                                    capture="environment"
+                                    onChange={handleFileChange}
+                                    className="hidden"
+                                />
                             </label>
                             
                             {/* Gallery Option */}
                             <label 
                                 htmlFor="meal-gallery" 
-                                className="flex flex-col items-center justify-center p-4 border-2 border-slate-600 border-dashed rounded-lg cursor-pointer bg-slate-800/50 hover:bg-slate-700/50 hover:border-amber-500 transition-all duration-300 group h-32"
+                                className="flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl cursor-pointer bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-cyan-400/50 hover:border-cyan-400 hover:from-cyan-500/30 hover:to-blue-500/30 transition-all duration-300 group h-36 shadow-xl hover:shadow-cyan-500/50"
                             >
-                                <UploadIcon className="w-8 h-8 mb-2 text-slate-500 group-hover:text-amber-400 transition-colors"/>
-                                <p className="text-xs text-slate-300 font-semibold">Choose Photo</p>
-                                <input id="meal-gallery" type="file" className="hidden" accept="image/*" onChange={handleFileChange} disabled={isLoading}/>
+                                <UploadIcon className="w-12 h-12 mb-2 text-cyan-400 group-hover:text-cyan-300 transition-colors"/>
+                                <span className="text-base font-bold text-white group-hover:text-cyan-200 transition-colors">🖼️ Choose Photo</span>
+                                <span className="text-xs text-cyan-300/80 mt-1">From gallery</span>
+                                <input 
+                                    id="meal-gallery" 
+                                    type="file" 
+                                    accept="image/*"
+                                    onChange={handleFileChange}
+                                    className="hidden"
+                                />
                             </label>
                         </div>
                         <p className="text-xs text-center text-slate-500">AI will analyze and log nutrition automatically</p>
@@ -345,8 +360,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, userProfile }) => {
             {error && <ErrorMessage error={error} onRetry={() => setError(null)} />}
 
             {/* Meal Logs */}
-            <div className="bg-slate-800/50 p-4 rounded-lg shadow-lg border border-slate-700">
-                <h2 className="text-lg font-bold text-center mb-4 text-amber-400">Today's Meals</h2>
+            <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-6 rounded-2xl shadow-2xl border border-green-500/30 hover:border-green-500/50 transition-all">
+                <h2 className="text-xl font-bold text-center mb-4 bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 bg-clip-text text-transparent">📋 Today's Meals</h2>
                 {isLoading && loadingMessage.includes('dashboard') ? <Loader text="Loading meal logs..."/> :
                 mealLogs.length > 0 ? (
                     <div className="space-y-4">
