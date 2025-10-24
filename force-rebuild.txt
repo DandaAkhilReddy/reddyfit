@@ -1,0 +1,4 @@
+chore: Force Azure rebuild with correct Firebase config
+
+Azure environment variables have been updated to islanderscricketclub project.
+Forcing rebuild to apply new configuration.
