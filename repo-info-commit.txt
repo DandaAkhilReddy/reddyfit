@@ -1,0 +1,3 @@
+docs: Add new repository information and deployment guide
+
+Added NEW_REPO_INFO.md with complete documentation for the new repository location and deployment instructions.

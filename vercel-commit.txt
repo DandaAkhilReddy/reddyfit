@@ -1,0 +1,11 @@
+docs: Add Vercel deployment quick guide with API key setup
+
+Added comprehensive Vercel deployment guide:
+- Step-by-step instructions
+- Environment variable setup (GEMINI_API_KEY)
+- Firebase domain configuration
+- Testing checklist
+- Troubleshooting section
+
+Local .env file created with user's API key for testing.
+Ready for production deployment!

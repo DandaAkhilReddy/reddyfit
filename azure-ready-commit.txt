@@ -1,0 +1,11 @@
+feat: Add Azure Static Web Apps deployment configuration
+
+Added complete Azure deployment setup:
+- Automated deployment PowerShell script
+- Azure Static Web App configuration
+- Comprehensive deployment documentation
+- Quick start guide for Azure deployment
+- Environment variable configuration
+- Gemini API key integration
+
+Ready to deploy to Azure with one command!
