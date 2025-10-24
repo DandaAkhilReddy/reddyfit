@@ -6,10 +6,14 @@ import { useToast } from '../hooks/useToast';
 import { fileToBase64 } from '../utils/helpers';
 import * as geminiService from '../services/geminiService';
 import * as firestoreService from '../services/firestoreService';
+import { calculateNutritionTargets, type NutritionTargets } from '../utils/nutritionCalculator';
+import { computeDeficits, getTopDeficits } from '../utils/deficitCalculator';
 import { Loader } from './shared/Loader';
 import { ErrorMessage } from './shared/ErrorMessage';
 import { UploadIcon } from './shared/icons';
 import { useUserPreferences } from '../hooks/useUserPreferences';
+import { DeficitAlert } from './DeficitAlert';
+import { FoodRecommendations } from './FoodRecommendations';
 
 interface DashboardProps {
     user: firebase.User | null;
@@ -129,7 +133,21 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, userProfile }) => {
     const [loadingMessage, setLoadingMessage] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [mealLogs, setMealLogs] = useState<firestoreService.MealLog[]>([]);
-    const [dailyTotals, setDailyTotals] = useState({ calories: 0, protein: 0, carbohydrates: 0, fat: 0 });
+    const [dailyTotals, setDailyTotals] = useState<Partial<NutritionTargets>>({ 
+        calories: 0, 
+        protein_g: 0, 
+        carbs_g: 0, 
+        fat_g: 0,
+        fiber_g: 0,
+        vitamin_d_mcg: 0,
+        vitamin_c_mg: 0,
+        calcium_mg: 0,
+        iron_mg: 0,
+        magnesium_mg: 0,
+        potassium_mg: 0,
+        zinc_mg: 0,
+        omega3_g: 0
+    });
 
     const fetchMealLogs = useCallback(async () => {
         if (!user) return;

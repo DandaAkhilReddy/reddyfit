@@ -424,7 +424,7 @@ export const analyzeFoodImage = async (base64Image: string, mimeType: string): P
     }
 };
 
-// New type for nutritional analysis result
+// Enhanced nutritional analysis with detailed micronutrients
 export interface NutritionalInfo {
     calories: number;
     macronutrients: {
@@ -432,6 +432,26 @@ export interface NutritionalInfo {
         carbohydrates: number;
         fat: number;
     };
+    fiber_g: number;
+    
+    // Vitamins (in standard units)
+    vitamin_d_mcg: number;
+    vitamin_c_mg: number;
+    vitamin_a_mcg: number;
+    vitamin_b12_mcg: number;
+    folate_mcg: number;
+    
+    // Minerals
+    calcium_mg: number;
+    iron_mg: number;
+    magnesium_mg: number;
+    potassium_mg: number;
+    zinc_mg: number;
+    
+    // Essential fatty acids
+    omega3_g: number;
+    
+    // Legacy arrays for display
     vitamins: { name: string; amount: string }[];
     minerals: { name: string; amount: string }[];
 }
@@ -455,7 +475,7 @@ export const getNutritionalAnalysis = async (foodItems: string[]): Promise<Nutri
                 responseSchema: {
                     type: Type.OBJECT,
                     properties: {
-                        calories: { type: Type.NUMBER, description: "Total estimated calories, as a whole number." },
+                        calories: { type: Type.NUMBER, description: "Total estimated calories." },
                         macronutrients: {
                             type: Type.OBJECT,
                             properties: {
@@ -465,13 +485,33 @@ export const getNutritionalAnalysis = async (foodItems: string[]): Promise<Nutri
                             },
                             required: ["protein", "carbohydrates", "fat"]
                         },
+                        fiber_g: { type: Type.NUMBER, description: "Grams of dietary fiber." },
+                        
+                        // Vitamins
+                        vitamin_d_mcg: { type: Type.NUMBER, description: "Vitamin D in micrograms." },
+                        vitamin_c_mg: { type: Type.NUMBER, description: "Vitamin C in milligrams." },
+                        vitamin_a_mcg: { type: Type.NUMBER, description: "Vitamin A in micrograms RAE." },
+                        vitamin_b12_mcg: { type: Type.NUMBER, description: "Vitamin B12 in micrograms." },
+                        folate_mcg: { type: Type.NUMBER, description: "Folate in micrograms DFE." },
+                        
+                        // Minerals
+                        calcium_mg: { type: Type.NUMBER, description: "Calcium in milligrams." },
+                        iron_mg: { type: Type.NUMBER, description: "Iron in milligrams." },
+                        magnesium_mg: { type: Type.NUMBER, description: "Magnesium in milligrams." },
+                        potassium_mg: { type: Type.NUMBER, description: "Potassium in milligrams." },
+                        zinc_mg: { type: Type.NUMBER, description: "Zinc in milligrams." },
+                        
+                        // Essential fatty acids
+                        omega3_g: { type: Type.NUMBER, description: "Omega-3 fatty acids in grams." },
+                        
+                        // Legacy display arrays
                         vitamins: {
                             type: Type.ARRAY,
                             items: {
                                 type: Type.OBJECT,
                                 properties: {
-                                    name: { type: Type.STRING, description: "Name of the vitamin (e.g., Vitamin C)." },
-                                    amount: { type: Type.STRING, description: "Amount with units (e.g., 90mg)." }
+                                    name: { type: Type.STRING },
+                                    amount: { type: Type.STRING }
                                 },
                                 required: ["name", "amount"]
                             }
@@ -481,14 +521,15 @@ export const getNutritionalAnalysis = async (foodItems: string[]): Promise<Nutri
                             items: {
                                 type: Type.OBJECT,
                                 properties: {
-                                    name: { type: Type.STRING, description: "Name of the mineral (e.g., Iron)." },
-                                    amount: { type: Type.STRING, description: "Amount with units (e.g., 18mg)." }
+                                    name: { type: Type.STRING },
+                                    amount: { type: Type.STRING }
                                 },
                                 required: ["name", "amount"]
                             }
                         }
                     },
-                    required: ["calories", "macronutrients", "vitamins", "minerals"]
+                    required: ["calories", "macronutrients", "fiber_g", "vitamin_d_mcg", "vitamin_c_mg", 
+                               "calcium_mg", "iron_mg", "magnesium_mg", "potassium_mg", "vitamins", "minerals"]
                 }
             }
         });
