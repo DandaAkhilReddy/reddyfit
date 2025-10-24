@@ -1,0 +1,6 @@
+fix: Update Gemini API key environment variable name
+
+Changed from API_KEY to GEMINI_API_KEY to match Azure configuration.
+Supports both Vite (VITE_GEMINI_API_KEY) and Node (GEMINI_API_KEY) environments.
+
+This fixes the "API_KEY environment variable is not set" error.

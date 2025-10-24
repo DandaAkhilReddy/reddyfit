@@ -16,10 +16,11 @@ export const analyzeVideoWithFrames = async (
     frames: string[],
     onProgress?: ProgressCallback
 ): Promise<string> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
 
     const imageParts: Part[] = frames.map(frameData => {
         const base64Data = frameData.split(',')[1];
@@ -114,10 +115,11 @@ export const generateWorkoutPlan = async (
     onProgress?: ProgressCallback, 
     isRegeneration = false
 ): Promise<WorkoutPlan> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
 
     const regenerationInstruction = isRegeneration
         ? " A previous plan was generated. Please create a DIFFERENT variation of the workout plan, ensuring it's still effective and balanced. Be creative."
@@ -206,10 +208,11 @@ export const generateWorkoutPlan = async (
 export const getGroundedAnswer = async (
     question: string
 ): Promise<{ text: string; sources: GroundingChunk[] }> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
     
     try {
         const response = await ai.models.generateContent({
@@ -244,10 +247,11 @@ export const analyzePose = async (
     base64Image: string,
     mimeType: string
 ): Promise<string> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
 
     const imagePart: Part = {
         inlineData: {
@@ -279,10 +283,11 @@ export const editImage = async (
     base64Image: string,
     mimeType: string
 ): Promise<string> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
 
     const imagePart: Part = {
         inlineData: {
@@ -329,10 +334,11 @@ export const editImage = async (
 export const getChatResponseStream = (
     history: any[]
 ): Promise<AsyncGenerator<GenerateContentResponse>> => {
-     if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+     const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
     
     const systemInstruction = `You are Reddy, a friendly, positive, and super-encouraging AI fitness coach. Your primary role is to motivate and support users on their fitness journey.
 
@@ -368,10 +374,11 @@ export const getChatResponseStream = (
  * @returns A promise that resolves with the model's text response.
  */
 export const getQuickChatResponse = async (prompt: string): Promise<string> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
 
     const systemInstruction = `You are a helpful AI assistant. Provide a very brief, single-sentence answer to the user's question. Be concise and quick. This is a preliminary answer; a more detailed one will follow.`;
 
@@ -393,10 +400,11 @@ export const getQuickChatResponse = async (prompt: string): Promise<string> => {
 
 // New function for identifying food from an image
 export const analyzeFoodImage = async (base64Image: string, mimeType: string): Promise<string[]> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
 
     const imagePart: Part = {
         inlineData: { data: base64Image, mimeType }
@@ -458,10 +466,11 @@ export interface NutritionalInfo {
 
 // New function for getting nutritional analysis
 export const getNutritionalAnalysis = async (foodItems: string[]): Promise<NutritionalInfo> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
 
     const foodList = foodItems.join(', ');
     const prompt = `You are an expert nutritionist. Given the following list of food items: "${foodList}", provide a detailed nutritional analysis. Estimate portion sizes reasonably for a single, typical meal. Return the data as a single, valid JSON object.`;
@@ -547,10 +556,11 @@ export const getNutritionalAnalysis = async (foodItems: string[]): Promise<Nutri
  * @returns A promise that resolves with the YouTube URL, or null if not found.
  */
 export const findYouTubeVideoForExercise = async (exerciseName: string): Promise<string | null> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
     
     const prompt = `Find the best, high-quality, instructional YouTube video URL for how to perform the "${exerciseName}" exercise. The video should be from a reputable fitness channel. Return only the single, full YouTube URL and nothing else. Example: https://www.youtube.com/watch?v=some_video_id`;
 
@@ -580,10 +590,11 @@ export const findYouTubeVideoForExercise = async (exerciseName: string): Promise
  * @returns A promise that resolves with the transcription text.
  */
 export const transcribeAudio = async (base64Audio: string, mimeType: string): Promise<string> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
     
     const audioPart: Part = {
         inlineData: { data: base64Audio, mimeType }
@@ -610,10 +621,11 @@ export const transcribeAudio = async (base64Audio: string, mimeType: string): Pr
  * @returns A promise that resolves with the model's text response.
  */
 export const getQuickResponse = async (prompt: string): Promise<string> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not set.");
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY environment variable is not set.");
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
 
     try {
         const response = await ai.models.generateContent({
