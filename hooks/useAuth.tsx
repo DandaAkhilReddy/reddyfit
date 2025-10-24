@@ -12,6 +12,7 @@ interface AuthContextType {
     loading: boolean;
     signIn: (email: string, pass: string) => Promise<void>;
     signUp: (email: string, pass: string) => Promise<void>;
+    signInWithGoogle: () => Promise<void>;
     signOutUser: () => Promise<void>;
 }
 
@@ -74,6 +75,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, [showToast]);
 
 
+    const signInWithGoogle = useCallback(async () => {
+        try {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            const userCredential = await auth.signInWithPopup(provider);
+            
+            if (userCredential.user) {
+                // Check if user profile exists, if not create one
+                try {
+                    await firestoreService.getUserProfile(userCredential.user.uid);
+                } catch (error) {
+                    // Profile doesn't exist, create it
+                    await firestoreService.createUserProfile(userCredential.user);
+                }
+            }
+            showToast("Successfully signed in with Google!", "success");
+        } catch (error: any) {
+            console.error("Error signing in with Google: ", error);
+            if (error.code === 'auth/popup-closed-by-user') {
+                showToast("Sign-in cancelled.", "info");
+            } else if (error.code === 'auth/popup-blocked') {
+                showToast("Pop-up blocked. Please allow pop-ups for this site.", "error");
+            } else {
+                showToast(`Google sign-in failed: ${error.message}`, "error");
+            }
+            throw error;
+        }
+    }, [showToast]);
+
     const signOutUser = useCallback(async () => {
         try {
             await auth.signOut();
@@ -84,7 +113,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, [showToast]);
 
-    const value = { user, userProfile, loading, signIn, signUp, signOutUser };
+    const value = { user, userProfile, loading, signIn, signUp, signInWithGoogle, signOutUser };
 
     return (
         <AuthContext.Provider value={value}>

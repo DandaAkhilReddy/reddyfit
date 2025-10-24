@@ -1,0 +1,12 @@
+feat: Add Google Sign-In authentication
+
+Added Google authentication provider:
+- Google sign-in button on login page with official Google branding
+- signInWithGoogle() method in useAuth hook
+- Automatic user profile creation for new Google users
+- Error handling for pop-up blocked/closed scenarios
+- Clean UI with "OR" divider between methods
+
+Users can now sign in with:
+- Email/Password
+- Google account (one-click)
