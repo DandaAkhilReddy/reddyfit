@@ -1,0 +1,9 @@
+chore: Switch to islanderscricketclub Firebase project
+
+Updated Firebase configuration:
+- Project: islanderscricketclub
+- Added Realtime Database URL
+- Updated all Firebase credentials
+- Ready for new Firebase project authentication
+
+Note: Azure environment variables need to be updated manually

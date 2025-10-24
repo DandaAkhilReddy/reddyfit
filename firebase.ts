@@ -5,14 +5,16 @@ import "firebase/compat/firestore";
 import "firebase/compat/storage";
 
 // Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAi7Hx7f_XxF7GiZUIiEp-KsgKEyijH3M4",
-  authDomain: "reddyfitagent.firebaseapp.com",
-  projectId: "reddyfitagent",
-  storageBucket: "reddyfitagent.firebasestorage.app",
-  messagingSenderId: "508141093989",
-  appId: "1:508141093989:web:7a96f70d3a7f89b2ecf28c",
-  measurementId: "G-982KRQ6Q9L"
+  apiKey: "AIzaSyD2cTI-esBWCUzJlcGlB9FAtAk4z2Y_Rog",
+  authDomain: "islanderscricketclub.firebaseapp.com",
+  databaseURL: "https://islanderscricketclub-default-rtdb.firebaseio.com",
+  projectId: "islanderscricketclub",
+  storageBucket: "islanderscricketclub.firebasestorage.app",
+  messagingSenderId: "417469597245",
+  appId: "1:417469597245:web:90a1b1238d33ef218f4c54",
+  measurementId: "G-TVQZCZ1QG2"
 };
 
 // Initialize Firebase
