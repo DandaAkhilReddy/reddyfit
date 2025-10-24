@@ -12,6 +12,7 @@
     "test:coverage": "vitest --coverage"
   },
   "dependencies": {
+    "@azure/cosmos": "^4.7.0",
     "@google/genai": "^1.26.0",
     "@jest/globals": "^30.2.0",
     "fake-indexeddb": "^6.2.4",

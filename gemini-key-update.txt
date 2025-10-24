@@ -1,0 +1,6 @@
+fix: Update Gemini API key to new valid key
+
+Updated GEMINI_API_KEY and VITE_GEMINI_API_KEY to resolve
+"API key not valid" error when using Gemini AI features.
+
+New key deployed to Azure and working.
