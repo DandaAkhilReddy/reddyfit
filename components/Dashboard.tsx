@@ -171,14 +171,64 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, userProfile }) => {
 
     useEffect(() => {
         const totals = mealLogs.reduce((acc, log) => {
-            acc.calories += log.nutrition.calories;
-            acc.protein += log.nutrition.macronutrients.protein;
-            acc.carbohydrates += log.nutrition.macronutrients.carbohydrates;
-            acc.fat += log.nutrition.macronutrients.fat;
+            acc.calories! += log.nutrition.calories;
+            acc.protein_g! += log.nutrition.macronutrients.protein;
+            acc.carbs_g! += log.nutrition.macronutrients.carbohydrates;
+            acc.fat_g! += log.nutrition.macronutrients.fat;
+            acc.fiber_g! += log.nutrition.fiber_g || 0;
+            acc.vitamin_d_mcg! += log.nutrition.vitamin_d_mcg || 0;
+            acc.vitamin_c_mg! += log.nutrition.vitamin_c_mg || 0;
+            acc.calcium_mg! += log.nutrition.calcium_mg || 0;
+            acc.iron_mg! += log.nutrition.iron_mg || 0;
+            acc.magnesium_mg! += log.nutrition.magnesium_mg || 0;
+            acc.potassium_mg! += log.nutrition.potassium_mg || 0;
+            acc.zinc_mg! += log.nutrition.zinc_mg || 0;
+            acc.omega3_g! += log.nutrition.omega3_g || 0;
             return acc;
-        }, { calories: 0, protein: 0, carbohydrates: 0, fat: 0 });
+        }, {
+            calories: 0, protein_g: 0, carbs_g: 0, fat_g: 0, fiber_g: 0,
+            vitamin_d_mcg: 0, vitamin_c_mg: 0, calcium_mg: 0, iron_mg: 0,
+            magnesium_mg: 0, potassium_mg: 0, zinc_mg: 0, omega3_g: 0
+        } as Partial<NutritionTargets>);
         setDailyTotals(totals);
     }, [mealLogs]);
+
+    // Calculate targets and deficits
+    const userTargets: NutritionTargets = {
+        bmr: 0,
+        tdee: 0,
+        calories: caloriesGoal,
+        protein_g: proteinGoal,
+        carbs_g: carbsGoal,
+        fat_g: fatGoal,
+        fiber_g: 30,
+        vitamin_d_mcg: 15,
+        vitamin_c_mg: 90,
+        calcium_mg: 1000,
+        iron_mg: 8,
+        magnesium_mg: 420,
+        potassium_mg: 3400,
+        zinc_mg: 11,
+        omega3_g: 1.6,
+        vitamin_a_mcg: 900,
+        vitamin_e_mg: 15,
+        vitamin_k_mcg: 120,
+        thiamin_mg: 1.2,
+        riboflavin_mg: 1.3,
+        niacin_mg: 16,
+        vitamin_b6_mg: 1.3,
+        folate_mcg: 400,
+        vitamin_b12_mcg: 2.4,
+        phosphorus_mg: 700,
+        sodium_mg: 2300,
+        copper_mg: 0.9,
+        manganese_mg: 2.3,
+        selenium_mcg: 55,
+        omega6_g: 17,
+        water_l: 3.7
+    };
+
+    const topDeficits = getTopDeficits(dailyTotals, userTargets, 3);
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -232,14 +282,25 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, userProfile }) => {
             <div className="bg-slate-800/50 p-4 rounded-lg shadow-lg border border-slate-700">
                 <h2 className="text-lg font-bold mb-4 text-amber-400">Today's Nutrition</h2>
                 <div className="flex items-center justify-between gap-4">
-                    <CalorieTracker calories={dailyTotals.calories} goal={caloriesGoal} />
+                    <CalorieTracker calories={dailyTotals.calories || 0} goal={caloriesGoal} />
                     <div className="w-full flex-1 space-y-3">
-                        <MacroBar label="Protein" value={dailyTotals.protein} goal={proteinGoal} color="bg-red-500" />
-                        <MacroBar label="Carbs" value={dailyTotals.carbohydrates} goal={carbsGoal} color="bg-blue-500" />
-                        <MacroBar label="Fat" value={dailyTotals.fat} goal={fatGoal} color="bg-yellow-500" />
+                        <MacroBar label="Protein" value={dailyTotals.protein_g || 0} goal={proteinGoal} color="bg-red-500" />
+                        <MacroBar label="Carbs" value={dailyTotals.carbs_g || 0} goal={carbsGoal} color="bg-blue-500" />
+                        <MacroBar label="Fat" value={dailyTotals.fat_g || 0} goal={fatGoal} color="bg-yellow-500" />
                     </div>
                 </div>
             </div>
+
+            {/* Smart Nutrition Coach - Deficit Alert */}
+            <DeficitAlert deficits={topDeficits} />
+
+            {/* Food Recommendations */}
+            {topDeficits.length > 0 && (
+                <FoodRecommendations 
+                    deficits={topDeficits}
+                    userPreferences={{ diet_type: 'omnivore' }}
+                />
+            )}
 
             <div className="bg-slate-800/50 p-4 rounded-lg shadow-lg border border-slate-700">
                 <h2 className="text-lg font-bold mb-4 text-amber-400">Log Your Meal</h2>
