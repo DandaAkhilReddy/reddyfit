@@ -327,9 +327,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, userProfile }) => {
                                     id="meal-camera" 
                                     type="file" 
                                     accept="image/*" 
-                                    capture="environment"
+                                    capture="user"
                                     onChange={handleFileChange}
                                     className="hidden"
+                                    disabled={isLoading}
                                 />
                             </label>
                             
@@ -347,6 +348,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, userProfile }) => {
                                     accept="image/*"
                                     onChange={handleFileChange}
                                     className="hidden"
+                                    disabled={isLoading}
                                 />
                             </label>
                         </div>
