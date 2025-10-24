@@ -1,0 +1,11 @@
+fix: Remove Tailwind CDN and fix production build issues
+
+Fixes:
+- Removed Tailwind CSS CDN script (not for production)
+- Removed broken index.css link (404 error)
+- Now using properly installed Tailwind via PostCSS
+- Styles handled through main.css via Vite
+- Clean production build ready
+
+This resolves console warnings and 404 errors in production.
+Firebase domain still needs to be whitelisted for auth to work.
