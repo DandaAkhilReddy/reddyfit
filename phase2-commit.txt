@@ -1,0 +1,35 @@
+feat: Phase 2 - Deficit Detection and Smart Food Recommendations
+
+Enhanced nutrition tracking with intelligent gap detection:
+
+New Features:
+- Enhanced Gemini integration: Extract 13+ micronutrients per meal
+- Deficit detection: Real-time nutrient gap analysis
+- Smart food recommendations: AI-powered suggestions to close gaps
+- Visual deficit alerts with severity classification
+
+New Components:
+- DeficitAlert.tsx: Shows top 3 nutrient gaps with progress bars
+- FoodRecommendations.tsx: Personalized food suggestions with prep tips
+- Enhanced Dashboard to track all micronutrients
+
+Gemini Enhancements:
+- Structured output now includes fiber, vitamins, minerals
+- 13 tracked nutrients: Vitamin D, C, B12, Folate, Iron, Calcium, 
+  Magnesium, Potassium, Zinc, Omega-3, and more
+- Smart food database with 9 nutrient-dense options
+- Diet preference filtering (omnivore/vegetarian/vegan)
+
+UI/UX:
+- Color-coded severity indicators (critical/high/medium/low)
+- Progress bars showing percentage of RDA met
+- Food source suggestions per nutrient
+- Preparation tips for recommended foods
+- Contribution percentages (e.g., "50% of your Vitamin D deficit")
+
+Algorithm:
+- Greedy matching: Foods scored by weighted deficit coverage
+- Severity weighting: Critical deficits prioritized 3x
+- Top 5 recommendations optimized for maximum impact
+
+Ready for production deficit tracking.
